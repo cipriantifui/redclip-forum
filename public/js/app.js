@@ -2049,8 +2049,84 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "PostCreate.vue"
+  name: "PostCreate.vue",
+  data: function data() {
+    return {
+      error: false,
+      errors: {},
+      topics: {},
+      topic_selected: '',
+      title: '',
+      content: null,
+      url_video: null,
+      url_image: null
+    };
+  },
+  beforeMount: function beforeMount() {
+    this.getPosts();
+  },
+  methods: {
+    getPosts: function getPosts() {
+      var _this = this;
+
+      this.axios.get('/api/topic').then(function (response) {
+        _this.topics = response.data;
+      })["catch"](function (error) {});
+    },
+    savePost: function savePost() {
+      var _this2 = this;
+
+      console.log(this.content);
+      this.error = false;
+      var url = this.$store.state.isLoggedIn ? '/api/auth/post/create' : '/api/post/create';
+      console.log(url);
+      this.axios.post(url, {
+        topic_id: this.topic_selected,
+        title: this.title,
+        content: this.content,
+        url_video: this.url_video,
+        url_image: this.url_image,
+        uid: this.$store.state.isLoggedIn ? null : this.$uoid
+      }).then(function (response) {
+        _this2.$toaster.success('The post was added successfully.');
+
+        _this2.topic_selected = '';
+        _this2.title = '';
+        _this2.content = null;
+        _this2.url_video = null;
+        _this2.url_image = null;
+      })["catch"](function (error) {
+        if (error.response) {
+          if (error.response.data.errors.error) {
+            _this2.$toaster.error(error.response.data.errors.error);
+          } else {
+            _this2.error = true;
+            _this2.errors = error.response.data.errors;
+          }
+        }
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -20913,193 +20989,341 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-12 px-0 pt-2" }, [
+        _c("div", { staticClass: "card" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12" }, [
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.topic_selected,
+                      expression: "topic_selected"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.topic_selected = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                [
+                  _c("option", { domProps: { value: "" } }, [
+                    _vm._v("--- Select topic ---")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.topics, function(topic) {
+                    return _c("option", { domProps: { value: topic.id } }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(topic.title) +
+                          "\n                            "
+                      )
+                    ])
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _vm.error && _vm.errors.topic_id
+                ? _c("span", { staticClass: "text text-danger" }, [
+                    _vm._v(_vm._s(_vm.errors.topic_id[0]))
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.title,
+                    expression: "title"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Title" },
+                domProps: { value: _vm.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.title = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.error && _vm.errors.title
+                ? _c("span", { staticClass: "text text-danger" }, [
+                    _vm._v(_vm._s(_vm.errors.title[0]))
+                  ])
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "tab-content", attrs: { id: "pills-tabContent" } },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane fade show active",
+                  attrs: {
+                    id: "pills-post",
+                    role: "tabpanel",
+                    "aria-labelledby": "pills-post-tab"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "col-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.content,
+                            expression: "content"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { rows: "5", placeholder: "Content" },
+                        domProps: { value: _vm.content },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.content = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.error && _vm.errors.content
+                        ? _c("span", { staticClass: "text text-danger" }, [
+                            _vm._v(_vm._s(_vm.errors.content[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "pills-video-link",
+                    role: "tabpanel",
+                    "aria-labelledby": "pills-video-link-tab"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "col-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.url_video,
+                            expression: "url_video"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { rows: "3", placeholder: "Video link" },
+                        domProps: { value: _vm.url_video },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.url_video = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.error && _vm.errors.url_video
+                        ? _c("span", { staticClass: "text text-danger" }, [
+                            _vm._v(_vm._s(_vm.errors.url_video[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "pills-image-link",
+                    role: "tabpanel",
+                    "aria-labelledby": "pills-image-link-tab"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "col-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.url_image,
+                            expression: "url_image"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { rows: "3", placeholder: "Image link" },
+                        domProps: { value: _vm.url_image },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.url_image = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.error && _vm.errors.url_image
+                        ? _c("span", { staticClass: "text text-danger" }, [
+                            _vm._v(_vm._s(_vm.errors.url_image[0]))
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 text-right pb-2" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-secondary",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.savePost()
+                  }
+                }
+              },
+              [_vm._v("Post")]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "div",
-        {
-          staticClass: "row",
-          staticStyle: { "border-bottom": "2px solid #6c757d" }
-        },
-        [_c("h3", [_vm._v("Create Post")])]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-12 px-0 pt-2" }, [
-          _c("div", { staticClass: "card" }, [
-            _c(
-              "ul",
-              {
-                staticClass: "nav nav-pills mb-3",
-                attrs: { id: "pills-tab", role: "tablist" }
-              },
-              [
-                _c("li", { staticClass: "nav-item" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "nav-link active",
-                      attrs: {
-                        id: "pills-post-tab",
-                        "data-toggle": "pill",
-                        href: "#pills-post",
-                        role: "tab",
-                        "aria-controls": "pills-post",
-                        "aria-selected": "true"
-                      }
-                    },
-                    [_vm._v("Post")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "nav-item" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "nav-link",
-                      attrs: {
-                        id: "pills-video-tab",
-                        "data-toggle": "pill",
-                        href: "#pills-video-link",
-                        role: "tab",
-                        "aria-controls": "pills-video-link",
-                        "aria-selected": "false"
-                      }
-                    },
-                    [_vm._v("Video")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "nav-item" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "nav-link",
-                      attrs: {
-                        id: "pills-image-tab",
-                        "data-toggle": "pill",
-                        href: "#pills-image-link",
-                        role: "tab",
-                        "aria-controls": "pills-image-link",
-                        "aria-selected": "false"
-                      }
-                    },
-                    [_vm._v("Image")]
-                  )
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "tab-content", attrs: { id: "pills-tabContent" } },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "tab-pane fade show active",
-                    attrs: {
-                      id: "pills-post",
-                      role: "tabpanel",
-                      "aria-labelledby": "pills-post-tab"
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "col-12" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Title" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("textarea", {
-                          staticClass: "form-control",
-                          attrs: { rows: "5", placeholder: "Content" }
-                        })
-                      ])
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "tab-pane fade",
-                    attrs: {
-                      id: "pills-video-link",
-                      role: "tabpanel",
-                      "aria-labelledby": "pills-video-link-tab"
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "col-12" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Title" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("textarea", {
-                          staticClass: "form-control",
-                          attrs: { rows: "3", placeholder: "Video link" }
-                        })
-                      ])
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "tab-pane fade",
-                    attrs: {
-                      id: "pills-image-link",
-                      role: "tabpanel",
-                      "aria-labelledby": "pills-image-link-tab"
-                    }
-                  },
-                  [
-                    _c("div", { staticClass: "col-12" }, [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Title" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("textarea", {
-                          staticClass: "form-control",
-                          attrs: { rows: "3", placeholder: "Image link" }
-                        })
-                      ])
-                    ])
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-12 text-right pb-2" }, [
-              _c(
-                "button",
-                { staticClass: "btn btn-secondary", attrs: { type: "button" } },
-                [_vm._v("Post")]
-              )
-            ])
-          ])
+    return _c(
+      "div",
+      {
+        staticClass: "row",
+        staticStyle: { "border-bottom": "2px solid #6c757d" }
+      },
+      [_c("h3", [_vm._v("Create Post")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "ul",
+      {
+        staticClass: "nav nav-pills mb-3",
+        attrs: { id: "pills-tab", role: "tablist" }
+      },
+      [
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link active",
+              attrs: {
+                id: "pills-post-tab",
+                "data-toggle": "pill",
+                href: "#pills-post",
+                role: "tab",
+                "aria-controls": "pills-post",
+                "aria-selected": "true"
+              }
+            },
+            [_vm._v("Post")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: {
+                id: "pills-video-tab",
+                "data-toggle": "pill",
+                href: "#pills-video-link",
+                role: "tab",
+                "aria-controls": "pills-video-link",
+                "aria-selected": "false"
+              }
+            },
+            [_vm._v("Video")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: {
+                id: "pills-image-tab",
+                "data-toggle": "pill",
+                href: "#pills-image-link",
+                role: "tab",
+                "aria-controls": "pills-image-link",
+                "aria-selected": "false"
+              }
+            },
+            [_vm._v("Image")]
+          )
         ])
-      ])
-    ])
+      ]
+    )
   }
 ]
 render._withStripped = true

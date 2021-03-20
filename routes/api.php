@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\TopicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::post('/auth/register', [AuthController::class, 'postRegister']);
 Route::post('/auth/login', [AuthController::class, 'postLogin']);
 
-Route::group(['middleware' => ['auth.jwt']], function () {
+Route::group(['middleware' => ['auth.jwt'], 'prefix' => 'auth'], function () {
 
-    Route::get('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::post('/post/create', [PostController::class, 'store']);
 });
+
+Route::get('/topic', [TopicController::class, 'index']);
+
+Route::post('/post/create', [PostController::class, 'store']);
