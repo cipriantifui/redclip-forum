@@ -1883,6 +1883,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "App.vue",
   data: function data() {
@@ -22600,6 +22603,22 @@ var render = function() {
                 staticClass: "navbar-nav flex-row ml-md-auto d-none d-md-flex"
               },
               [
+                _c(
+                  "li",
+                  { staticClass: "nav-item" },
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "nav-link",
+                        attrs: { to: { name: "home" } }
+                      },
+                      [_vm._v("Posts")]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
                 _c(
                   "li",
                   { staticClass: "nav-item" },

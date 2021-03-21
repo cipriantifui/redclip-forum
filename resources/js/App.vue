@@ -6,6 +6,9 @@
                     <router-link :to="{ name: 'home' }" class="nav-link" style="font-size: 20px"><span style="color: white">Red</span><span style="color: red">clip</span></router-link>
                 <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
                     <li class="nav-item">
+                        <router-link :to="{ name: 'home' }" class="nav-link">Posts</router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link :to="{ name: 'post-create' }" class="nav-link">Create post</router-link>
                     </li>
                     <li class="nav-item" v-if="!this.$store.state.isLoggedIn">
