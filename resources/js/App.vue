@@ -69,13 +69,12 @@
         },
         methods: {
             logout() {
-                localStorage.removeItem('token');
-                location.reload();
                 this.axios.get('api/auth/logout', {})
                     .then(response => {
                         if (response.data.success === true) {
                             delete axios.defaults.headers.common['Authorization']
                             localStorage.removeItem('token')
+                            localStorage.removeItem('user')
                             this.$router.push({name: 'home'})
                             location.reload();
                         }

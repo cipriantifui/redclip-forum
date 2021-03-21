@@ -16,4 +16,38 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         parent::__construct($model);
     }
 
+    /**
+     * Get posts
+     * @param $perPage
+     * @param $page
+     * @param $topicId
+     * @return mixed
+     */
+    public function getPosts($perPage, $page, $topicId = null)
+    {
+        $posts = $this->model
+            ->with(['user', 'topic'])
+            ->withCount(['comments', 'votes'])
+            ->where('is_published', 1);
+
+        if ($topicId) {
+            $posts = $posts->where('topic_id', $topicId);
+        }
+        return $posts->paginate($perPage);
+    }
+
+    /**
+     * Show post
+     * @param $id
+     * @return mixed
+     */
+    public function showPost($id)
+    {
+        return $this->model
+            ->with(['user', 'topic', 'comments.replies.parent', 'comments' => function($query) {
+                $query->orderBy('id', 'DESC');
+            }])
+            ->withCount(['comments', 'votes'])
+            ->where('id', $id)->firstOrFail();
+    }
 }

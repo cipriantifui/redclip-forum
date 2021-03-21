@@ -19,6 +19,18 @@ class PostService extends BaseService implements PostServiceInterface
     }
 
     /**
+     * Get posts
+     * @param $perPage
+     * @param $page
+     * @param $topicId
+     * @return mixed
+     */
+    public function getPosts($perPage, $page, $topicId)
+    {
+        return $this->repository->getPosts($perPage, $page, $topicId);
+    }
+
+    /**
      * Store post in database
      * @param $request
      * @return \Illuminate\Http\JsonResponse
@@ -36,6 +48,16 @@ class PostService extends BaseService implements PostServiceInterface
             'is_published' => true,
         ]);
 
-        return $this->item(['success' => true],201);
+        return $this->item(['success' => true], 201);
+    }
+
+    /**
+     * Show post
+     * @param $id
+     * @return mixed
+     */
+    public function showPost($id)
+    {
+        return $this->repository->showPost($id);
     }
 }

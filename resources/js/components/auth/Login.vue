@@ -62,7 +62,7 @@
                 }).then(response => {
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
                     store.commit('LoginUser', response.data);
-                    this.$router.push({name: 'dashboard'})
+                    this.$router.push({name: 'home'})
                 }).catch(error => {
                     if (error.response.data.errors.error) {
                         this.$toaster.error(error.response.data.errors.error)

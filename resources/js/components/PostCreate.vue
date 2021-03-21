@@ -105,10 +105,10 @@
             }
         },
         beforeMount() {
-            this.getPosts();
+            this.getTopics();
         },
         methods: {
-            getPosts() {
+            getTopics() {
                 this.axios.get('/api/topic')
                     .then(response => {
                         this.topics = response.data;
@@ -117,10 +117,9 @@
             },
 
             savePost() {
-                console.log(this.content);
                 this.error = false;
                 let url = this.$store.state.isLoggedIn ? '/api/auth/post/create' : '/api/post/create';
-                console.log(url);
+
                 this.axios.post(url, {
                     topic_id: this.topic_selected,
                     title: this.title,

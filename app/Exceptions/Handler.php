@@ -32,6 +32,7 @@ class Handler extends ExceptionHandler
         TokenMismatchException::class,
         TokenExpiredException::class,
         ValidationException::class,
+        VoteException::class
     ];
 
     /**
@@ -81,6 +82,10 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof UnprocessableEntityHttpException) {
+            $error = $this->unprocessableEntity($exception);
+        }
+
+        if ($exception instanceof VoteException) {
             $error = $this->unprocessableEntity($exception);
         }
 

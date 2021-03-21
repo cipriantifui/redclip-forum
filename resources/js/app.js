@@ -8,11 +8,18 @@ import VueAxios from 'vue-axios';
 import Toaster from 'v-toaster';
 import 'v-toaster/dist/v-toaster.css';
 import store from './store';
+import VueTimeago from 'vue-timeago'
 import App from './App.vue';
 import Register from './components/auth/Register.vue';
 import Login from './components/auth/Login.vue';
 import Home from './components/Home.vue';
+import PostDetails from './components/PostDetails.vue';
 import PostCreate from './components/PostCreate.vue';
+
+Vue.use(VueTimeago, {
+    name: 'Timeago', // Component name, `Timeago` by default
+    locale: 'ro', // Default locale
+})
 
 Vue.use(Toaster, {timeout: 5000});
 
@@ -50,6 +57,15 @@ const router = new VueRouter({
             path: '/post/create',
             name: 'post-create',
             component: PostCreate,
+            meta: {
+                requiresAuth: false
+            }
+        },
+
+        {
+            path: '/post/:post_id',
+            name: 'post-details',
+            component: PostDetails,
             meta: {
                 requiresAuth: false
             }

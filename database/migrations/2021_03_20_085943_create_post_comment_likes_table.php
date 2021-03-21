@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostVotesTable extends Migration
+class CreatePostCommentLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreatePostVotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_votes', function (Blueprint $table) {
+        Schema::create('post_comment_likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id');
+            $table->foreignId('comment_id');
             $table->foreignId('user_id')->nullable();
             $table->unsignedBigInteger('uid')->nullable();
             $table->timestamps();
 
-            $table->foreign('post_id', 'post_id_fk_posts')->references('id')->on('posts')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('user_id', 'user_id_fk_posts')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('comment_id', 'comment_id_fk_post_comment_likes')->references('id')->on('post_comments')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id', 'user_id_fk_post_comment_likes')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
@@ -32,6 +32,6 @@ class CreatePostVotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_votes');
+        Schema::dropIfExists('post_comment_likes');
     }
 }

@@ -1,11 +1,13 @@
 <?php
 
+
 namespace App\Models;
+
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class PostComment extends Model
 {
     use HasFactory;
 
@@ -15,23 +17,20 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'topic_id',
+        'parent_id',
+        'post_id',
         'user_id',
         'uid',
-        'title',
         'content',
-        'url_image',
-        'url_video',
         'is_published'
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function topic()
-    {
-        return $this->belongsTo(Topic::class, 'topic_id');
-    }
+    protected $appends = ['likes_count'];
+
+    protected $with = [
+        'user',
+        'likes',
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -42,18 +41,34 @@ class Post extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function comments()
+    public function parent()
     {
-        return $this->hasMany(PostComment::class, 'post_id')->whereNull('parent_id');
+        return $this->belongsTo(PostComment::class, 'parent_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function votes()
+    public function replies()
     {
-        return $this->hasMany(PostVote::class, 'post_id');
+        return $this->hasMany(PostComment::class, 'parent_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function likes()
+    {
+        return $this->hasMany(PostCommentLike::class, 'comment_id');
+    }
+
+    /**
+     * @return int
+     */
+    public function getLikesCountAttribute()
+    {
+        return $this->likes()->count();
     }
 }

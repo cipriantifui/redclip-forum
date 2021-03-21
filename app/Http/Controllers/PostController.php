@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Post\PostRequest;
+use App\Http\Requests\Post\ShowRequest;
 use App\Services\Post\PostServiceInterface;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -25,11 +25,16 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param ShowRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ShowRequest $request)
     {
-        //
+        return $this->postService->getPosts(
+            $request->input('perPage', 20),
+            $request->input('page', 1),
+            $request->input('topic_id')
+        );
     }
 
 
@@ -47,35 +52,12 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        return $this->postService->showPost($id);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
