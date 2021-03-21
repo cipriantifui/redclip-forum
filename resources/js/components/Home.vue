@@ -7,7 +7,7 @@
                         <timeago :datetime="post.created_at"></timeago>
                     </div>
                     <h4 style="color: #1b1e21">{{ post.title }}</h4>
-                    <span class="badge badge-danger" style="width: min-content">{{ post.topic.title }}</span>
+                    <span class="badge badge-danger topic-badge">{{ post.topic.title }}</span>
                     <p class="content pt-2" v-if="post.content">
                         {{post.content}}
                     </p>
@@ -19,6 +19,7 @@
                             :src="post.url_video"
                             width="100%"
                             height="100%"
+                            autoplay="false"
                             frameborder="0">
                         </iframe>
                     </p>
@@ -53,7 +54,7 @@
 
         methods: {
             getPosts(page) {
-                this.axios.get('/api/post', {params: {perPage: 4, page: page}})
+                this.axios.get('/api/post', {params: {perPage: 5, page: page}})
                     .then(response => {
                         this.posts = page === 1 ? response.data.data : this.posts.concat(response.data.data);
                         this.paginate = response.data;
@@ -105,5 +106,9 @@
     .post-actions span a {
         display: inline;
         color: #585858;
+    }
+
+    .topic-badge {
+        width: min-content;
     }
 </style>

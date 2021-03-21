@@ -7,7 +7,7 @@
                         <timeago :datetime="post.created_at"></timeago>
                     </div>
                     <h4 style="color: #1b1e21">{{ post.title }}</h4>
-                    <span class="badge badge-danger" style="width: fit-content">{{ post.topic.title }}</span>
+                    <span class="badge badge-danger topic-badge">{{ post.topic.title }}</span>
                     <p class="content pt-2" v-if="post.content">
                         {{post.content}}
                     </p>
@@ -228,5 +228,9 @@
     .comment-actions span:hover {
         font-size: 11px;
         color: #1b1e21;
+    }
+
+    .topic-badge {
+        width: min-content;
     }
 </style>

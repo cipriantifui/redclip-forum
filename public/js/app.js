@@ -1900,13 +1900,15 @@ __webpack_require__.r(__webpack_exports__);
     axios.interceptors.response.use(undefined, function (err) {
       return new Promise(function (resolve, reject) {
         if (err.response.status === 401 && err.response.config) {
-          // if you ever get an unauthorized, logout the user
+          console.log(1); // if you ever get an unauthorized, logout the user
+
           delete axios.defaults.headers.common['Authorization'];
           localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          location.reload();
           this.$router.push({
             name: 'home'
-          });
-          location.reload(); // you can also redirect to /login if needed !
+          }); // you can also redirect to /login if needed !
         }
 
         throw err;
@@ -1993,6 +1995,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Home.vue",
   data: function data() {
@@ -2010,7 +2013,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.axios.get('/api/post', {
         params: {
-          perPage: 4,
+          perPage: 5,
           page: page
         }
       }).then(function (response) {
@@ -2835,7 +2838,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.post-card .post-user[data-v-f2b6376c] {\n    color: #6c757d;\n    border-bottom: 2px dashed #ccc;\n    margin-bottom: 5px;\n}\n.post-actions span[data-v-f2b6376c] {\n    font-weight: bold;\n    cursor: pointer;\n}\n.post-actions span[data-v-f2b6376c]:hover {\n    font-size: 15px;\n    color: #1b1e21;\n}\n.post-actions span a[data-v-f2b6376c] {\n    display: inline;\n    color: #585858;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.post-card .post-user[data-v-f2b6376c] {\n    color: #6c757d;\n    border-bottom: 2px dashed #ccc;\n    margin-bottom: 5px;\n}\n.post-actions span[data-v-f2b6376c] {\n    font-weight: bold;\n    cursor: pointer;\n}\n.post-actions span[data-v-f2b6376c]:hover {\n    font-size: 15px;\n    color: #1b1e21;\n}\n.post-actions span a[data-v-f2b6376c] {\n    display: inline;\n    color: #585858;\n}\n.topic-badge[data-v-f2b6376c] {\n    width: -webkit-min-content;\n    width: -moz-min-content;\n    width: min-content;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2883,7 +2886,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.post-card .post-user[data-v-953b3132] {\n    color: #6c757d;\n    border-bottom: 2px dashed #ccc;\n    margin-bottom: 5px;\n}\n.post-actions span[data-v-953b3132] {\n    font-weight: bold;\n    cursor: pointer;\n}\n.post-actions span[data-v-953b3132]:hover {\n    font-size: 13px;\n    color: #1b1e21;\n}\n.post-actions span a[data-v-953b3132] {\n    display: inline;\n    color: #585858;\n}\n.comment-card[data-v-953b3132] {\n    border: none;\n    background-color: #f7f7f9;\n    border-left: 1px solid #6c757d;\n    border-radius: unset;\n}\n.comment-user[data-v-953b3132] {\n    font-size: 12px;\n    color: #6c757d;\n}\n.comment-actions span[data-v-953b3132] {\n    font-weight: bold;\n    font-size: 12px;\n    cursor: pointer;\n}\n.comment-actions span[data-v-953b3132]:hover {\n    font-size: 11px;\n    color: #1b1e21;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.post-card .post-user[data-v-953b3132] {\n    color: #6c757d;\n    border-bottom: 2px dashed #ccc;\n    margin-bottom: 5px;\n}\n.post-actions span[data-v-953b3132] {\n    font-weight: bold;\n    cursor: pointer;\n}\n.post-actions span[data-v-953b3132]:hover {\n    font-size: 13px;\n    color: #1b1e21;\n}\n.post-actions span a[data-v-953b3132] {\n    display: inline;\n    color: #585858;\n}\n.comment-card[data-v-953b3132] {\n    border: none;\n    background-color: #f7f7f9;\n    border-left: 1px solid #6c757d;\n    border-radius: unset;\n}\n.comment-user[data-v-953b3132] {\n    font-size: 12px;\n    color: #6c757d;\n}\n.comment-actions span[data-v-953b3132] {\n    font-weight: bold;\n    font-size: 12px;\n    cursor: pointer;\n}\n.comment-actions span[data-v-953b3132]:hover {\n    font-size: 11px;\n    color: #1b1e21;\n}\n.topic-badge[data-v-953b3132] {\n    width: -webkit-min-content;\n    width: -moz-min-content;\n    width: min-content;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22769,14 +22772,9 @@ var render = function() {
                 _vm._v(_vm._s(post.title))
               ]),
               _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass: "badge badge-danger",
-                  staticStyle: { width: "min-content" }
-                },
-                [_vm._v(_vm._s(post.topic.title))]
-              ),
+              _c("span", { staticClass: "badge badge-danger topic-badge" }, [
+                _vm._v(_vm._s(post.topic.title))
+              ]),
               _vm._v(" "),
               post.content
                 ? _c("p", { staticClass: "content pt-2" }, [
@@ -22803,6 +22801,7 @@ var render = function() {
                         src: post.url_video,
                         width: "100%",
                         height: "100%",
+                        autoplay: "false",
                         frameborder: "0"
                       }
                     })
@@ -23282,14 +23281,9 @@ var render = function() {
                   _vm._v(_vm._s(_vm.post.title))
                 ]),
                 _vm._v(" "),
-                _c(
-                  "span",
-                  {
-                    staticClass: "badge badge-danger",
-                    staticStyle: { width: "fit-content" }
-                  },
-                  [_vm._v(_vm._s(_vm.post.topic.title))]
-                ),
+                _c("span", { staticClass: "badge badge-danger topic-badge" }, [
+                  _vm._v(_vm._s(_vm.post.topic.title))
+                ]),
                 _vm._v(" "),
                 _vm.post.content
                   ? _c("p", { staticClass: "content pt-2" }, [

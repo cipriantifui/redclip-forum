@@ -33,7 +33,9 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         if ($topicId) {
             $posts = $posts->where('topic_id', $topicId);
         }
-        return $posts->paginate($perPage);
+        return $posts
+            ->orderByDesc('id')
+            ->paginate($perPage);
     }
 
     /**
@@ -48,6 +50,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
                 $query->orderBy('id', 'DESC');
             }])
             ->withCount(['comments', 'votes'])
-            ->where('id', $id)->firstOrFail();
+            ->where('id', $id)
+            ->firstOrFail();
     }
 }

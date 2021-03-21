@@ -22,7 +22,7 @@ class PostCommentFactory extends Factory
     public function definition()
     {
         return [
-            'post_id' => $this->faker->numberBetween(1, 10),
+            'post_id' => $this->faker->numberBetween(1, 8),
             'user_id' => $this->faker->numberBetween(1, 10),
             'content' => $this->faker->text(500),
             'is_published' => $this->faker->boolean(90),

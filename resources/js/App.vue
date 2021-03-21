@@ -56,11 +56,13 @@
             axios.interceptors.response.use(undefined, function (err) {
                 return new Promise(function (resolve, reject) {
                     if (err.response.status === 401 && err.response.config) {
+                        console.log(1);
                         // if you ever get an unauthorized, logout the user
                         delete axios.defaults.headers.common['Authorization']
                         localStorage.removeItem('token')
-                        this.$router.push({name: 'home'})
+                        localStorage.removeItem('user')
                         location.reload();
+                        this.$router.push({name: 'home'})
                         // you can also redirect to /login if needed !
                     }
                     throw err;
