@@ -28,9 +28,7 @@ class PostRequest extends FormRequest
             'user_id' => 'nullable|integer|exists:users,id',
             'uid' => 'nullable|integer',
             'title' => 'required|string|min:3|max:200',
-            'content' => 'nullable|string|min:3|max:3000',
-            'url_image' => 'nullable|url',
-            'url_video' => 'nullable|url'
+            'content' => 'required|string|min:3|max:3000'
         ];
     }
 }

@@ -15,6 +15,20 @@ import Login from './components/auth/Login.vue';
 import Home from './components/Home.vue';
 import PostDetails from './components/PostDetails.vue';
 import PostCreate from './components/PostCreate.vue';
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
+
+import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import './vee-validate';
+
+// Register it globally
+Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 
 Vue.use(VueTimeago, {
     name: 'Timeago', // Component name, `Timeago` by default

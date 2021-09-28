@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Post\PostImageRequest;
 use App\Http\Requests\Post\PostRequest;
+use App\Http\Requests\Post\PostVideoRequest;
 use App\Http\Requests\Post\ShowRequest;
 use App\Services\Post\PostServiceInterface;
 
@@ -47,6 +49,39 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         return $this->postService->storePost($request);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param PostRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeContentPost(PostRequest $request)
+    {
+        return $this->postService->storeContentPost($request);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param PostRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeVideoPost(PostVideoRequest $request)
+    {
+        return $this->postService->storeVideoPost($request);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param PostRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeImagePost(PostImageRequest $request)
+    {
+        return $this->postService->storeImagePost($request);
     }
 
     /**

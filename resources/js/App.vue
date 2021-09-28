@@ -95,3 +95,11 @@
     }
 </script>
 
+<style>
+.custom-file-label.invalid.is-true,
+.custom-select.invalid.is-true,
+.form-control.invalid.is-true {
+    border: 1px #EB0600 solid;
+}
+</style>
+

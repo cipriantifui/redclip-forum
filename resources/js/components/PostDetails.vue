@@ -29,11 +29,16 @@
 
                     <p class="comment">
                         Comment as {{this.$store.state.user ? this.$store.state.user.name : 'anonymous'+this.$uoid}}
-                        <textarea rows="5" class="form-control mb-2" placeholder="What are your thoughts?"
-                                  v-model="content"></textarea>
-                        <button type="button" class="btn btn-secondary float-right" @click="saveComment(post.id)">
-                            Comment
-                        </button>
+                        <ValidationObserver ref="comment">
+                            <ValidationProvider rules="required|min:5" v-slot="{ errors, failed }">
+                                <b-form-textarea rows="5" class="invalid" :class="`is-${failed}`" placeholder="What are your thoughts?"
+                                                 v-model="content" name="content"></b-form-textarea>
+                                <span class="text-danger">{{ errors[0] }}</span>
+                            </ValidationProvider>
+                            <button type="button" class="btn btn-secondary float-right mt-2" @click="saveComment(post.id)">
+                                Comment
+                            </button>
+                        </ValidationObserver>
                     </p>
 
                     <div class="card comment-card px-3 py-1 mb-2" v-for="(comment, commentKey) in post.comments">
@@ -50,14 +55,19 @@
                         </p>
 
                         <p class="comment" v-show="isShow(commentKey)">
-                            <textarea rows="3" class="form-control mb-2" placeholder="What are your thoughts?"
-                                      v-model="reply"></textarea>
-                            <button type="button" class="btn btn-secondary btn-sm float-right" @click="saveComment(post.id, comment.id)">
-                                Reply
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm float-right mr-2" @click="toggleShow(-1)">
-                                Cancel
-                            </button>
+                            <ValidationObserver ref="replies">
+                                <ValidationProvider rules="required|min:5" v-slot="{ errors, failed }">
+                                    <b-form-textarea rows="5" class="invalid" :class="`is-${failed}`" placeholder="What are your thoughts?"
+                                                     v-model="reply" name="reply"></b-form-textarea>
+                                    <span class="text-danger">{{ errors[0] }}</span>
+                                </ValidationProvider>
+                                <button type="button" class="btn btn-secondary btn-sm float-right mt-2" @click="saveReply(post.id, comment.id, commentKey)">
+                                    Reply
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm float-right mr-2 mt-2" @click="toggleShow(-1, commentKey)">
+                                    Cancel
+                                </button>
+                            </ValidationObserver>
                         </p>
 
                         <div class="card comment-card px-3 py-1 mb-2" v-for="(reply, replyKey) in comment.replies">
@@ -150,27 +160,74 @@
             },
 
             saveComment(postId, commentId = null) {
-                this.error = false;
-                let url = this.$store.state.isLoggedIn ? '/api/auth/post-comment/create' : '/api/post-comment/create';
-
-                this.axios.post(url, {
-                    post_id: postId,
-                    parent_id: commentId,
-                    content: commentId === null ? this.content : this.reply,
-                    uid: this.$store.state.isLoggedIn ? null : this.$uoid,
-                }).then(response => {
-                    this.$toaster.success('The comment was added successfully.');
-                    location.reload();
-                    this.content = null
-                }).catch(error => {
-                    if (error.response) {
-                        if (error.response.data.errors.error) {
-                            this.$toaster.error(error.response.data.errors.error)
-                        } else {
-                            this.error = true;
-                            this.errors = error.response.data.errors
-                        }
+                this.$refs.comment.validate().then(success => {
+                    if (!success) {
+                        return;
                     }
+
+                    this.error = false;
+                    let url = this.$store.state.isLoggedIn ? '/api/auth/post-comment/create' : '/api/post-comment/create';
+
+                    this.axios.post(url, {
+                        post_id: postId,
+                        parent_id: commentId,
+                        content: this.content,
+                        uid: this.$store.state.isLoggedIn ? null : this.$uoid,
+                    }).then(response => {
+                        this.$toaster.success('The comment was added successfully.');
+                        this.showPost();
+                        this.activeKey = -1;
+                        this.content = '';
+
+                        // Wait until the models are updated in the UI
+                        this.$nextTick(() => {
+                            this.$refs.comment.reset();
+                        });
+                    }).catch(error => {
+                        if (error.response) {
+                            if (error.response.data.errors) {
+                                this.$toaster.error(error.response.data.errors)
+                            } else {
+                                this.$toaster.error(error.response.data.errors)
+                            }
+                        }
+                    });
+                });
+            },
+
+            saveReply(postId, commentId, index) {
+                this.$refs.replies[index].validate().then(success => {
+                    if (!success) {
+                        return;
+                    }
+                    this.error = false;
+                    let url = this.$store.state.isLoggedIn ? '/api/auth/post-comment/create' : '/api/post-comment/create';
+
+                    this.axios.post(url, {
+                        post_id: postId,
+                        parent_id: commentId,
+                        content: this.reply,
+                        uid: this.$store.state.isLoggedIn ? null : this.$uoid,
+                    }).then(response => {
+                        this.$toaster.success('The comment was added successfully.');
+                        this.showPost();
+                        this.activeKey = -1;
+                        this.reply = '';
+
+                        // Wait until the models are updated in the UI
+                        this.$nextTick(() => {
+                            this.$refs.replies[index].reset();
+                        });
+                    }).catch(error => {
+                        if (error.response) {
+                            if (error.response.data.errors) {
+                                this.$toaster.error(error.response.data.errors)
+                            } else {
+                                this.error = true;
+                                this.errors = error.response.data.errors
+                            }
+                        }
+                    });
                 });
             },
 
@@ -178,8 +235,12 @@
                 return this.activeKey === i;
             },
 
-            toggleShow(i) {
+            toggleShow(i, refIndex = null) {
                 this.activeKey = this.isShow(i) ? null : i;
+
+                if(refIndex !== null) {
+                    this.$refs.replies[refIndex].reset();
+                }
             },
         }
     }

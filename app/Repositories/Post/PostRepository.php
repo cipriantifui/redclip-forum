@@ -25,15 +25,13 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
      */
     public function getPosts($perPage, $page, $topicId = null)
     {
-        $posts = $this->model
+        return $this->model
+            ->when($topicId, function ($q) use($topicId){
+                return $q->where('topic_id', $topicId);
+            })
             ->with(['user', 'topic'])
             ->withCount(['comments', 'votes'])
-            ->where('is_published', 1);
-
-        if ($topicId) {
-            $posts = $posts->where('topic_id', $topicId);
-        }
-        return $posts
+            ->where('is_published', 1)
             ->orderByDesc('id')
             ->paginate($perPage);
     }

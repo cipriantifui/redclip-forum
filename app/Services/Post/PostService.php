@@ -52,6 +52,75 @@ class PostService extends BaseService implements PostServiceInterface
     }
 
     /**
+     * Store content post in database
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeContentPost($request)
+    {
+        $this->repository->store([
+            'topic_id' => $request->get('topic_id'),
+            'user_id' => $request->get('uid') ? null : Auth::user()->id,
+            'uid' => $request->get('uid'),
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
+            'is_published' => true,
+        ]);
+
+        return $this->item(['success' => true], 201);
+    }
+
+    /**
+     * Store video post in database
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeVideoPost($request)
+    {
+        $file = $request->file('file_video');
+        $filename = $file->getClientOriginalName();
+        $path = public_path().'/uploads/';
+        $videoPath = '/uploads/'.$filename;
+        $file->move($path, $filename);
+
+        $this->repository->store([
+            'topic_id' => $request->get('topic_id'),
+            'user_id' => $request->get('uid') ? null : Auth::user()->id,
+            'uid' => $request->get('uid'),
+            'title' => $request->get('title'),
+            'url_video' => $videoPath,
+            'is_published' => true,
+        ]);
+
+        return $this->item(['success' => true], 201);
+    }
+
+    /**
+     * Store image post in database
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeImagePost($request)
+    {
+        $file = $request->file('file_image');
+        $filename = $file->getClientOriginalName();
+        $path = public_path().'/uploads/image/';
+        $imagePath = '/uploads/image/'.$filename;
+        $file->move($path, $filename);
+
+        $this->repository->store([
+            'topic_id' => $request->get('topic_id'),
+            'user_id' => $request->get('uid') ? null : Auth::user()->id,
+            'uid' => $request->get('uid'),
+            'title' => $request->get('title'),
+            'url_image' => $imagePath,
+            'is_published' => true,
+        ]);
+
+        return $this->item(['success' => true], 201);
+    }
+
+    /**
      * Show post
      * @param $id
      * @return mixed
