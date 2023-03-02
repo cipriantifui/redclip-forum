@@ -24,7 +24,7 @@ Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
-// import { messages } from './vee-validate';
+import './vee-validate';
 
 // Register it globally
 Vue.component('ValidationProvider', ValidationProvider);
