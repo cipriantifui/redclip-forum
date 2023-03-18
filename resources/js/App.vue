@@ -19,7 +19,7 @@
                     </li>
                     <li class="nav-item dropdown" v-if="this.$store.state.isLoggedIn">
                         <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Contul meu
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
@@ -59,7 +59,6 @@
             axios.interceptors.response.use(undefined, function (err) {
                 return new Promise(function (resolve, reject) {
                     if (err.response.status === 401 && err.response.config) {
-                        console.log(1);
                         // if you ever get an unauthorized, logout the user
                         delete axios.defaults.headers.common['Authorization']
                         localStorage.removeItem('token')
