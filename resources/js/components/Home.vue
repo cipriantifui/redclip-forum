@@ -1,7 +1,10 @@
 <template>
     <div class="pb-5">
         <div class="row">
-            <div class="col-12">
+            <div class="col-2">
+                <router-link :to="{ name: 'post-create' }" class="btn btn-secondary w-100">Start a discussion</router-link>
+            </div>
+            <div class="col-10">
                 <post-card :post="post" v-for="post in posts" :key="post.id"></post-card>
 
                 <button type="button" class="btn btn-secondary" v-if="paginate.next_page_url"
@@ -14,7 +17,7 @@
 </template>
 
 <script>
-    import PostCard from "./Post/PostCard.vue";
+    import PostCard from "./post/PostCard.vue";
 
     export default {
         name: "Home.vue",
