@@ -114,7 +114,7 @@ export default {
     border:none;
     margin-top: 5px;
     box-shadow: 0px 1px 3px #888888;
-    width: 300px;
+    width: 350px;
 }
 
 .input-box{

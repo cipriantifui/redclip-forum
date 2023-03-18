@@ -12,13 +12,17 @@
                     <li class="nav-item" v-if="!this.$store.state.isLoggedIn">
                         <router-link :to="{ name: 'register' }" class="nav-link">Create Account</router-link>
                     </li>
-                    <li>
+                    <li class="nav-item mr-3">
                         <search-box></search-box>
                     </li>
+                    <li class="nav-item mr-3">
+                        <notification></notification>
+                    </li>
                     <li class="nav-item dropdown" v-if="this.$store.state.isLoggedIn">
-                        <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Contul meu
+                        <a class="nav-item nav-link dropdown-toggle mr-md-2 p-0 text-white" href="#" id="bd-versions"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <avatar :fullname="this.$store.state.user.name" :size="28" style="position:relative; top:4px"></avatar>
+                            <span style="position:relative; top:-4px">{{userFirstName}}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
                             <a class="dropdown-item" href="#">Detalii</a>
@@ -35,10 +39,12 @@
 <script>
 import BackButton from "./BackButton.vue";
 import SearchBox from "./SearchBox.vue";
+import Notification from "./Notification.vue";
+import Avatar from 'vue-avatar-component'
 
 export default {
     name: "NavBar",
-    components: {SearchBox, BackButton},
+    components: {SearchBox, BackButton, Avatar, Notification},
     methods: {
         logout() {
             this.axios.get('api/auth/logout', {})
@@ -58,10 +64,19 @@ export default {
                 }
             });
         },
+    },
+    computed: {
+        userFirstName() {
+            let names = this.$store.state.user.name.split(" ")
+            let firstName = names[0]
+            return firstName
+        }
     }
 }
 </script>
 
 <style scoped>
-
+.nav-item:after{
+    vertical-align: 0.355em
+}
 </style>
