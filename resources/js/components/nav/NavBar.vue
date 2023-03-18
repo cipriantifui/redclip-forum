@@ -6,14 +6,14 @@
                 <back-button></back-button>
                 <router-link :to="{ name: 'home' }" class="nav-link" style="font-size: 20px"><span style="color: white">Red</span><span style="color: red">clip</span></router-link>
                 <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-                    <li class="nav-item">
-                        <router-link :to="{ name: 'home' }" class="nav-link">Posts</router-link>
-                    </li>
                     <li class="nav-item" v-if="!this.$store.state.isLoggedIn">
                         <router-link :to="{ name: 'login' }" class="nav-link">Sign</router-link>
                     </li>
                     <li class="nav-item" v-if="!this.$store.state.isLoggedIn">
                         <router-link :to="{ name: 'register' }" class="nav-link">Create Account</router-link>
+                    </li>
+                    <li>
+                        <search-box></search-box>
                     </li>
                     <li class="nav-item dropdown" v-if="this.$store.state.isLoggedIn">
                         <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions"
@@ -34,10 +34,11 @@
 
 <script>
 import BackButton from "./BackButton.vue";
+import SearchBox from "./SearchBox.vue";
 
 export default {
     name: "NavBar",
-    components: {BackButton},
+    components: {SearchBox, BackButton},
     methods: {
         logout() {
             this.axios.get('api/auth/logout', {})

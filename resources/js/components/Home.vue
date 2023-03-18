@@ -1,16 +1,18 @@
 <template>
     <div class="pb-5">
         <div class="row">
-            <div class="col-2">
+            <div class="col-lg-2 col-md-12">
                 <router-link :to="{ name: 'post-create' }" class="btn btn-secondary w-100">Start a discussion</router-link>
             </div>
-            <div class="col-10">
+            <div class="col-lg-10 col-md-12">
                 <post-card :post="post" v-for="post in posts" :key="post.id"></post-card>
 
-                <button type="button" class="btn btn-secondary" v-if="paginate.next_page_url"
-                        @click="getPosts(paginate.current_page + 1)">
-                    View-more
-                </button>
+                <div class="col text-center mt-3">
+                    <button type="button" class="btn btn-secondary" v-if="paginate.next_page_url"
+                            @click="getPosts(paginate.current_page + 1)">
+                        View-more
+                    </button>
+                </div>
             </div>
         </div>
     </div>
