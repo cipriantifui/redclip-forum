@@ -7,7 +7,7 @@
              <i class="fa fa-comments-o mr-2" aria-hidden="true"></i> All discussions
          </router-link>
          <router-link :to="{ name: 'topics' }" class="btn btn-link text-secondary px-0 mr-2"
-            :class="{'d-xl-flex d-lg-flex': !isShowInTop}">
+            :class="{'d-xl-flex d-lg-flex': !isShowInTop}" v-if="!isShowInTop">
              <i class="fa fa-list-ul mr-2" aria-hidden="true"></i> Topics
          </router-link>
      </div>

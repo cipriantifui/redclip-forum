@@ -62,7 +62,7 @@ class BaseService
      */
     public function indexPaginated($perPage, $page, array $orderByColumns = [], $filters = [])
     {
-        return $this->collectionResponse($this->repository->indexPaginated($perPage, $page, $orderByColumns, $filters));
+        return $this->repository->indexPaginated($perPage, $page, $orderByColumns, $filters);
     }
 
     /**

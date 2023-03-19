@@ -29,7 +29,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             ->when($topicId, function ($q) use($topicId){
                 return $q->where('topic_id', $topicId);
             })
-            ->with(['user', 'topic'])
+            ->with(['user', 'Topic'])
             ->withCount(['comments', 'votes'])
             ->where('is_published', 1)
             ->orderByDesc('id')
@@ -44,7 +44,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     public function showPost($id)
     {
         return $this->model
-            ->with(['user', 'topic', 'comments.replies.parent', 'comments' => function($query) {
+            ->with(['user', 'Topic', 'comments.replies.parent', 'comments' => function($query) {
                 $query->orderBy('id', 'DESC');
             }])
             ->withCount(['comments', 'votes'])
