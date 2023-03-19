@@ -41,7 +41,5 @@ export default {
 </script>
 
 <style scoped>
-.nav-item:after{
-    vertical-align: 0.355em
-}
+
 </style>
