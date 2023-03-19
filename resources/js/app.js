@@ -13,8 +13,9 @@ import App from './App.vue';
 import Register from './components/auth/Register.vue';
 import Login from './components/auth/Login.vue';
 import Home from './components/Home.vue';
-import PostDetails from './components/PostDetails.vue';
-import PostCreate from './components/PostCreate.vue';
+import PostDetails from './components/post/PostDetails.vue';
+import PostCreate from './components/post/PostCreate.vue';
+import Topics from './components/topic/Topics.vue';
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -96,6 +97,14 @@ const router = new VueRouter({
             path: '/post/:post_id',
             name: 'post-details',
             component: PostDetails,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: '/topics',
+            name: 'topics',
+            component: Topics,
             meta: {
                 requiresAuth: false
             }

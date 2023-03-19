@@ -35,7 +35,7 @@ Route::group(['middleware' => ['auth.jwt'], 'prefix' => 'auth'], function () {
     Route::post('/comment-like/create', [PostCommentLikeController::class, 'store']);
 });
 
-Route::get('/topic', [TopicController::class, 'index']);
+Route::get('/topics', [TopicController::class, 'index']);
 
 Route::post('/post/create', [PostController::class, 'store']);
 Route::post('/post/create-content-post', [PostController::class, 'storeContentPost']);

@@ -1,10 +1,10 @@
 <template>
     <div class="pb-5">
         <div class="row">
-            <div class="col-lg-2 col-md-12">
-                <router-link :to="{ name: 'post-create' }" class="btn btn-secondary w-100">Start a discussion</router-link>
+            <div class="col-xl-2 col-lg-3 col-md-12 mb-lg-0 mb-3">
+                <left-side-nav></left-side-nav>
             </div>
-            <div class="col-lg-10 col-md-12">
+            <div class="col-xl-10 col-lg-9 col-md-12">
                 <post-card :post="post" v-for="post in posts" :key="post.id"></post-card>
 
                 <div class="col text-center mt-3">
@@ -20,10 +20,11 @@
 
 <script>
     import PostCard from "./post/PostCard.vue";
+    import LeftSideNav from "./nav/LeftSideNav.vue";
 
     export default {
         name: "Home.vue",
-        components: {PostCard},
+        components: {LeftSideNav, PostCard},
         data() {
             return {
                 posts: {},
