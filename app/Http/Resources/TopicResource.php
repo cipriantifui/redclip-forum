@@ -19,7 +19,8 @@ class TopicResource extends JsonResource
             "title" => $this->title,
             "created_at" => $this->created_at,
             "posts_count" => $this->posts_count ?? 0,
-            'posts' => PostResource::collection($this->whenLoaded('posts'))
+            'posts' => PostResource::collection($this->whenLoaded('posts')),
+            "date_ago" => $this->created_at->diffForHumans()
         ];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Topic;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
@@ -15,7 +14,6 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
-//        return parent::toArray($request);
         return [
             "id" => $this->id,
             "title" => $this->title,
@@ -26,6 +24,7 @@ class PostResource extends JsonResource
             "url_image" => $this->url_image,
             "url_video" => $this->url_video,
             "created_at" => $this->created_at,
+            "date_ago" => $this->created_at->diffForHumans(),
         ];
     }
 }

@@ -4,11 +4,15 @@ namespace App\Services\Topic;
 
 
 use App\Http\Resources\TopicResource;
+use App\Models\Topic;
 use App\Repositories\Topic\TopicRepositoryInterface;
 use App\Services\BaseService;
+use App\Traits\CommonTrait;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class TopicService extends BaseService implements TopicServiceInterface
 {
+    use CommonTrait;
     /**
      * TopicService constructor.
      * @param TopicRepositoryInterface $repository
@@ -18,8 +22,18 @@ class TopicService extends BaseService implements TopicServiceInterface
         parent::__construct($repository);
     }
 
+    /**
+     * Get topics resource with paginate and orders
+     * @param int $perPage
+     * @param int $page
+     * @param array $orderByColumns
+     * @return AnonymousResourceCollection
+     */
     public function getTopics(int $perPage, int $page, array $orderByColumns)
     {
-        return TopicResource::collection($this->repository->getTopics($perPage, $page, $orderByColumns));
+        $arrOrderByColumns = $this->buildOrderFilter($orderByColumns);
+        $topics = $this->repository->getTopics($perPage, $page, $arrOrderByColumns);
+        $topics = $this->collectionFilter($topics, $arrOrderByColumns, new Topic);
+        return TopicResource::collection($topics);
     }
 }

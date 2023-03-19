@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="/css/style.css"type="text/css" />
         <link rel="stylesheet" href="/css/app.css" type="text/css"/>
         <script src="/js/jquery-3.2.1.min.js" type="text/javascript"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.0.4/popper.js"></script>
     </head>
     <body style="background: #f5f5f5;">
         <div id="app"></div>

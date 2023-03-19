@@ -16,13 +16,14 @@ import Home from './components/Home.vue';
 import PostDetails from './components/post/PostDetails.vue';
 import PostCreate from './components/post/PostCreate.vue';
 import Topics from './components/topic/Topics.vue';
-import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+import { BootstrapVue, BootstrapVueIcons, DropdownPlugin } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+Vue.use(DropdownPlugin)
 
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import './vee-validate';

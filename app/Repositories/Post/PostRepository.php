@@ -29,10 +29,10 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             ->when($topicId, function ($q) use($topicId){
                 return $q->where('topic_id', $topicId);
             })
-            ->with(['user', 'Topic'])
+            ->with(['user', 'topic'])
             ->withCount(['comments', 'votes'])
             ->where('is_published', 1)
-            ->orderByDesc('id')
+            ->orderBy('id', 'desc')
             ->paginate($perPage);
     }
 
