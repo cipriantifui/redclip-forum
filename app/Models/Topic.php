@@ -19,4 +19,11 @@ class Topic extends Model
         'active'
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'topic_id');
+    }
 }
