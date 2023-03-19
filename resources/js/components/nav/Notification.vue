@@ -1,12 +1,11 @@
 <template>
     <div>
-        <i class="fa fa-bell text-white" aria-hidden="true" style="vertical-align: -0.355em"
-            @click="showNotification"></i>
-        <div class="card notification-card" v-if="isShowNotificationBox"
-             v-click-outside="hideNotification">
-            <div class="card-header">
-                Notifications
-            </div>
+        <a class="nav-item nav-link dropdown-toggle p-0 text-white" href="#" id="bd-versions"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-bell text-white" aria-hidden="true" style="vertical-align: -0.355em"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right notification-card" aria-labelledby="bd-versions">
+            <div class="card-header"><strong>Notifications</strong></div>
             <div class="card-body">
                 <div class="text-center">No Notifications</div>
             </div>
@@ -17,38 +16,14 @@
 <script>
 export default {
     name: "Notification",
-    data() {
-        return {
-            isShowNotificationBox: false,
-            isActiveNotificationBox: false
-        }
-    },
-    methods: {
-        showNotification: function () {
-            this.isShowNotificationBox = !this.isShowNotificationBox
-            setTimeout(() =>{
-                this.isActiveNotificationBox = !this.isActiveNotificationBox
-            }, 500);
-        },
-        hideNotification() {
-            if(this.isActiveNotificationBox) {
-                this.isShowNotificationBox = false
-                this.isActiveNotificationBox = false
-            }
-        }
-    }
 }
 </script>
 
 <style scoped>
-.notification-card{
-    position: absolute;
-    z-index: 100;
-    background-color: #fff;
-    border:none;
-    margin-top: 15px;
-    box-shadow: 0px 1px 3px #888888;
+.notification-card {
     width: 300px;
-    right: 70px
+}
+.dropdown-toggle::after{
+    display: none;
 }
 </style>
