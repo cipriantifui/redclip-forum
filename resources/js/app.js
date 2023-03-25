@@ -16,6 +16,7 @@ import Home from './components/Home.vue';
 import PostDetails from './components/post/PostDetails.vue';
 import PostCreate from './components/post/PostCreate.vue';
 import Topics from './components/topic/Topics.vue';
+import Topic from './components/topic/Topic.vue';
 import { BootstrapVue, BootstrapVueIcons, DropdownPlugin } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -106,6 +107,14 @@ const router = new VueRouter({
             path: '/topics',
             name: 'topics',
             component: Topics,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: '/topic',
+            name: 'topic',
+            component: Topic,
             meta: {
                 requiresAuth: false
             }

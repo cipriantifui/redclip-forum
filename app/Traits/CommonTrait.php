@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
 trait CommonTrait
 {
     public function buildOrderFilter(array $orderByColumns): array
@@ -16,21 +18,22 @@ trait CommonTrait
         return $arrOrderByColumns;
     }
 
-    public function collectionFilter($collection, $orderByColumns, $model)
+    public function collectionFilter($data, $orderByColumns, $model)
     {
         if (count($orderByColumns)) {
             $modelColumns = $this->getModelColumns($model);
             foreach ($orderByColumns as $column => $order) {
                 if (isset($modelColumns[$column]) === false) {
                     if($order == 'asc') {
-                        $collection = $collection->sortBy($column);
+                        $collection = $data->sortBy($column);
                     } else {
-                        $collection = $collection->sortByDesc($column);
+                        $collection = $data->sortByDesc($column);
                     }
+                    return new LengthAwarePaginator($collection, $data->total(), $data->perPage());
                 }
             }
         }
-        return $collection;
+        return $data;
     }
 
     /**
