@@ -6,20 +6,20 @@
                 <back-button></back-button>
                 <router-link :to="{ name: 'home' }" class="nav-link" style="font-size: 20px"><span style="color: white">Red</span><span style="color: red">clip</span></router-link>
                 <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                    <li class="nav-item mr-3">
+                        <search-box></search-box>
+                    </li>
+                    <li class="nav-item dropdown mr-3" v-if="this.$store.state.isLoggedIn">
+                        <notification></notification>
+                    </li>
+                    <li class="nav-item dropdown" v-if="this.$store.state.isLoggedIn">
+                        <profile-drop-down></profile-drop-down>
+                    </li>
                     <li class="nav-item" v-if="!this.$store.state.isLoggedIn">
                         <router-link :to="{ name: 'login' }" class="nav-link">Sign</router-link>
                     </li>
                     <li class="nav-item" v-if="!this.$store.state.isLoggedIn">
                         <router-link :to="{ name: 'register' }" class="nav-link">Create Account</router-link>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <search-box></search-box>
-                    </li>
-                    <li class="nav-item dropdown mr-3">
-                        <notification></notification>
-                    </li>
-                    <li class="nav-item dropdown" v-if="this.$store.state.isLoggedIn">
-                        <profile-drop-down></profile-drop-down>
                     </li>
                 </ul>
             </div>

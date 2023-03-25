@@ -93,7 +93,7 @@ export default {
             }
         },
         handleTopicChoose(topic) {
-
+            this.$router.push('/topic')
         },
         selectOrderOption(data) {
             this.selectedOption = data.option
