@@ -4,8 +4,17 @@ export default {
     getPost(postId) {
         return axios.get('/api/post/' + postId)
     },
-    getPosts(page, perPage) {
-        return axios.get('/api/post', {params: {page: page, perPage: perPage}})
+    getPosts(page, perPage, topicId) {
+        topicId = topicId || null;
+        let params = {
+            page: page,
+            perPage: perPage
+        }
+        if (topicId) {
+            params.topic_id = topicId
+        }
+
+        return axios.get('/api/post', {params: params})
     },
     createPost(data, type) {
         type = type || ''

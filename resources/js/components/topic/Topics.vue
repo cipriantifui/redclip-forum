@@ -96,6 +96,7 @@ export default {
             }
         },
         handleTopicChoose(topic) {
+            this.$store.commit('storeTopic', topic)
             this.$router.push({name: 'topic', params: {topic_id: topic.id}})
         },
         selectOrderOption(data) {

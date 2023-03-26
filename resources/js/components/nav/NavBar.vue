@@ -25,6 +25,12 @@
             </div>
         </header>
         <!-- Header section end -->
+        <div class="header-info" v-show="$store.getters.isShowHeader">
+            <div class="container">
+                <loader v-if="$store.getters.isShowLoader"></loader>
+                <span v-if="$store.getters.isShowLoader === false">{{$store.getters.getTopicTitle}}</span>
+            </div>
+        </div>
     </nav>
 </template>
 
@@ -33,13 +39,21 @@ import BackButton from "./BackButton.vue";
 import SearchBox from "./SearchBox.vue";
 import Notification from "./Notification.vue";
 import ProfileDropDown from "./ProfileDropDown.vue";
+import Loader from "../common/Loader.vue";
 
 export default {
     name: "NavBar",
-    components: {ProfileDropDown, SearchBox, BackButton, Notification},
+    components: {Loader, ProfileDropDown, SearchBox, BackButton, Notification},
 }
 </script>
 
 <style scoped>
-
+.header-info {
+    padding-top: 40px;
+    padding-bottom: 30px;
+    text-align: center;
+    background: #888;
+    font-size: 22px;
+    color: #fff
+}
 </style>

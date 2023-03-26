@@ -4,7 +4,7 @@
             <timeago :datetime="post.created_at"></timeago>
         </div>
         <h4 style="color: #1b1e21; cursor: pointer" @click="handleChoosePost">{{ post.title }}</h4>
-        <span class="badge badge-danger topic-badge" @click="handleChooseTopic(post.topic.id)">{{ post.topic.title }}</span>
+        <span class="badge badge-danger topic-badge" @click="handleChooseTopic(topic)">{{ topic.title }}</span>
         <p class="content pt-2" v-if="post.content">
             {{post.content}}
         </p>
@@ -34,7 +34,18 @@ import VoteApi from "../../services/VoteApi";
 export default {
     name: "PostCard",
     props: {
-        post: {type: Object, require: true}
+        post: {
+            type: Object,
+            require: true
+        }
+    },
+    data() {
+        return {
+            topic: {}
+        }
+    },
+    mounted() {
+        this.topic = this.post.topic ? this.post.topic : this.$store.getters.getTopic
     },
     methods: {
         savePostVote(postId) {
@@ -55,8 +66,14 @@ export default {
         handleChoosePost() {
             this.$router.push({name: 'post-details', params: {post_id: this.post.id}})
         },
-        handleChooseTopic(topicId) {
-            this.$router.push({name: 'topic', params: {topic_id: topicId}})
+        handleChooseTopic(topic) {
+            this.$store.commit('storeTopic', topic)
+            this.$router.push({name: 'topic', params: {topic_id: topic.id}})
+        }
+    },
+    computed: {
+        topicTitle() {
+            return this.post.topic ? this.post.topic.title : this.$store.getters.getTopicTitle;
         }
     }
 }
