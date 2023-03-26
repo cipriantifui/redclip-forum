@@ -18,17 +18,10 @@
 import Avatar from 'vue-avatar-component'
 export default {
     name: "ProfileDropDown",
-    components: {Avatar},
-    computed: {
-        userFirstName() {
-            let names = this.$store.state.user.name.split(" ")
-            let firstName = names[0]
-            return firstName
-        }
-    },
+    components: { Avatar },
     methods: {
         logout() {
-            this.axios.get('api/auth/logout', {})
+            this.axios.get('/api/auth/logout', {})
                 .then(response => {
                     if (response.data.success === true) {
                         delete axios.defaults.headers.common['Authorization']
@@ -38,13 +31,20 @@ export default {
                         location.reload();
                     }
                 }).catch(error => {
-                if (error.response.data.errors.error) {
-                    localStorage.removeItem('token');
-                    delete axios.defaults.headers.common['Authorization']
-                    this.$toaster.error(error.response.data.errors.error)
-                }
-            });
+                    if (error.response.data.errors.error) {
+                        localStorage.removeItem('token');
+                        delete axios.defaults.headers.common['Authorization']
+                        this.$toaster.error(error.response.data.errors.error)
+                    }
+                });
         },
+    },
+    computed: {
+        userFirstName() {
+            let names = this.$store.state.user.name.split(" ")
+            let firstName = names[0]
+            return firstName
+        }
     }
 }
 </script>

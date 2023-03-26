@@ -24,7 +24,7 @@ Route::post('/auth/login', [AuthController::class, 'postLogin']);
 
 Route::group(['middleware' => ['auth.jwt'], 'prefix' => 'auth'], function () {
 
-    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::any('/logout', [AuthController::class, 'logout']);
     Route::post('/post/create', [PostController::class, 'store']);
     Route::post('/post/create-content-post', [PostController::class, 'storeContentPost']);
     Route::post('/post/create-video-post', [PostController::class, 'storeVideoPost']);
