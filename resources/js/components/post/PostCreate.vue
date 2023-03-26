@@ -172,6 +172,8 @@
 </template>
 
 <script>
+    import PostApi from "../../services/PostApi";
+
     export default {
         name: "PostCreate.vue",
         data() {
@@ -205,17 +207,14 @@
                     if (!success) {
                         return;
                     }
+                    this.error = false;
 
                     let formData = new FormData();
                     formData.append('file_video', this.url_video);
                     formData.append('topic_id', this.topic_selected);
                     formData.append('title', this.title);
-                    formData.append('uid',this.$store.state.isLoggedIn ? null : this.$uoid);
-
-                    this.error = false;
-                    let url = this.$store.state.isLoggedIn ? '/api/auth/post/create-video-post' : '/api/post/create-video-post';
-
-                    this.postData(url,formData);
+                    formData.append('uid',this.$store.state.isLoggedIn ? 0 : this.$uoid);
+                    this.postData(formData, 'video');
                 });
             },
             saveImagePost() {
@@ -223,68 +222,64 @@
                     if (!success) {
                         return;
                     }
+                    this.error = false;
 
                     let formData = new FormData();
                     formData.append('file_image', this.url_image);
                     formData.append('topic_id', this.topic_selected);
                     formData.append('title', this.title);
-                    formData.append('uid',this.$store.state.isLoggedIn ? null : this.$uoid);
-
-                    this.error = false;
-                    let url = this.$store.state.isLoggedIn ? '/api/auth/post/create-image-post' : '/api/post/create-image-post';
-
-                    this.postData(url,formData);
+                    formData.append('uid',this.$store.state.isLoggedIn ? 0 : this.$uoid);
+                    this.postData(formData, 'image');
                 });
             },
             saveContentPost() {
                 this.$refs.content_validation.validate().then(success => {
                     if (!success) {
-                       return;
+                        return;
                     }
 
                     this.error = false;
-                    let url = this.$store.state.isLoggedIn ? '/api/auth/post/create-content-post' : '/api/post/create-content-post';
                     let data = {
                         topic_id: this.topic_selected,
                         title: this.title,
                         content: this.content,
-                        uid: this.$store.state.isLoggedIn ? null : this.$uoid,
+                        uid: this.$store.state.isLoggedIn ? 0 : this.$uoid,
                     };
-
-                    this.postData(url,data);
+                    this.postData(data);
                 });
 
             },
 
-            postData(url,data) {
-                this.axios.post(url, data).then(response => {
-                    this.$toaster.success('The post was added successfully.');
-                    this.topic_selected = null
-                    this.title = ''
-                    this.content= null
-                    this.url_video= null
-                    this.url_image= null
+            postData(data, type) {
+                PostApi.createPost(data, type)
+                    .then(response => {
+                        this.$toaster.success('The post was added successfully.');
+                        this.topic_selected = null
+                        this.title = ''
+                        this.content= null
+                        this.url_video= null
+                        this.url_image= null
 
-                    // Wait until the models are updated in the UI
-                    this.$nextTick(() => {
-                        this.$refs.content_validation.reset();
-                    });
-                    this.$nextTick(() => {
-                        this.$refs.video_validation.reset();
-                    });
-                    this.$nextTick(() => {
-                        this.$refs.image_validation.reset();
-                    });
-                }).catch(error => {
-                    if (error.response) {
-                        if (error.response.data.errors.error) {
-                            this.$toaster.error(error.response.data.errors.error)
-                        } else {
-                            this.error = true;
-                            this.errors = error.response.data.errors
+                        // Wait until the models are updated in the UI
+                        this.$nextTick(() => {
+                            this.$refs.content_validation.reset();
+                        });
+                        this.$nextTick(() => {
+                            this.$refs.video_validation.reset();
+                        });
+                        this.$nextTick(() => {
+                            this.$refs.image_validation.reset();
+                        });
+                    }).catch(error => {
+                        if (error.response) {
+                            if (error.response.data.errors.error) {
+                                this.$toaster.error(error.response.data.errors.error)
+                            } else {
+                                this.error = true;
+                                this.errors = error.response.data.errors
+                            }
                         }
-                    }
-                });
+                    });
             }
         }
     }

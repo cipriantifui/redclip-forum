@@ -21,6 +21,7 @@
 <script>
     import PostCard from "./post/PostCard.vue";
     import LeftSideNav from "./nav/LeftSideNav.vue";
+    import PostApi from "../services/PostApi";
 
     export default {
         name: "Home.vue",
@@ -29,6 +30,7 @@
             return {
                 posts: {},
                 paginate: {},
+                perPage: 5,
             }
         },
 
@@ -38,12 +40,12 @@
 
         methods: {
             getPosts(page) {
-                this.axios.get('/api/post', {params: {perPage: 5, page: page}})
+                PostApi.getPosts(page, this.perPage)
                     .then(response => {
                         this.posts = page === 1 ? response.data.data : this.posts.concat(response.data.data);
                         this.paginate = response.data;
                     }).catch(error => {
-                });
+                    });
             }
         }
     }

@@ -92,6 +92,7 @@
 
 <script>
     import VoteApi from "../../services/VoteApi";
+    import PostApi from "../../services/PostApi";
 
     export default {
         name: "PostDetails.vue",
@@ -108,11 +109,11 @@
         },
         methods: {
             showPost() {
-                this.axios.get('/api/post/' + this.$route.params.post_id)
+                PostApi.getPost(this.$route.params.post_id)
                     .then(response => {
                         this.post = response.data;
                     }).catch(error => {
-                });
+                    });
             },
 
             savePostVote(postId) {
