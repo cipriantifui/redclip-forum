@@ -213,7 +213,7 @@
                     formData.append('file_video', this.url_video);
                     formData.append('topic_id', this.topic_selected);
                     formData.append('title', this.title);
-                    formData.append('uid',this.$store.state.isLoggedIn ? 0 : this.$store.state.notLoggedUserId);
+                    formData.append('uid',this.$store.getters.isLoggedIn ? 0 : this.$store.getters.notLoggedUserId);
                     this.postData(formData, 'video');
                 });
             },
@@ -228,7 +228,7 @@
                     formData.append('file_image', this.url_image);
                     formData.append('topic_id', this.topic_selected);
                     formData.append('title', this.title);
-                    formData.append('uid',this.$store.state.isLoggedIn ? 0 : this.$store.state.notLoggedUserId);
+                    formData.append('uid',this.$store.getters.isLoggedIn ? 0 : this.$store.getters.notLoggedUserId);
                     this.postData(formData, 'image');
                 });
             },
@@ -243,7 +243,7 @@
                         topic_id: this.topic_selected,
                         title: this.title,
                         content: this.content,
-                        uid: this.$store.state.isLoggedIn ? 0 : this.$store.state.notLoggedUserId,
+                        uid: this.$store.getters.isLoggedIn ? 0 : this.$store.getters.notLoggedUserId,
                     };
                     this.postData(data);
                 });

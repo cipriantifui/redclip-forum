@@ -28,7 +28,7 @@
                     </p>
 
                     <p class="comment">
-                        Comment as {{$store.state.user ? $store.state.user.name : 'anonymous' + $store.state.notLoggedUserId}}
+                        Comment as {{$store.getters.user ? $store.getters.user.name : 'anonymous' + $store.getters.notLoggedUserId}}
                         <ValidationObserver ref="comment">
                             <ValidationProvider rules="required|min:5" v-slot="{ errors, failed }">
                                 <b-form-textarea rows="5" class="invalid" :class="`is-${failed}`" placeholder="What are your thoughts?"

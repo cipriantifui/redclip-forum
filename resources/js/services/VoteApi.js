@@ -1,11 +1,11 @@
 import axios from 'axios'
-import store from '../store';
+import store from '../stores/store';
 export default {
     saveVote(postId) {
-        let url = store.state.isLoggedIn ? '/api/auth/post-vote/create' : '/api/post-vote/create';
+        let url = store.getters.isLoggedIn ? '/api/auth/post-vote/create' : '/api/post-vote/create';
         return axios.post(url, {
             post_id: postId,
-            uid: store.state.notLoggedUserId,
+            uid: store.getters.notLoggedUserId,
         })
     }
 }

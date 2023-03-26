@@ -14,12 +14,18 @@ export default {
             posts: []
         }
     },
-    mounted() {
-        TopicApi.getTopic(this.topicId)
-            .then(response => {
-                this.topic = response.data.data
-                this.posts = response.data.data.posts
-            })
+    beforeMount() {
+        this.getTopic();
+    },
+    methods: {
+        getTopic() {
+            TopicApi.getTopic(this.topicId)
+                .then(response => {
+                    this.topic = response.data.data
+                    this.posts = response.data.data.posts
+                    this.$store.commit('storeTopic', this.topic)
+                })
+        }
     }
 }
 </script>

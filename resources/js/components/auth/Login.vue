@@ -42,7 +42,7 @@
     </div>
 </template>
 <script>
-    import store from '../../store'
+    import store from '../../stores/store'
 
     export default {
         data() {

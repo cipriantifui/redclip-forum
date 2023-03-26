@@ -7,7 +7,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import Toaster from 'v-toaster';
 import 'v-toaster/dist/v-toaster.css';
-import store from './store';
+import store from './stores/store';
 import VueTimeago from 'vue-timeago'
 import App from './App.vue';
 import Register from './components/auth/Register.vue';

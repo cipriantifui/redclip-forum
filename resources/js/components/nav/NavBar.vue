@@ -9,16 +9,16 @@
                     <li class="nav-item mr-3">
                         <search-box></search-box>
                     </li>
-                    <li class="nav-item dropdown mr-3" v-if="this.$store.state.isLoggedIn">
+                    <li class="nav-item dropdown mr-3" v-if="$store.getters.isLoggedIn">
                         <notification></notification>
                     </li>
-                    <li class="nav-item dropdown" v-if="this.$store.state.isLoggedIn">
+                    <li class="nav-item dropdown" v-if="$store.getters.isLoggedIn">
                         <profile-drop-down></profile-drop-down>
                     </li>
-                    <li class="nav-item" v-if="!this.$store.state.isLoggedIn">
+                    <li class="nav-item" v-if="!$store.getters.isLoggedIn">
                         <router-link :to="{ name: 'login' }" class="nav-link">Sign</router-link>
                     </li>
-                    <li class="nav-item" v-if="!this.$store.state.isLoggedIn">
+                    <li class="nav-item" v-if="!$store.getters.isLoggedIn">
                         <router-link :to="{ name: 'register' }" class="nav-link">Create Account</router-link>
                     </li>
                 </ul>

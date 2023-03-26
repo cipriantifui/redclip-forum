@@ -1,8 +1,8 @@
 <template>
     <div>
         <a class="nav-item nav-link dropdown-toggle mr-md-2 p-0 text-white" href="#" id="bd-versions"
-           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <avatar :fullname="this.$store.state.user.name" :size="28" style="position:relative; top:4px"></avatar>
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <avatar :fullname="$store.getters.user.name" :size="28" style="position:relative; top:4px"></avatar>
             <span style="position:relative; top:-4px">{{userFirstName}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
@@ -41,7 +41,7 @@ export default {
     },
     computed: {
         userFirstName() {
-            let names = this.$store.state.user.name.split(" ")
+            let names = this.$store.getters.user.name.split(" ")
             let firstName = names[0]
             return firstName
         }
