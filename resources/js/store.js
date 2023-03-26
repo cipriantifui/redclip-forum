@@ -8,6 +8,7 @@ export default new Vuex.Store({
         isLoggedIn: !!localStorage.getItem('token'),
         token: localStorage.getItem('token'),
         user: JSON.parse(localStorage.getItem('user')),
+        notLoggedUserId: JSON.parse(localStorage.getItem('uoid')),
     },
     mutations: {
         LoginUser (state, data) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
         },
         tokenStored (state) {
             state.token = localStorage.getItem('token')
+        },
+        uidStored (state, uid) {
+            state.notLoggedUserId = uid;
         }
     }
 })

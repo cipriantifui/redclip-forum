@@ -28,11 +28,11 @@
                     </p>
 
                     <p class="comment">
-                        Comment as {{this.$store.state.user ? this.$store.state.user.name : 'anonymous'+this.$uoid}}
+                        Comment as {{$store.state.user ? $store.state.user.name : 'anonymous' + $store.state.notLoggedUserId}}
                         <ValidationObserver ref="comment">
                             <ValidationProvider rules="required|min:5" v-slot="{ errors, failed }">
                                 <b-form-textarea rows="5" class="invalid" :class="`is-${failed}`" placeholder="What are your thoughts?"
-                                                 v-model="content" name="content"></b-form-textarea>
+                                                v-model="content" name="content"></b-form-textarea>
                                 <span class="text-danger">{{ errors[0] }}</span>
                             </ValidationProvider>
                             <button type="button" class="btn btn-secondary float-right mt-2" @click="saveComment(post.id)">
@@ -58,7 +58,7 @@
                             <ValidationObserver ref="replies">
                                 <ValidationProvider rules="required|min:5" v-slot="{ errors, failed }">
                                     <b-form-textarea rows="5" class="invalid" :class="`is-${failed}`" placeholder="What are your thoughts?"
-                                                     v-model="reply" name="reply"></b-form-textarea>
+                                                    v-model="reply" name="reply"></b-form-textarea>
                                     <span class="text-danger">{{ errors[0] }}</span>
                                 </ValidationProvider>
                                 <button type="button" class="btn btn-secondary btn-sm float-right mt-2" @click="saveReply(post.id, comment.id, commentKey)">
@@ -93,6 +93,7 @@
 <script>
     import VoteApi from "../../services/VoteApi";
     import PostApi from "../../services/PostApi";
+    import CommentApi from "../../services/CommentApi";
 
     export default {
         name: "PostDetails.vue",
@@ -133,29 +134,24 @@
             },
 
             saveCommentLike(commentId, commentKey, replyKey = null) {
-                let url = this.$store.state.isLoggedIn ? '/api/auth/comment-like/create' : '/api/comment-like/create';
-                // var votes = this.post.comments[commentKey].likes_count;
-                // console.log(votes);
-                this.axios.post(url, {
-                    comment_id: commentId,
-                    uid: this.$store.state.isLoggedIn ? null : this.$uoid,
-                }).then(response => {
-                    if(replyKey !== null){
-                        let votes = this.post.comments[commentKey].replies[replyKey].likes_count;
-                        this.post.comments[commentKey].replies[replyKey].likes_count = response.data.voteUp ? (votes + 1) : (votes - 1);
-                    }else{
-                        let votes = this.post.comments[commentKey].likes_count;
-                        this.post.comments[commentKey].likes_count = response.data.voteUp ? (votes + 1) : (votes - 1);
-                    }
-                }).catch(error => {
-                    if (error.response) {
-                        if (error.response.data.errors.error) {
-                            this.$toaster.error(error.response.data.errors.error)
-                        } else {
-                            this.$toaster.error(error.response.data.errors.error)
+                CommentApi.createCommentLike(commentId)
+                    .then(response => {
+                        if(replyKey !== null){
+                            let votes = this.post.comments[commentKey].replies[replyKey].likes_count;
+                            this.post.comments[commentKey].replies[replyKey].likes_count = response.data.voteUp ? (votes + 1) : (votes - 1);
+                        }else{
+                            let votes = this.post.comments[commentKey].likes_count;
+                            this.post.comments[commentKey].likes_count = response.data.voteUp ? (votes + 1) : (votes - 1);
                         }
-                    }
-                });
+                    }).catch(error => {
+                        if (error.response) {
+                            if (error.response.data.errors.error) {
+                                this.$toaster.error(error.response.data.errors.error)
+                            } else {
+                                this.$toaster.error(error.response.data.errors.error)
+                            }
+                        }
+                    });
             },
 
             saveComment(postId, commentId = null) {
@@ -165,33 +161,27 @@
                     }
 
                     this.error = false;
-                    let url = this.$store.state.isLoggedIn ? '/api/auth/post-comment/create' : '/api/post-comment/create';
+                    CommentApi.createComment(postId, commentId, this.content)
+                        .then(response => {
+                            this.$toaster.success('The comment was added successfully.');
+                            this.showPost();
+                            this.activeKey = -1;
+                            this.content = '';
 
-                    this.axios.post(url, {
-                        post_id: postId,
-                        parent_id: commentId,
-                        content: this.content,
-                        uid: this.$store.state.isLoggedIn ? null : this.$uoid,
-                    }).then(response => {
-                        this.$toaster.success('The comment was added successfully.');
-                        this.showPost();
-                        this.activeKey = -1;
-                        this.content = '';
-
-                        // Wait until the models are updated in the UI
-                        this.$nextTick(() => {
-                            this.$refs.comment.reset();
-                        });
-                    }).catch(error => {
-                        if (error.response) {
-                            if (error.response.data.errors) {
-                                this.$toaster.error(error.response.data.errors)
-                            } else {
-                                this.$toaster.error(error.response.data.errors)
+                            // Wait until the models are updated in the UI
+                            this.$nextTick(() => {
+                                this.$refs.comment.reset();
+                            });
+                        }).catch(error => {
+                            if (error.response) {
+                                if (error.response.data.errors) {
+                                    this.$toaster.error(error.response.data.errors)
+                                } else {
+                                    this.$toaster.error(error.response.data.errors)
+                                }
                             }
-                        }
+                        });
                     });
-                });
             },
 
             saveReply(postId, commentId, index) {
@@ -200,34 +190,28 @@
                         return;
                     }
                     this.error = false;
-                    let url = this.$store.state.isLoggedIn ? '/api/auth/post-comment/create' : '/api/post-comment/create';
+                    CommentApi.createComment(postId, commentId, this.reply)
+                        .then(response => {
+                            this.$toaster.success('The comment was added successfully.');
+                            this.showPost();
+                            this.activeKey = -1;
+                            this.reply = '';
 
-                    this.axios.post(url, {
-                        post_id: postId,
-                        parent_id: commentId,
-                        content: this.reply,
-                        uid: this.$store.state.isLoggedIn ? null : this.$uoid,
-                    }).then(response => {
-                        this.$toaster.success('The comment was added successfully.');
-                        this.showPost();
-                        this.activeKey = -1;
-                        this.reply = '';
-
-                        // Wait until the models are updated in the UI
-                        this.$nextTick(() => {
-                            this.$refs.replies[index].reset();
-                        });
-                    }).catch(error => {
-                        if (error.response) {
-                            if (error.response.data.errors) {
-                                this.$toaster.error(error.response.data.errors)
-                            } else {
-                                this.error = true;
-                                this.errors = error.response.data.errors
+                            // Wait until the models are updated in the UI
+                            this.$nextTick(() => {
+                                this.$refs.replies[index].reset();
+                            });
+                        }).catch(error => {
+                            if (error.response) {
+                                if (error.response.data.errors) {
+                                    this.$toaster.error(error.response.data.errors)
+                                } else {
+                                    this.error = true;
+                                    this.errors = error.response.data.errors
+                                }
                             }
-                        }
+                        });
                     });
-                });
             },
 
             isShow(i) {

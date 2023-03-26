@@ -122,13 +122,12 @@ const router = new VueRouter({
     ]
 });
 
-let uoid = localStorage.getItem('uoid');
-if (typeof uoid === 'undefined' || uoid === null) {
-    localStorage.setItem('uoid', Date.now());
-    uoid = localStorage.getItem('uoid');
+let uid = localStorage.getItem('uid');
+if (typeof uid === 'undefined' || uid === null) {
+    localStorage.setItem('uid', Date.now());
+    uid = localStorage.getItem('uid');
 }
-
-Vue.prototype.$uoid = uoid
+store.commit("uidStored", uid)
 
 new Vue({
     router,
