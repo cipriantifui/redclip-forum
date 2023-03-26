@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth.jwt'], 'prefix' => 'auth'], function () {
 });
 
 Route::get('/topic', [TopicController::class, 'index']);
+Route::get('/topic/{id}', [TopicController::class, 'show']);
 Route::get('/topics', [TopicController::class, 'getTopics']);
 
 Route::post('/post/create', [PostController::class, 'store']);

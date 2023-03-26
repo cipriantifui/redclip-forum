@@ -36,4 +36,14 @@ class TopicService extends BaseService implements TopicServiceInterface
         $topics = $this->collectionFilter($topics, $arrOrderByColumns, new Topic);
         return TopicResource::collection($topics);
     }
+
+    /**
+     * Get specific topic resource
+     * @param int $id
+     * @return TopicResource
+     */
+    public function getTopic(int $id): TopicResource
+    {
+        return new TopicResource($this->repository->getTopic($id));
+    }
 }

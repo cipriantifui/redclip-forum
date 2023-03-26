@@ -7,6 +7,8 @@ namespace App\Repositories\Topic;
 use App\Models\Topic;
 use App\Repositories\BaseRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class TopicRepository extends BaseRepository implements TopicRepositoryInterface
 {
@@ -35,5 +37,20 @@ class TopicRepository extends BaseRepository implements TopicRepositoryInterface
         ->withCount(['posts'])
         ->where('active', 1)
         ->paginate($perPage);
+    }
+
+    /**
+     * @param int $id
+     * @return Builder|Model|object|null
+     */
+    public function getTopic(int $id)
+    {
+        return $this->model
+            ->with(['posts' => function($q) {
+                $q->where('is_published', 1);
+            }, 'posts.user'])
+            ->withCount(['posts'])
+            ->where('id', $id)
+            ->first();
     }
 }
