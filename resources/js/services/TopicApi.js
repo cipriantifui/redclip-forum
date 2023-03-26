@@ -1,5 +1,8 @@
 import axios from "axios";
 export default {
+    getTopic(id) {
+        return axios.get('/api/topic/' + id)
+    },
     getTopics() {
         return axios.get('/api/topic')
     },

@@ -112,7 +112,7 @@ const router = new VueRouter({
             }
         },
         {
-            path: '/topic',
+            path: '/topic/:topic_id',
             name: 'topic',
             component: Topic,
             meta: {

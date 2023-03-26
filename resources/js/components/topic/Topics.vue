@@ -96,7 +96,7 @@ export default {
             }
         },
         handleTopicChoose(topic) {
-            this.$router.push('/topic')
+            this.$router.push({name: 'topic', params: {topic_id: topic.id}})
         },
         selectOrderOption(data) {
             this.selectedOption = data.option

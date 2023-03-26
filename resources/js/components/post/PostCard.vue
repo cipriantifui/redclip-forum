@@ -3,8 +3,8 @@
         <div class="post-user">{{post.user === null ? 'anonymous' + post.uid : post.user.name}}
             <timeago :datetime="post.created_at"></timeago>
         </div>
-        <h4 style="color: #1b1e21">{{ post.title }}</h4>
-        <span class="badge badge-danger topic-badge">{{ post.topic.title }}</span>
+        <h4 style="color: #1b1e21; cursor: pointer" @click="handleChoosePost">{{ post.title }}</h4>
+        <span class="badge badge-danger topic-badge" @click="handleChooseTopic(post.topic.id)">{{ post.topic.title }}</span>
         <p class="content pt-2" v-if="post.content">
             {{post.content}}
         </p>
@@ -23,7 +23,7 @@
         <p class="post-actions">
             <span @click="savePostVote(post.id)"><i class="fa fa-thumbs-up"></i> {{post.votes_count}} UpVotes </span>
             <span><router-link :to="{ name: 'post-details', params: {post_id: post.id} }"
-                               class="nav-link"><i class="fa fa-comment"></i> {{post.comments_count}} Comments</router-link></span>
+                        class="nav-link"><i class="fa fa-comment"></i> {{post.comments_count}} Comments</router-link></span>
         </p>
     </div>
 </template>
@@ -51,6 +51,12 @@ export default {
                         }
                     }
                 })
+        },
+        handleChoosePost() {
+            this.$router.push({name: 'post-details', params: {post_id: this.post.id}})
+        },
+        handleChooseTopic(topicId) {
+            this.$router.push({name: 'topic', params: {topic_id: topicId}})
         }
     }
 }
@@ -80,5 +86,6 @@ export default {
 
     .topic-badge {
         width: min-content;
+        cursor: pointer
     }
 </style>
