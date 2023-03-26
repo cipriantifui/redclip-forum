@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 mt-4">
+            <div class="col-12 mt-4" v-if="perPage < totalTopics">
                 <nav aria-label="navigation">
                     <ul class="pagination b-pagination-pills justify-content-center">
                         <li class="page-item" :class="{'active': link.active, 'disabled': link.url === null}" v-for="link in links">
@@ -43,6 +43,7 @@
 <script>
 import LeftSideNav from "../nav/LeftSideNav.vue";
 import OrderDropDown from "../filters/OrderDropDown.vue";
+import TopicApi from "../../services/TopicApi";
 
 export default {
     name: "Topics",
@@ -51,6 +52,7 @@ export default {
         return {
             topics: [],
             links: [],
+            totalTopics: 0,
             perPage: 12,
             currentPage: 1,
             orderOptions: [
@@ -77,11 +79,12 @@ export default {
     },
     methods: {
         getTopics(page, orderByColumns) {
-            this.axios.get('/api/topics', {params: {perPage: this.perPage, page: page, orderByColumns: orderByColumns}})
+            TopicApi.getPaginatedTopics(page, this.perPage, orderByColumns)
                 .then(response => {
                     if(response.status === 200) {
                         this.topics = response.data.data
                         this.links = response.data.meta.links
+                        this.totalTopics = response.data.meta.total
                     }
                 }).catch(error => {
             });

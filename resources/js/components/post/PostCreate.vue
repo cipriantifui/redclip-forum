@@ -173,6 +173,7 @@
 
 <script>
     import PostApi from "../../services/PostApi";
+    import TopicApi from "../../services/TopicApi";
 
     export default {
         name: "PostCreate.vue",
@@ -193,12 +194,11 @@
         },
         methods: {
             getTopics() {
-                this.axios.get('/api/topic')
+                TopicApi.getTopics()
                     .then(response => {
                         if(response.data && response.data.length >0 ) {
                             this.topics = response.data;
                         }
-
                     }).catch(error => {
                     });
             },
