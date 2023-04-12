@@ -1,10 +1,12 @@
 export default {
     state: {
-        topicSelected: {},
+        topicSelected: JSON.parse(localStorage.getItem('topicSelected')),
     },
     mutations: {
         storeTopic(state, topic) {
             state.topicSelected = topic
+            console.log(topic)
+            localStorage.setItem('topicSelected', JSON.stringify(topic))
         },
     },
     getters: {

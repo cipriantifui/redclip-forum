@@ -1,7 +1,7 @@
 <template>
     <div class="pb-5">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" v-if="posts.length > 0">
                 <post-card :post="post" v-for="post in posts" :key="post.id"></post-card>
 
                 <div class="col text-center mt-3">
@@ -11,6 +11,8 @@
                     </button>
                 </div>
             </div>
+            <div class="col-12 text-center mt-3 no-discussion-box"
+                 v-else-if="isLoaded">It looks as though there are no discussions here.</div>
         </div>
     </div>
 </template>
@@ -29,24 +31,23 @@ export default {
             perPage: 5,
             paginate: {},
             topic: {},
-            posts: {}
+            posts: {},
+            isLoaded: false
         }
     },
     created() {
         this.$store.commit('storeIsShowHeader', true)
-    },
-    mounted() {
         this.topic = this.$store.getters.getTopic
-        this.getPosts(this.page);
+        this.getPosts(this.page)
     },
     methods: {
         getPosts(page) {
             this.$store.commit('storeIsShowLoader', true)
             PostApi.getPosts(page, this.perPage, this.topicId)
                 .then(response => {
+                    this.isLoaded = true;
                     this.posts = page === 1 ? response.data.data : this.posts.concat(response.data.data);
                     this.paginate = response.data;
-
                 })
                 .finally(() => {
                     this.$nextTick(() => {
@@ -57,11 +58,12 @@ export default {
     },
     destroyed() {
         this.$store.commit('storeIsShowHeader', false)
-        this.$store.commit('storeTopic', {})
     }
 }
 </script>
 
 <style scoped>
-
+.no-discussion-box {
+    font-size: 18px;
+}
 </style>
