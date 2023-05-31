@@ -1,0 +1,216 @@
+.app-discussion {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: left .2s;
+}
+
+.app-discussion .container:before, .app-discussion .container:after {
+    content: " ";
+    display: table;
+}
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+.Composer {
+    pointer-events: auto;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+
+.Composer-controls {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.Composer-type-selector {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    z-index: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.Composer-controls li {
+    display: inline-block;
+}
+
+.Composer.active{
+    box-shadow: 0 0 0 2px var(--secondary);
+}
+
+.Composer.fullScreen {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+    height: auto;
+    border-radius: 0;
+    height: 100%;
+}
+
+.Composer.normal {
+    bottom: 0px;
+    top: auto;
+    height: 300px;
+}
+
+.Composer.minimized {
+    height: 46px;
+    cursor: pointer;
+    background: #e8ecf3;
+}
+
+.TagLabel.untagged {
+    --tag-bg: transparent;
+    --tag-color: #667c99;
+    border: 1px dotted;
+}
+.TagLabel {
+    --tag-bg: var(--secondary);
+    --tag-color: #fff;
+    font-size: 85%;
+    font-weight: 600;
+    display: inline-block;
+    padding: 0.1em 0.5em;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: var(--tag-color);
+    text-transform: none;
+    text-decoration: none !important;
+    vertical-align: bottom;
+    cursor: pointer;
+}
+
+.SelectTagList {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    overflow: auto;
+    max-height: 50vh;
+}
+
+.SelectTagList>li.pinned:not(.child) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.SelectTagList>li.active {
+    background: #e8ecf3;
+}
+
+.SelectTagList>li {
+    padding: 7px 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.SelectTagList>li .TagIcon {
+    vertical-align: top;
+    margin-top: 3px;
+    margin-left: 0;
+}
+
+.TagIcon {
+    border-radius: 4px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: -3px;
+    margin-left: 1px;
+    background: var(--color, #e8ecf3);
+}
+
+.active .TagIcon {
+    --color:#888;
+}
+
+.SelectTagList>li.pinned:not(.child) .SelectTagListItem-name {
+    font-size: 16px;
+}
+
+.SelectTagListItem-name {
+    display: inline-block;
+    width: 150px;
+    margin-right: 10px;
+    margin-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+.Button--icon {
+    width: 36px;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.Button--link {
+    background: transparent !important;
+}
+
+.Button {
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 20px;
+    padding: 8px 13px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    user-select: none;
+    color: #667c99;
+    background: #e8ecf3;
+    border: 0;
+}
+
+@media (min-width: 768px) {
+    .Composer {
+        border-radius: 4px 4px 0 0;
+        background: rgba(255,255,255,0.93);
+        position: relative;
+        height: 300px;
+        transition: background .2s,box-shadow .2s;
+    }
+    .Composer-handle {
+        height: 15px;
+        margin-bottom: -17px;
+        position: relative;
+    }
+}
+
+@media (min-width: 768px) {
+    .Composer-content {
+        padding: 20px 20px 0;
+    }
+    .fullScreen .Composer-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+    .minimized .Composer-content {
+        padding: 12px 20px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .app-discussion .container {
+        width: 768px;
+    }
+}

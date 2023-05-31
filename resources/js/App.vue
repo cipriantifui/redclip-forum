@@ -7,14 +7,17 @@
                 <router-view></router-view>
             </div>
         </transition>
+
+        <app-discussion></app-discussion>
     </div>
 </template>
 <script>
     import NavBar from "./components/nav/NavBar.vue";
+    import AppDiscussion from "./components/discussion/AppDiscussion.vue";
 
     export default {
         name: "App.vue",
-        components: {NavBar},
+        components: {AppDiscussion, NavBar},
         data() {
             return {
 

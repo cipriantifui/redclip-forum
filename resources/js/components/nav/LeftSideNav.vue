@@ -10,6 +10,7 @@
             :class="{'d-xl-flex d-lg-flex': !isShowInTop}" v-if="!isShowInTop">
              <i class="fa fa-list-ul mr-2" aria-hidden="true"></i> Topics
          </router-link>
+         <b-button @click="$store.commit('toggleDiscussion', true)">Start a discussion</b-button>
      </div>
 </template>
 

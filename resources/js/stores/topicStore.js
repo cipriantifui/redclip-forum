@@ -5,7 +5,6 @@ export default {
     mutations: {
         storeTopic(state, topic) {
             state.topicSelected = topic
-            console.log(topic)
             localStorage.setItem('topicSelected', JSON.stringify(topic))
         },
     },
