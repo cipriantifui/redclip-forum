@@ -24,7 +24,7 @@
                 </b-input>
                 <ul class="TagSelectionModal-list SelectTagList">
                     <li class="pinned colored"
-                        :class="{'active': selectedTag.id === tag.id, 'd-none': index > 5}"
+                        :class="{'active': selectedTag && selectedTag.id === tag.id, 'd-none': index > 5}"
                         v-for="(tag, index) in filteredTopics"
                         @click="selectTag(tag)">
                         <span class="icon TagIcon"></span>

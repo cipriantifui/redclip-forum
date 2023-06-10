@@ -11,7 +11,8 @@
                                  v-if="$store.getters.isMinimize"
                                  @click="$store.commit('toggleMinimize', false)">Write a post...</div>
                             <discussion-type-selector v-if="$store.getters.isMinimize === false"></discussion-type-selector>
-                            <div class="Composer-body" v-else>
+                            <div class="Composer-body mt-3" v-if="$store.getters.isMinimize === false">
+                                <post-discussion-form v-if="selectedDiscussionType !== null && selectedDiscussionType.value == 'post'"></post-discussion-form>
                             </div>
                         </div>
 
@@ -27,13 +28,17 @@
 import TopControls from "./TopControls.vue";
 import DiscussionTypeSelector from "./DiscussionTypeSelector.vue";
 import AppDiscussionModals from "./DiscussionModals.vue";
+import PostDiscussionForm from "./PostDiscussionForm.vue";
 
 export default {
     name: "AppDiscussion",
-    components: {AppDiscussionModals, DiscussionTypeSelector, TopControls},
+    components: {PostDiscussionForm, AppDiscussionModals, DiscussionTypeSelector, TopControls},
     data() {
         return {
-
+            hasError: false,
+            errors: {},
+            title: '',
+            content: '',
         }
     },
     methods: {
@@ -48,7 +53,10 @@ export default {
                 viewMode = 'minimized';
             }
             return viewMode;
-        }
+        },
+        selectedDiscussionType() {
+            return this.$store.getters.getSelectedDiscussionType
+        },
     }
 }
 </script>

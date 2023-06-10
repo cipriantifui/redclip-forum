@@ -26,6 +26,7 @@
     export default {
         name: "Home.vue",
         components: {LeftSideNav, PostCard},
+        inject: ['eventHub'],
         data() {
             return {
                 posts: {},
@@ -36,8 +37,10 @@
 
         beforeMount() {
             this.getPosts(1);
+            this.eventHub.$on('addedPostEvent', () => {
+                this.getPosts(1);
+            })
         },
-
         methods: {
             getPosts(page) {
                 PostApi.getPosts(page, this.perPage)

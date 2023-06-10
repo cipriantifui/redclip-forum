@@ -24,6 +24,7 @@ import PostApi from "../../services/PostApi";
 export default {
     name: "Topic",
     components: {PostCard},
+    inject: ['eventHub'],
     data() {
         return {
             topicId: this.$route.params.topic_id,
@@ -37,8 +38,14 @@ export default {
     },
     created() {
         this.$store.commit('storeIsShowHeader', true)
+        this.$store.commit('selectDiscussionTag', this.$store.getters.getTopic)
         this.topic = this.$store.getters.getTopic
         this.getPosts(this.page)
+    },
+    mounted() {
+        this.eventHub.$on('addedPostEvent', () => {
+            this.getPosts(1);
+        })
     },
     methods: {
         getPosts(page) {

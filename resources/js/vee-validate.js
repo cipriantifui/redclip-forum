@@ -1,7 +1,7 @@
 import { extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
 import * as rules from 'vee-validate/dist/rules';
-import { messages } from 'vee-validate/dist/locale/en.json';
+import { messages } from 'vee-validate/dist/locale/en';
 
 Object.keys(rules).forEach(rule => {
     extend(rule, {

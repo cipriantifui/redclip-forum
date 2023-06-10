@@ -32,7 +32,7 @@
                             <div class="col-12">
                                 <ValidationObserver ref="content_validation">
                                     <b-form-group>
-                                        <ValidationProvider rules="required" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required" name="topic" v-slot="{ errors, failed }">
                                             <b-form-select v-model="topic_selected" :options="topics" value-field="id" text-field="title" :class="`invalid is-${failed}`">
                                                 <template #first>
                                                     <b-form-select-option :value="null">-- Please select an topic --</b-form-select-option>
@@ -46,7 +46,7 @@
                                     </b-form-group>
 
                                     <b-form-group>
-                                        <ValidationProvider rules="required|min:5" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required|min:5" name="title" v-slot="{ errors, failed }">
                                             <b-form-input id="input-1" placeholder="Title" v-model="title" :class="`invalid is-${failed}`"></b-form-input>
                                             <span class="text-danger text">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -55,7 +55,7 @@
                                     </b-form-group>
 
                                     <b-form-group>
-                                        <ValidationProvider rules="required|min:5" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required|min:5" name="content" v-slot="{ errors, failed }">
                                             <b-form-textarea rows="5" :class="`invalid is-${failed}`" placeholder="Content"
                                                              v-model="content" name="content"></b-form-textarea>
                                             <span class="text-danger">{{ errors[0] }}</span>
@@ -74,7 +74,7 @@
                             <div class="col-12">
                                 <ValidationObserver ref="video_validation">
                                     <b-form-group>
-                                        <ValidationProvider rules="required" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required" name="topic" v-slot="{ errors, failed }">
                                             <b-form-select v-model="topic_selected" :options="topics" value-field="id" text-field="title" :class="`invalid is-${failed}`">
                                                 <template #first>
                                                     <b-form-select-option :value="null">-- Please select an topic --</b-form-select-option>
@@ -88,7 +88,7 @@
                                     </b-form-group>
 
                                     <b-form-group>
-                                        <ValidationProvider rules="required|min:5" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required|min:5" name="title" v-slot="{ errors, failed }">
                                             <b-form-input id="input-1" placeholder="Title" v-model="title" :class="`invalid is-${failed}`"></b-form-input>
                                             <span class="text-danger text">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -97,7 +97,7 @@
                                     </b-form-group>
 
                                     <b-form-group>
-                                        <ValidationProvider rules="required|mimes:video/*" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required|mimes:video/*" name="video" v-slot="{ errors, failed }">
                                             <b-form-file v-model="url_video"
                                                 placeholder="Choose a file or drop it here..."
                                                 drop-placeholder="Drop file here..."
@@ -122,7 +122,7 @@
                             <div class="col-12">
                                 <ValidationObserver ref="image_validation">
                                     <b-form-group>
-                                        <ValidationProvider rules="required" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required" name="topic" v-slot="{ errors, failed }">
                                             <b-form-select v-model="topic_selected" :options="topics" value-field="id" text-field="title" :class="`invalid is-${failed}`">
                                                 <template #first>
                                                     <b-form-select-option :value="null">-- Please select an topic --</b-form-select-option>
@@ -136,7 +136,7 @@
                                     </b-form-group>
 
                                     <b-form-group>
-                                        <ValidationProvider rules="required|min:5|:test" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required|min:5|:test" name="title" v-slot="{ errors, failed }">
                                             <b-form-input id="input-1" placeholder="Title" v-model="title" :class="`invalid is-${failed}`"></b-form-input>
                                             <span class="text-danger text">{{ errors[0] }}</span>
                                         </ValidationProvider>
@@ -145,7 +145,7 @@
                                     </b-form-group>
 
                                     <b-form-group>
-                                        <ValidationProvider rules="required|mimes:image/*" v-slot="{ errors, failed }">
+                                        <ValidationProvider rules="required|mimes:image/*" name="image" v-slot="{ errors, failed }">
                                             <b-form-file v-model="url_image"
                                                          placeholder="Choose a file or drop it here..."
                                                          drop-placeholder="Drop file here..."

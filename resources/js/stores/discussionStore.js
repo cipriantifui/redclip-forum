@@ -8,8 +8,8 @@ export default {
             { value: 'image', text: 'Image' },
             { value: 'video', text: 'Video' }
         ],
-        discussionTypeSelected: {},
-        discussionTagSelected: {}
+        discussionTypeSelected: null,
+        discussionTagSelected: null
     },
     mutations: {
         toggleDiscussion(state, isShow) {

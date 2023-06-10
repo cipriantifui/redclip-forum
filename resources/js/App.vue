@@ -14,14 +14,20 @@
 <script>
     import NavBar from "./components/nav/NavBar.vue";
     import AppDiscussion from "./components/discussion/AppDiscussion.vue";
+    import eventHub from "./eventHub";
 
     export default {
         name: "App.vue",
         components: {AppDiscussion, NavBar},
         data() {
             return {
-
+                eventHub: eventHub
             }
+        },
+        provide() {
+            return {
+                eventHub: this.eventHub
+            };
         },
         beforeMount() {
             axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8'
