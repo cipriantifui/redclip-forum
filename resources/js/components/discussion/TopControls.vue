@@ -26,7 +26,7 @@
                     type="button"
                     aria-label="Close"
                     :style="styleMinimize"
-                    @click="$store.commit('toggleDiscussion', false)">
+                    @click="handleClose">
                 <i aria-hidden="true" class="icon fa fa-times Button-icon"></i>
                 <span class="Button-label"></span>
             </button>
@@ -37,6 +37,12 @@
 <script>
 export default {
     name: "TopControls",
+    methods: {
+        handleClose() {
+            this.$store.commit('toggleDiscussion', false)
+            this.$store.commit('resetSelectors')
+        }
+    },
     computed: {
         styleMinimize() {
             return this.$store.getters.isMinimize ? 'top: -5px; position: relative;' : ''

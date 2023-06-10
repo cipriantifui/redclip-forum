@@ -8,7 +8,8 @@ export default {
             { value: 'image', text: 'Image' },
             { value: 'video', text: 'Video' }
         ],
-        discussionTypeSelected: {}
+        discussionTypeSelected: {},
+        discussionTagSelected: {}
     },
     mutations: {
         toggleDiscussion(state, isShow) {
@@ -24,6 +25,13 @@ export default {
         },
         selectDiscussionType(state, type) {
             state.discussionTypeSelected = type
+        },
+        selectDiscussionTag(state, type) {
+            state.discussionTagSelected = type
+        },
+        resetSelectors(state) {
+            state.discussionTypeSelected = state.discussionTypeOptions[0]
+            state.discussionTagSelected = {}
         }
     },
     getters: {
@@ -41,6 +49,9 @@ export default {
         },
         getSelectedDiscussionType(state) {
             return state.discussionTypeSelected
+        },
+        getSelectedDiscussionTag(state) {
+            return state.discussionTagSelected
         }
     }
 };

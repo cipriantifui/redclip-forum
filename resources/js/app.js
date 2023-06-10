@@ -27,7 +27,7 @@ Vue.use(BootstrapVueIcons)
 Vue.use(DropdownPlugin)
 
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
-import './vee-validate';
+// import './vee-validate';
 
 Vue.directive('click-outside', {
     bind: function (el, binding, vnode) {

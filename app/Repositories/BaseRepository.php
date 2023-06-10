@@ -35,7 +35,7 @@ class BaseRepository
     {
         $this->filterModel($filters);
         $this->order($orderByColumns);
-        return $this->model->get();
+        return $this->model->where('active', 1)->get();
     }
 
     /**
