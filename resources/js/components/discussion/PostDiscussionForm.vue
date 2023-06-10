@@ -22,7 +22,7 @@
         </ValidationObserver>
 
         <div class="footer-actions">
-            <button type="button" class="btn btn-secondary" @click="saveContentPost()">Post Discussion</button>
+            <button type="button" class="btn btn-secondary" @click="savePost()">Post Discussion</button>
         </div>
     </div>
 </template>
@@ -44,18 +44,14 @@ export default {
     mounted() {
     },
     methods: {
-        saveContentPost() {
+        savePost() {
             let hasValidationErrors = false;
             if(this.$store.getters.getSelectedDiscussionTag === null) {
                 this.eventHub.$emit('tagSelectEvent', true)
                 hasValidationErrors = true;
             }
             this.$refs.content_validation.validate().then(success => {
-                if (!success) {
-                    hasValidationErrors = true;
-                }
-
-                if(hasValidationErrors) {
+                if (!success || hasValidationErrors) {
                     return;
                 }
 

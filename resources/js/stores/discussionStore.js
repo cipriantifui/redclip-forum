@@ -1,6 +1,6 @@
 export default {
     state: {
-        isShowDiscussion: true,
+        isShowDiscussion: false,
         isExpanded: false,
         isMinimize: false,
         discussionTypeOptions: [
@@ -31,7 +31,7 @@ export default {
         },
         resetSelectors(state) {
             state.discussionTypeSelected = state.discussionTypeOptions[0]
-            state.discussionTagSelected = {}
+            state.discussionTagSelected = null
         }
     },
     getters: {

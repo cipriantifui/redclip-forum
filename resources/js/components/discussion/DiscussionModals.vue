@@ -5,7 +5,7 @@
             <div>
                 <ul class="TagSelectionModal-list SelectTagList">
                     <li class="pinned colored"
-                        :class="{'active': selectedDiscussionType.value === type.value}"
+                        :class="{'active': selectedDiscussionType && selectedDiscussionType.value === type.value}"
                         v-for="type in discussionsTypes"
                         @click="selectType(type)">
                         <span class="icon TagIcon"></span>
