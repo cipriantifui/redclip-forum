@@ -1,7 +1,10 @@
 <template>
     <div class="pb-5">
         <div class="row">
-            <div class="col-12" v-if="posts.length > 0">
+            <div class="col-12">
+                <left-side-nav :is-show-in-top="true"></left-side-nav>
+            </div>
+            <div class="col-12 mt-3" v-if="posts.length > 0">
                 <post-card :post="post" v-for="post in posts" :key="post.id"></post-card>
 
                 <div class="col text-center mt-3">
@@ -20,10 +23,11 @@
 <script>
 import PostCard from "../post/PostCard.vue";
 import PostApi from "../../services/PostApi";
+import LeftSideNav from "../nav/LeftSideNav.vue";
 
 export default {
     name: "Topic",
-    components: {PostCard},
+    components: {PostCard, LeftSideNav},
     inject: ['eventHub'],
     data() {
         return {

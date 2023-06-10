@@ -4,7 +4,7 @@
             <a class="DiscussionComposer-changeTags mr-3" @click="$root.$emit('bv::show::modal', 'discussionTypeModal')">
                 <span class="TagLabel">Type: {{$store.getters.getSelectedDiscussionType.text}}</span>
             </a>
-            <a class="DiscussionComposer-changeTags" @click="handleChooseTag">
+            <a class="DiscussionComposer-changeTags" @click="handleChooseTag" :class="{'disabled': isDisabledTagSelector}">
                 <span class="TagLabel" :class="{'untagged': selectedTopic === null, 'is-invalid': hasError}">{{topicText}}</span>
             </a>
         </div>
@@ -38,6 +38,9 @@ export default {
         },
         topicText() {
             return this.selectedTopic !== null ? 'Topic:' + this.selectedTopic.title : 'Choose Topic'
+        },
+        isDisabledTagSelector() {
+            return this.$router.currentRoute.name == 'topic'
         }
     }
 }
@@ -47,5 +50,10 @@ export default {
 .TagLabel.is-invalid {
     border: 1px #EB0600 dotted;
     color: #dc3545
+}
+.DiscussionComposer-changeTags.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+
 }
 </style>

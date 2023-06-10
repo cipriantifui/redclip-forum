@@ -2,9 +2,6 @@
     <div class="pb-5">
         <div class="row">
             <div class="col-12">
-                <left-side-nav :is-show-in-top="true"></left-side-nav>
-            </div>
-            <div class="col-12 mt-3">
                 <order-drop-down :options="orderOptions" @selectedOption="selectOrderOption"></order-drop-down>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mt-3" v-for="topic in topics">
@@ -41,13 +38,12 @@
 </template>
 
 <script>
-import LeftSideNav from "../nav/LeftSideNav.vue";
 import OrderDropDown from "../filters/OrderDropDown.vue";
 import TopicApi from "../../services/TopicApi";
 
 export default {
     name: "Topics",
-    components: {OrderDropDown, LeftSideNav},
+    components: {OrderDropDown},
     data() {
         return {
             topics: [],
