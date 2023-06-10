@@ -14,6 +14,7 @@
                             <div class="Composer-body mt-3" v-if="$store.getters.isMinimize === false && selectedDiscussionType">
                                 <post-discussion-form v-if="selectedDiscussionType.value == 'post'"></post-discussion-form>
                                 <image-discussion-form v-if="selectedDiscussionType.value == 'image'"></image-discussion-form>
+                                <video-discussion-form v-if="selectedDiscussionType.value == 'video'"></video-discussion-form>
                             </div>
                         </div>
 
@@ -31,10 +32,13 @@ import DiscussionTypeSelector from "./DiscussionTypeSelector.vue";
 import AppDiscussionModals from "./DiscussionModals.vue";
 import PostDiscussionForm from "./PostDiscussionForm.vue";
 import ImageDiscussionForm from "./ImageDiscussionForm.vue";
+import VideoDiscussionForm from "./VideoDiscussionForm.vue";
 
 export default {
     name: "AppDiscussion",
-    components: {ImageDiscussionForm, PostDiscussionForm, AppDiscussionModals, DiscussionTypeSelector, TopControls},
+    components: {
+        VideoDiscussionForm,
+        ImageDiscussionForm, PostDiscussionForm, AppDiscussionModals, DiscussionTypeSelector, TopControls},
     data() {
         return {
             hasError: false,

@@ -11,7 +11,7 @@
             </b-form-group>
 
             <b-form-group>
-                <ValidationProvider rules="required|mimes:image/*" name="image" mode="eager" v-slot="{ errors, failed }">
+                <ValidationProvider rules="required|mimes:image/*" name="image" mode="passive" v-slot="{ errors, failed }">
                     <b-form-file v-model="urlImage"
                                  placeholder="Choose a file or drop it here..."
                                  drop-placeholder="Drop file here..."
