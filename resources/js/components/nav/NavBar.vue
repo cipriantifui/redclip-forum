@@ -28,7 +28,7 @@
         <div class="header-info" v-show="$store.getters.isShowHeader">
             <div class="container">
                 <loader v-if="$store.getters.isShowLoader"></loader>
-                <span v-if="$store.getters.isShowLoader === false">{{$store.getters.getTopicTitle}}</span>
+                <span v-if="$store.getters.isShowLoader === false">{{headerTitle}}</span>
             </div>
         </div>
     </nav>
@@ -44,6 +44,11 @@ import Loader from "../common/Loader.vue";
 export default {
     name: "NavBar",
     components: {Loader, ProfileDropDown, SearchBox, BackButton, Notification},
+    computed: {
+        headerTitle() {
+            return this.$store.getters.getTopic ? this.$store.getters.getTopicTitle : '';
+        }
+    }
 }
 </script>
 
