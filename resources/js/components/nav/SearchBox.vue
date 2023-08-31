@@ -1,15 +1,15 @@
 <template>
-    <div>
+    <div v-click-outside="handleClickOutside">
         <div class="input-box">
             <input type="text"
                 class="form-control search-input"
+                :class="{'focus': hasFocusClass}"
                 placeholder="Search..."
                 v-model="searchText"
                 @input="handleInput"
-                @click-outside="isShowSuggest=false"
                 @focus="handleFocus">
             <i class="fa fa-search" v-if="searchText.trim().length === 0"></i>
-            <i class="fa fa-times-circle-o" aria-hidden="true" v-else @click="handleBlur"></i>
+            <i class="fa fa-times-circle-o" aria-hidden="true" v-else @click="handleClear"></i>
         </div>
         <div class="card" v-show="isShowSuggest">
             <div class="list-search-for">
@@ -53,14 +53,19 @@
 </template>
 
 <script>
-import {list} from "postcss";
+
 import axios from "axios";
+import ClickOutside from 'vue-click-outside'
 
 export default {
+    directives: {
+        ClickOutside
+    },
     name: "SearchBox",
     data() {
         return {
             isShowSuggest: false,
+            hasFocusClass: false,
             searchText: '',
             filteredDiscussions: [],
             filteredUsers: [],
@@ -86,18 +91,26 @@ export default {
                 this.isShowSuggest = false
             }
         },
-        handleBlur() {
+        handleClear() {
             this.$nextTick(() => {
                 this.searchText = ''
                 this.isShowSuggest = false
+                this.hasFocusClass = false
             })
         },
+        handleClickOutside() {
+            this.isShowSuggest = false
+            this.hasFocusClass = false
+        },
         handleFocus() {
+            this.hasFocusClass = true
             this.isShowSuggest = this.searchText.trim().length > 0
         },
         choseDiscussion(item) {
             let routerPostId = this.$route.params.post_id ?? null
             if(item.id != routerPostId) {
+                this.isShowSuggest = false
+                this.hasFocusClass = false
                 this.$router.push({name: 'post-details', params: {post_id: item.id}})
             }
         }
@@ -139,7 +152,7 @@ export default {
     color:#ced4da;
 }
 
-.search-input:focus {
+.search-input.focus {
     background-color: #fff;
     box-shadow: none;
     border-color: #ddd;
