@@ -105,7 +105,6 @@ export default {
             this.isShowSuggest = this.searchText.trim().length > 0
         },
         choseDiscussion(item) {
-            console.log(item)
             this.$router.push({name: 'post-details', params: {post_id: item.id}})
         }
     }
