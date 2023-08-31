@@ -9,7 +9,7 @@
                 @click-outside="isShowSuggest=false"
                 @focus="handleFocus">
             <i class="fa fa-search" v-if="searchText.trim().length === 0"></i>
-            <i class="fa fa-times-circle-o" aria-hidden="true" v-else @click="searchText=''"></i>
+            <i class="fa fa-times-circle-o" aria-hidden="true" v-else @click="handleBlur"></i>
         </div>
         <div class="card" v-show="isShowSuggest">
             <div class="list-search-for">
@@ -54,6 +54,7 @@
 
 <script>
 import {list} from "postcss";
+import axios from "axios";
 
 export default {
     name: "SearchBox",
@@ -63,41 +64,31 @@ export default {
             searchText: '',
             filteredDiscussions: [],
             filteredUsers: [],
-            list: {
-                discussions: [
-                    {title: 'test1', text: 'test test...', id: 1},
-                    {title: 'test2', text: 'test test...', id: 2},
-                    {title: 'test3', text: 'test test...', id: 3}
-                ],
-                users: [
-                    {name: 'test1'}
-                ]
-            }
         }
-    },
-    mounted() {
-        this.filteredDiscussions = this.list.discussions;
-        this.filteredUsers = this.list.users;
     },
     methods: {
         handleInput(e) {
             this.isShowSuggest = true
             let searchText = e.target.value.toLowerCase();
-            if(searchText.length > 0) {
-                this.filteredDiscussions = this.list.discussions.filter((discuss) => {
-                    return discuss.title.toLowerCase().includes(searchText) ||
-                        discuss.text.toLowerCase().includes(searchText)
-                })
 
-                this.filteredUsers = this.list.users.filter((user) => {
-                    return user.name.toLowerCase().includes(searchText)
-                })
+            if(searchText.length > 3) {
+                axios.get('/api/search/get-users-posts', {params: {searchText: searchText}})
+                    .then(response => {
+                        let responseData = response.data
+                        if(responseData !== undefined && responseData.posts !== undefined) {
+                            this.filteredDiscussions = responseData.posts
+                        }
+                        if(responseData !== undefined && responseData.users !== undefined) {
+                            this.filteredUsers = responseData.users
+                        }
+                    })
             } else {
                 this.isShowSuggest = false
             }
         },
         handleBlur() {
             this.$nextTick(() => {
+                this.searchText = ''
                 this.isShowSuggest = false
             })
         },
@@ -105,7 +96,10 @@ export default {
             this.isShowSuggest = this.searchText.trim().length > 0
         },
         choseDiscussion(item) {
-            this.$router.push({name: 'post-details', params: {post_id: item.id}})
+            let routerPostId = this.$route.params.post_id ?? null
+            if(item.id != routerPostId) {
+                this.$router.push({name: 'post-details', params: {post_id: item.id}})
+            }
         }
     }
 }

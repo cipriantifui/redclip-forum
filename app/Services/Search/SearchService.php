@@ -34,9 +34,11 @@ class SearchService implements SearchServiceInterface
      */
     public function getUsersAndPosts($searchText)
     {
-        return [
+        $response = [
             'posts' => $this->postService->searchPosts($searchText),
             'users' => $this->userService->searchUser($searchText)
         ];
+
+        return response()->json($response);
     }
 }
