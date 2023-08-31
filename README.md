@@ -12,5 +12,5 @@
 	<li><b>Npm install:</b> npm install</li>
 	<li><b>Run npm:</b> npm run watch</li>
 	<li><b>Run project:</b> php artisan serve</li>
-<ol>
+</ol>
 
