@@ -19,4 +19,15 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         parent::__construct($model);
     }
 
+    /**
+     * @param $searchText
+     * @return mixed
+     */
+    public function searchUser($searchText)
+    {
+        return $this->model->search($searchText)
+            ->where('active', 1)
+            ->orderBy('created_at')
+            ->get();
+    }
 }

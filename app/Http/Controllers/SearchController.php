@@ -20,6 +20,11 @@ class SearchController extends Controller
         $this->searchService = $searchService;
     }
 
+    /**
+     * Search for users and posts resources
+     * @param GetUsersAndPostsRequest $request
+     * @return array
+     */
     public function getUsersAndPosts(GetUsersAndPostsRequest $request)
     {
         return $this->searchService->getUsersAndPosts($request->input('searchText'));
