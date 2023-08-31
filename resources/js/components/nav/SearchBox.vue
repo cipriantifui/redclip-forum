@@ -6,7 +6,7 @@
                 placeholder="Search..."
                 v-model="searchText"
                 @input="handleInput"
-                @blur="handleBlur"
+                @click-outside="isShowSuggest=false"
                 @focus="handleFocus">
             <i class="fa fa-search" v-if="searchText.trim().length === 0"></i>
             <i class="fa fa-times-circle-o" aria-hidden="true" v-else @click="searchText=''"></i>
@@ -28,7 +28,8 @@
                 <div v-if="filteredDiscussions.length > 0" class="list-group border-top">
                     <span>Discussions</span>
                     <div class="item" v-for="(item, index) in filteredDiscussions"
-                         :class="{'border-bottom': filteredDiscussions.length > index + 1}">
+                        :class="{'border-bottom': filteredDiscussions.length > index + 1}"
+                        @click="choseDiscussion(item)">
                         <i class="fa fa-comments-o" aria-hidden="true"></i>
                         <div class="d-flex flex-column ml-2">
                             <span>{{item.title}}</span>
@@ -64,9 +65,9 @@ export default {
             filteredUsers: [],
             list: {
                 discussions: [
-                    {title: 'test1', text: 'test test...'},
-                    {title: 'test2', text: 'test test...'},
-                    {title: 'test3', text: 'test test...'}
+                    {title: 'test1', text: 'test test...', id: 1},
+                    {title: 'test2', text: 'test test...', id: 2},
+                    {title: 'test3', text: 'test test...', id: 3}
                 ],
                 users: [
                     {name: 'test1'}
@@ -96,10 +97,16 @@ export default {
             }
         },
         handleBlur() {
-            this.isShowSuggest = false
+            this.$nextTick(() => {
+                this.isShowSuggest = false
+            })
         },
         handleFocus() {
             this.isShowSuggest = this.searchText.trim().length > 0
+        },
+        choseDiscussion(item) {
+            console.log(item)
+            this.$router.push({name: 'post-details', params: {post_id: item.id}})
         }
     }
 }
@@ -167,6 +174,7 @@ export default {
     padding-bottom: 10px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .border-bottom{
