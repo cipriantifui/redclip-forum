@@ -26,6 +26,8 @@ use App\Services\PostCommentLike\PostCommentLikeService;
 use App\Services\PostCommentLike\PostCommentLikeServiceInterface;
 use App\Services\PostVote\PostVoteService;
 use App\Services\PostVote\PostVoteServiceInterface;
+use App\Services\Search\SearchService;
+use App\Services\Search\SearchServiceInterface;
 use App\Services\Topic\TopicService;
 use App\Services\Topic\TopicServiceInterface;
 use App\Services\Users\UserService;
@@ -102,6 +104,11 @@ class MyServiceProvider extends ServiceProvider
         $this->app->singleton(
             PostVoteRepositoryInterface::class,
             PostVoteRepository::class
+        );
+
+        $this->app->singleton(
+            SearchServiceInterface::class,
+            SearchService::class
         );
     }
 }

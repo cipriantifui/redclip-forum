@@ -4,6 +4,7 @@ namespace App\Services\Post;
 
 
 use App\Services\BaseServiceInterface;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface PostServiceInterface extends BaseServiceInterface
 {
@@ -50,4 +51,11 @@ interface PostServiceInterface extends BaseServiceInterface
      * @return mixed
      */
     public function showPost($id);
+
+    /**
+     * @param $searchText
+     * @param $perPage
+     * @return AnonymousResourceCollection
+     */
+    public function searchPosts($searchText);
 }

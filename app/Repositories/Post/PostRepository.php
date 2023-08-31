@@ -51,4 +51,17 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             ->where('id', $id)
             ->firstOrFail();
     }
+
+    /**
+     * @param $searchText
+     * @param $perPage
+     * @return mixed
+     */
+    public function searchPosts($searchText)
+    {
+        return $this->model->search($searchText)
+            ->where('is_published', 1)
+            ->orderBy('created_at')
+            ->get();
+    }
 }

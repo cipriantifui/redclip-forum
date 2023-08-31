@@ -22,4 +22,11 @@ interface PostRepositoryInterface extends BaseRepositoryInterface
      * @return mixed
      */
     public function showPost($id);
+
+    /**
+     * @param $searchText
+     * @param $perPage
+     * @return mixed
+     */
+    public function searchPosts($searchText);
 }

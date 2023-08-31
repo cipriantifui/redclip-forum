@@ -3,8 +3,10 @@
 namespace App\Services\Post;
 
 
+use App\Http\Resources\PostResource;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Services\BaseService;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class PostService extends BaseService implements PostServiceInterface
@@ -128,5 +130,15 @@ class PostService extends BaseService implements PostServiceInterface
     public function showPost($id)
     {
         return $this->repository->showPost($id);
+    }
+
+    /**
+     * @param $searchText
+     * @param $perPage
+     * @return AnonymousResourceCollection
+     */
+    public function searchPosts($searchText)
+    {
+        return PostResource::collection($this->repository->searchPosts($searchText));
     }
 }
