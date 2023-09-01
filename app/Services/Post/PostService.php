@@ -39,9 +39,10 @@ class PostService extends BaseService implements PostServiceInterface
      */
     public function storePost($request)
     {
+        $userId = Auth::check() ? (Auth::user()->id ?? null) : null;
         $post = $this->repository->store([
             'topic_id' => $request->get('topic_id'),
-            'user_id' => $request->get('uid') ? null : Auth::user()->id,
+            'user_id' => $request->get('uid') ? null : $userId,
             'uid' => $request->get('uid'),
             'title' => $request->get('title'),
             'content' => $request->get('content'),
@@ -60,9 +61,10 @@ class PostService extends BaseService implements PostServiceInterface
      */
     public function storeContentPost($request)
     {
+        $userId = Auth::check() ? (Auth::user()->id ?? null) : null;
         $post = $this->repository->store([
             'topic_id' => $request->get('topic_id'),
-            'user_id' => $request->get('uid') ? null : Auth::user()->id,
+            'user_id' => $request->get('uid') ? null : $userId,
             'uid' => $request->get('uid'),
             'title' => $request->get('title'),
             'content' => $request->get('content'),
@@ -84,10 +86,11 @@ class PostService extends BaseService implements PostServiceInterface
         $path = public_path().'/uploads/';
         $videoPath = '/uploads/'.$filename;
         $file->move($path, $filename);
+        $userId = Auth::check() ? (Auth::user()->id ?? null) : null;
 
         $post = $this->repository->store([
             'topic_id' => $request->get('topic_id'),
-            'user_id' => $request->get('uid') ? null : Auth::user()->id,
+            'user_id' => $request->get('uid') ? null : $userId,
             'uid' => $request->get('uid'),
             'title' => $request->get('title'),
             'url_video' => $videoPath,
@@ -109,10 +112,11 @@ class PostService extends BaseService implements PostServiceInterface
         $path = public_path().'/uploads/image/';
         $imagePath = '/uploads/image/'.$filename;
         $file->move($path, $filename);
+        $userId = Auth::check() ? (Auth::user()->id ?? null) : null;
 
         $post = $this->repository->store([
             'topic_id' => $request->get('topic_id'),
-            'user_id' => $request->get('uid') ? null : Auth::user()->id,
+            'user_id' => $request->get('uid') ? null : $userId,
             'uid' => $request->get('uid'),
             'title' => $request->get('title'),
             'url_image' => $imagePath,
