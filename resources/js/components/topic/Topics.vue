@@ -60,9 +60,9 @@ export default {
         }
     },
     watch: {
-        topics(newVal) {
+        topics() {
             this.topics.forEach(topic => {
-                let lastPost = topic.posts.length > 0 ? topic.posts[topic.posts.length -1] : null
+                let lastPost = topic.posts.length > 0 ? topic.posts[0] : null
                 if(lastPost) {
                     topic.last_post_data = lastPost.date_ago
                     topic.last_post_user = lastPost.user ? lastPost.user.name : 'anonimus'+lastPost.uid

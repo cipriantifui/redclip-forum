@@ -27,4 +27,9 @@ class Topic extends Model
     {
         return $this->hasMany(Post::class, 'topic_id');
     }
+
+    public function topPosts()
+    {
+        return $this->posts()->orderBy('created_at', 'desc');
+    }
 }

@@ -31,9 +31,9 @@ class TopicRepository extends BaseRepository implements TopicRepositoryInterface
     {
         $this->order($orderByColumns);
         return $this->model
-        ->with(['posts' => function($q) {
+        ->with(['topPosts' => function($q) {
             $q->where('is_published', 1);
-        }, 'posts.user'])
+        }, 'topPosts.user'])
         ->withCount(['posts'])
         ->where('active', 1)
         ->paginate($perPage);
