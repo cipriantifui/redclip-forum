@@ -44,7 +44,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     public function showPost($id)
     {
         return $this->model
-            ->with(['user', 'Topic', 'comments.replies.parent', 'comments' => function($query) {
+            ->with(['user', 'topic', 'comments.replies.parent', 'comments' => function($query) {
                 $query->orderBy('id', 'DESC');
             }])
             ->withCount(['comments', 'votes'])

@@ -112,7 +112,9 @@
             showPost() {
                 PostApi.getPost(this.$route.params.post_id)
                     .then(response => {
-                        this.post = response.data;
+                        if(response.status === 200) {
+                            this.post = response.data.data;
+                        }
                     }).catch(error => {
                     });
             },

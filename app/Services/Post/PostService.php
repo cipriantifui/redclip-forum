@@ -131,8 +131,7 @@ class PostService extends BaseService implements PostServiceInterface
     public function showPost($id)
     {
         $post = $this->repository->showPost($id);
-        $postResource = new PostResource($post->load(['user', 'topic']));
-        return $postResource;
+        return new PostResource($post);
     }
 
     /**
