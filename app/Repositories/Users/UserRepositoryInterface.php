@@ -13,4 +13,10 @@ interface UserRepositoryInterface extends BaseRepositoryInterface
      * @return mixed
      */
     public function searchUser($searchText);
+
+    /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getUserPostDetails($userId);
 }

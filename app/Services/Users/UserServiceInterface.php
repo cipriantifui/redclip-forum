@@ -5,6 +5,7 @@ namespace App\Services\Users;
 
 
 use App\Services\BaseServiceInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface UserServiceInterface extends BaseServiceInterface
@@ -14,4 +15,10 @@ interface UserServiceInterface extends BaseServiceInterface
      * @return AnonymousResourceCollection
      */
     public function searchUser($searchText);
+
+    /**
+     * @param $userId
+     * @return JsonResponse
+     */
+    public function getUserPostDetails($userId);
 }

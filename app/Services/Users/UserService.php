@@ -7,8 +7,8 @@ namespace App\Services\Users;
 use App\Http\Resources\UserResource;
 use App\Repositories\Users\UserRepositoryInterface;
 use App\Services\BaseService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
 
 class UserService extends BaseService implements UserServiceInterface
 {
@@ -28,6 +28,17 @@ class UserService extends BaseService implements UserServiceInterface
     public function searchUser($searchText)
     {
         return UserResource::collection($this->repository->searchUser($searchText));
+    }
+
+    /**
+     * @param $userId
+     * @return JsonResponse
+     */
+    public function getUserPostDetails($userId)
+    {
+        $user = $this->repository->getUserPostDetails($userId);
+        $user->hasPostDetails = true;
+        return $this->item(new UserResource($user));
     }
 
 }

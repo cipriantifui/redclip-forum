@@ -42,7 +42,7 @@ export default {
         }
     },
     created() {
-        this.$store.commit('storeIsShowHeader', true)
+        this.$store.commit('showHeaderTopicPage', true)
         this.$store.commit('selectDiscussionTag', this.$store.getters.getTopic)
         this.topic = this.$store.getters.getTopic
         this.getPosts(this.page)

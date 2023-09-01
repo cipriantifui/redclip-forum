@@ -17,12 +17,22 @@ class UserResource extends JsonResource
         $names = explode(' ',$this->name);
         $firstName = $names[0] ?? '';
         $lastName = $names[1] ?? '';
-        return [
+        $resource = [
             "id" => $this->id,
             "name" => $this->name,
             "first_name" => $firstName,
             "last_name" => $lastName,
             "created_at" => $this->created_at,
         ];
+
+        if($this->hasPostDetails) {
+            $resource['posts_count'] = $this->posts_count ?? 0;
+            $resource['comments_count'] = $this->comments_count ?? 0;
+            $resource['replies_count'] = $this->replies_count ?? 0;
+            $resource['votes_count'] = $this->post_votes_count ?? 0;
+            $resource['comment_votes'] = $this->comment_votes_count ?? 0;
+        }
+
+        return $resource;
     }
 }

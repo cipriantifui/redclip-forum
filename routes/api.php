@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostVoteController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,3 +53,4 @@ Route::post('/post-comment/create', [PostCommentController::class, 'store']);
 Route::post('/comment-like/create', [PostCommentLikeController::class, 'store']);
 
 Route::get('/search/get-users-posts', [SearchController::class, 'getUsersAndPosts']);
+Route::get('/users-post-details/{id}', [UserController::class, 'getUserPostDetails']);

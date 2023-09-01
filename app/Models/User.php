@@ -59,4 +59,29 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->active == 1;
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(PostComment::class, 'user_id')->whereNull('parent_id');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(PostComment::class, 'user_id')->whereNotNull('parent_id');
+    }
+
+    public function postVotes()
+    {
+        return $this->hasMany(PostVote::class, 'user_id');
+    }
+
+    public function commentVotes()
+    {
+        return $this->hasMany(PostCommentLike::class, 'user_id');
+    }
 }

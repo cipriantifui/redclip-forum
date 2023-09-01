@@ -113,10 +113,9 @@
                 PostApi.getPost(this.$route.params.post_id)
                     .then(response => {
                         if(response.status === 200) {
-                            this.post = response.data.data;
+                            this.post = response.data;
                         }
-                    }).catch(error => {
-                    });
+                    }).catch(error => {});
             },
 
             savePostVote(postId) {

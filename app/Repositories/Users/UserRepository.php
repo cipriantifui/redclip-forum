@@ -30,4 +30,16 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->orderBy('created_at')
             ->get();
     }
+
+    /**
+     * @param $userId
+     * @return mixed
+     */
+    public function getUserPostDetails($userId)
+    {
+        return $this->model
+            ->where('id', $userId)
+            ->withCount(['posts', 'comments', 'replies', 'postVotes', 'commentVotes'])
+            ->first();
+    }
 }
