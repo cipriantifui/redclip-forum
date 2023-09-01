@@ -23,8 +23,9 @@ class PostResource extends JsonResource
             "content" => $this->content,
             "url_image" => $this->url_image,
             "url_video" => $this->url_video,
-            "created_at" => $this->created_at,
             "date_ago" => $this->created_at ? $this->created_at->diffForHumans() : null,
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
         ];
     }
 }

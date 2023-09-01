@@ -253,23 +253,26 @@
             postData(data, type) {
                 PostApi.createPost(data, type)
                     .then(response => {
-                        this.$toaster.success('The post was added successfully.');
-                        this.topic_selected = null
-                        this.title = ''
-                        this.content= null
-                        this.url_video= null
-                        this.url_image= null
+                        if(response.status === 201) {
+                            this.$toaster.success('The post was added successfully.');
+                            this.topic_selected = null
+                            this.title = ''
+                            this.content = null
+                            this.url_video = null
+                            this.url_image = null
 
-                        // Wait until the models are updated in the UI
-                        this.$nextTick(() => {
-                            this.$refs.content_validation.reset();
-                        });
-                        this.$nextTick(() => {
-                            this.$refs.video_validation.reset();
-                        });
-                        this.$nextTick(() => {
-                            this.$refs.image_validation.reset();
-                        });
+                            // Wait until the models are updated in the UI
+                            this.$nextTick(() => {
+                                this.$refs.content_validation.reset();
+                            });
+                            this.$nextTick(() => {
+                                this.$refs.video_validation.reset();
+                            });
+                            this.$nextTick(() => {
+                                this.$refs.image_validation.reset();
+                            });
+                            this.eventHub.$emit('addedPostEvent', {post: response.data.post})
+                        }
                     }).catch(error => {
                         if (error.response) {
                             if (error.response.data.errors.error) {

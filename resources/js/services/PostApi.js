@@ -13,8 +13,17 @@ export default {
         if (topicId) {
             params.topic_id = topicId
         }
-
         return axios.get('/api/post', {params: params})
+    },
+    getPostLinks(link, perPage, topicId) {
+        topicId = topicId || null;
+        let params = {
+            perPage: perPage
+        }
+        if (topicId) {
+            params.topic_id = topicId
+        }
+        return axios.get(link, {params: params})
     },
     createPost(data, type) {
         type = type || ''

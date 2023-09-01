@@ -68,15 +68,18 @@ export default {
             this.hasError = false;
             PostApi.createPost(data, type)
                 .then(response => {
-                    this.$toaster.success('The post was added successfully.');
-                    this.title = ''
-                    this.content= null
+                    if(response.status === 201) {
+                        this.$toaster.success('The post was added successfully.');
+                        this.title = ''
+                        this.content= null
 
-                    // Wait until the models are updated in the UI
-                    this.$nextTick(() => {
-                        this.$refs.content_validation.reset();
-                    });
-                    this.eventHub.$emit('addedPostEvent')
+                        // Wait until the models are updated in the UI
+                        this.$nextTick(() => {
+                            this.$refs.content_validation.reset();
+                        });
+
+                        this.eventHub.$emit('addedPostEvent', {post: response.data.post})
+                    }
                 }).catch(error => {
                 if (error.response) {
                     if (error.response.data.errors.error) {

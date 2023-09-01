@@ -8,8 +8,8 @@
                 <post-card :post="post" v-for="post in posts" :key="post.id"></post-card>
 
                 <div class="col text-center mt-3">
-                    <button type="button" class="btn btn-secondary" v-if="paginate.next_page_url"
-                            @click="getPosts(paginate.current_page + 1)">
+                    <button type="button" class="btn btn-secondary" v-if="paginate.next !== null"
+                            @click="getPostLinks(paginate.next)">
                         View-more
                     </button>
                 </div>
@@ -35,6 +35,7 @@ export default {
             page: 1,
             perPage: 5,
             paginate: {},
+            meta: {},
             topic: {},
             posts: {},
             isLoaded: false
@@ -47,8 +48,8 @@ export default {
         this.getPosts(this.page)
     },
     mounted() {
-        this.eventHub.$on('addedPostEvent', () => {
-            this.getPosts(1);
+        this.eventHub.$on('addedPostEvent', (data) => {
+            this.posts.unshift(data.post)
         })
     },
     methods: {
@@ -57,14 +58,36 @@ export default {
             PostApi.getPosts(page, this.perPage, this.topicId)
                 .then(response => {
                     this.isLoaded = true;
-                    this.posts = page === 1 ? response.data.data : this.posts.concat(response.data.data);
-                    this.paginate = response.data;
+                    let responseData = response.data
+                    if(responseData !== undefined) {
+                        this.processPostResponse(responseData)
+                    }
                 })
                 .finally(() => {
                     this.$nextTick(() => {
                         this.$store.commit('storeIsShowLoader', false)
                     })
                 })
+        },
+        getPostLinks(link) {
+            PostApi.getPostLinks(link, this.perPage, this.topicId)
+                .then(response => {
+                    this.isLoaded = true;
+                    let responseData = response.data
+                    if(responseData !== undefined) {
+                        this.processPostResponse(responseData)
+                    }
+                })
+                .finally(() => {
+                    this.$nextTick(() => {
+                        this.$store.commit('storeIsShowLoader', false)
+                    })
+                })
+        },
+        processPostResponse(response) {
+            this.paginate = response.links;
+            this.meta = response.meta;
+            this.posts = this.meta.current_page === 1 ? response.data : this.posts.concat(response.data);
         }
     },
     destroyed() {

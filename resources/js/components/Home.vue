@@ -5,11 +5,11 @@
                 <left-side-nav></left-side-nav>
             </div>
             <div class="col-xl-10 col-lg-9 col-md-12">
-                <post-card :post="post" v-for="post in posts" :key="post.id"></post-card>
+                <post-card :post="post" v-for="post in posts"  :key="post.id"></post-card>
 
                 <div class="col text-center mt-3">
-                    <button type="button" class="btn btn-secondary" v-if="paginate.next_page_url"
-                            @click="getPosts(paginate.current_page + 1)">
+                    <button type="button" class="btn btn-secondary" v-if="paginate.next !== null"
+                            @click="getPostLinks(paginate.next)">
                         View-more
                     </button>
                 </div>
@@ -31,24 +31,39 @@
             return {
                 posts: {},
                 paginate: {},
+                meta: {},
                 perPage: 5,
             }
         },
 
         beforeMount() {
-            this.getPosts(1);
-            this.eventHub.$on('addedPostEvent', () => {
-                this.getPosts(1);
+            this.getPosts(1, this.perPage);
+            this.eventHub.$on('addedPostEvent', (data) => {
+                this.posts.unshift(data.post)
             })
         },
         methods: {
-            getPosts(page) {
-                PostApi.getPosts(page, this.perPage)
+            getPosts(page, perPage) {
+                PostApi.getPosts(page, perPage)
                     .then(response => {
-                        this.posts = page === 1 ? response.data.data : this.posts.concat(response.data.data);
-                        this.paginate = response.data;
-                    }).catch(error => {
-                    });
+                        let responseData = response.data
+                        if(responseData !== undefined) {
+                            this.processPostResponse(responseData)
+                        }
+                    }).catch(error => {});
+            },
+            getPostLinks(links) {
+                PostApi.getPostLinks(links, this.perPage).then(response => {
+                    let responseData = response.data
+                    if(responseData !== undefined) {
+                        this.processPostResponse(responseData)
+                    }
+                }).catch(error => {});
+            },
+            processPostResponse(response) {
+                this.paginate = response.links;
+                this.meta = response.meta;
+                this.posts = this.meta.current_page === 1 ? response.data : this.posts.concat(response.data);
             }
         }
     }

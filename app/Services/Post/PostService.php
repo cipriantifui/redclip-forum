@@ -29,7 +29,7 @@ class PostService extends BaseService implements PostServiceInterface
      */
     public function getPosts($perPage, $page, $topicId)
     {
-        return $this->repository->getPosts($perPage, $page, $topicId);
+        return PostResource::collection($this->repository->getPosts($perPage, $page, $topicId));
     }
 
     /**
@@ -39,7 +39,7 @@ class PostService extends BaseService implements PostServiceInterface
      */
     public function storePost($request)
     {
-        $this->repository->store([
+        $post = $this->repository->store([
             'topic_id' => $request->get('topic_id'),
             'user_id' => $request->get('uid') ? null : Auth::user()->id,
             'uid' => $request->get('uid'),
@@ -49,8 +49,8 @@ class PostService extends BaseService implements PostServiceInterface
             'url_video' => $request->get('url_video'),
             'is_published' => true,
         ]);
-
-        return $this->item(['success' => true], 201);
+        $postResource = new PostResource($post->load(['user', 'topic']));
+        return $this->item(['post' => $postResource], 201);
     }
 
     /**
@@ -60,7 +60,7 @@ class PostService extends BaseService implements PostServiceInterface
      */
     public function storeContentPost($request)
     {
-        $this->repository->store([
+        $post = $this->repository->store([
             'topic_id' => $request->get('topic_id'),
             'user_id' => $request->get('uid') ? null : Auth::user()->id,
             'uid' => $request->get('uid'),
@@ -68,8 +68,8 @@ class PostService extends BaseService implements PostServiceInterface
             'content' => $request->get('content'),
             'is_published' => true,
         ]);
-
-        return $this->item(['success' => true], 201);
+        $postResource = new PostResource($post->load(['user', 'topic']));
+        return $this->item(['post' => $postResource], 201);
     }
 
     /**
@@ -85,7 +85,7 @@ class PostService extends BaseService implements PostServiceInterface
         $videoPath = '/uploads/'.$filename;
         $file->move($path, $filename);
 
-        $this->repository->store([
+        $post = $this->repository->store([
             'topic_id' => $request->get('topic_id'),
             'user_id' => $request->get('uid') ? null : Auth::user()->id,
             'uid' => $request->get('uid'),
@@ -93,8 +93,8 @@ class PostService extends BaseService implements PostServiceInterface
             'url_video' => $videoPath,
             'is_published' => true,
         ]);
-
-        return $this->item(['success' => true], 201);
+        $postResource = new PostResource($post->load(['user', 'topic']));
+        return $this->item(['post' => $postResource], 201);
     }
 
     /**
@@ -110,7 +110,7 @@ class PostService extends BaseService implements PostServiceInterface
         $imagePath = '/uploads/image/'.$filename;
         $file->move($path, $filename);
 
-        $this->repository->store([
+        $post = $this->repository->store([
             'topic_id' => $request->get('topic_id'),
             'user_id' => $request->get('uid') ? null : Auth::user()->id,
             'uid' => $request->get('uid'),
@@ -119,7 +119,8 @@ class PostService extends BaseService implements PostServiceInterface
             'is_published' => true,
         ]);
 
-        return $this->item(['success' => true], 201);
+        $postResource = new PostResource($post->load(['user', 'topic']));
+        return $this->item(['post' => $postResource], 201);
     }
 
     /**
@@ -129,7 +130,9 @@ class PostService extends BaseService implements PostServiceInterface
      */
     public function showPost($id)
     {
-        return $this->repository->showPost($id);
+        $post = $this->repository->showPost($id);
+        $postResource = new PostResource($post->load(['user', 'topic']));
+        return $postResource;
     }
 
     /**
