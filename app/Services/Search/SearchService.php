@@ -6,9 +6,11 @@ use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Services\Post\PostServiceInterface;
 use App\Services\Users\UserServiceInterface;
+use App\Traits\ApiResponses\ApiResponses;
 
 class SearchService implements SearchServiceInterface
 {
+    use ApiResponses;
     /**
      * @var PostRepositoryInterface
      */
@@ -39,6 +41,6 @@ class SearchService implements SearchServiceInterface
             'users' => $this->userService->searchUser($searchText)
         ];
 
-        return response()->json($response);
+        return $this->collection($response);
     }
 }
