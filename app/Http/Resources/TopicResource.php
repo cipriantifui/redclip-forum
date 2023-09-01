@@ -14,13 +14,18 @@ class TopicResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $resource = [
             "id" => $this->id,
             "title" => $this->title,
-            'posts' => PostResource::collection($this->whenLoaded('posts')),
             "posts_count" => $this->posts_count ?? 0,
             "created_at" => $this->created_at,
             "date_ago" => $this->created_at->diffForHumans()
         ];
+
+        if($this->relationLoaded('posts')) {
+            $resource['posts'] = PostResource::collection($this->posts->take(3));
+        }
+
+        return $resource;
     }
 }
