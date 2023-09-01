@@ -20,6 +20,7 @@ class PostResource extends JsonResource
             "topic" => new TopicResource($this->whenLoaded('topic')),
             "user" => new UserResource($this->whenLoaded('user')),
             "comments" => CommentResource::collection($this->whenLoaded('comments')),
+            "uid" => $this->uid,
             "content" => $this->content,
             "comments_count" => $this->comments_count ?? 0,
             "votes_count" => $this->votes_count ?? 0,

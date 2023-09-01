@@ -1,6 +1,7 @@
 <template>
     <div class="card post-card px-3 py-1 mb-2">
-        <div class="post-user">{{post.user === null ? 'anonymous' + post.uid : post.user.name}}
+        <div class="post-user">
+            <span :class="{'user-link': post.user != null}" @click="handleChooseUser(post.user)">{{post.user === null ? 'anonymous' + post.uid : post.user.name}}</span>
             <timeago :datetime="post.created_at"></timeago>
         </div>
         <h4 style="color: #1b1e21; cursor: pointer" @click="handleChoosePost">{{ post.title }}</h4>
@@ -66,6 +67,11 @@ export default {
         handleChoosePost() {
             this.$router.push({name: 'post-details', params: {post_id: this.post.id}})
         },
+        handleChooseUser(user) {
+            if(user) {
+                this.$router.push({name: 'user-posts', params: {user_id: user.id}})
+            }
+        },
         handleChooseTopic(topic) {
             this.$store.commit('storeTopic', topic)
             this.$router.push({name: 'topic', params: {topic_id: topic.id}})
@@ -84,6 +90,11 @@ export default {
         color: #6c757d;
         border-bottom: 2px dashed #ccc;
         margin-bottom: 5px;
+    }
+
+    .post-user .user-link:hover {
+        cursor: pointer;
+        font-weight: bold;
     }
 
     .post-actions span {
