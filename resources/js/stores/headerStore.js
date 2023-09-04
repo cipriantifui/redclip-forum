@@ -3,7 +3,7 @@ export default {
         isShowHeader: false,
         isShowLoader: false,
         headerPage: 'topic',
-        userPosts: {}
+        userPostsDetails: {}
     },
     mutations: {
         storeIsShowHeader(state, isShow) {
@@ -23,8 +23,8 @@ export default {
             state.headerPage = 'user-posts';
             state.isShowHeader = isShow;
         },
-        storeUserPosts(state, userPosts) {
-            state.userPosts = userPosts;
+        storeUserPostsDetails(state, userPosts) {
+            state.userPostsDetails = userPosts;
         }
     },
     getters: {
@@ -37,8 +37,8 @@ export default {
         getHeaderPage(state) {
             return state.headerPage;
         },
-        getUserPosts(state) {
-            return state.userPosts;
+        getUserPostsDetails(state) {
+            return state.userPostsDetails;
         },
     },
 };
