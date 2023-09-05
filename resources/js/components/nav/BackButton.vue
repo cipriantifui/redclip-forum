@@ -9,12 +9,16 @@ export default {
     name: "BackButton",
     data() {
         return {
-            isVisible: this.$router.currentRoute.name !== 'home'
+            pages: ['home', 'login', 'register', 'new-login'],
+            isVisible: false
         }
+    },
+    created() {
+        this.isVisible = this.pages.includes(this.$router.currentRoute.name) === false
     },
     watch:{
         $route (to, from){
-            this.isVisible = to.name !== 'home';
+            this.isVisible = this.pages.includes(to.name) === false
         }
     },
     methods: {
