@@ -39,12 +39,14 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 <script>
     import store from '../../stores/store'
 
     export default {
+        name: "Login",
         data() {
             return {
                 email: '',
@@ -75,3 +77,6 @@
         }
     }
 </script>
+<style scoped>
+
+</style>

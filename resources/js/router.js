@@ -7,6 +7,7 @@ import PostDetails from "./components/post/PostDetails.vue";
 import Topics from "./components/topic/Topics.vue";
 import Topic from "./components/topic/Topic.vue";
 import UserPosts from "./components/post/UserPosts.vue";
+import NewLogin from "./components/auth/NewLogin.vue";
 
 let router = new VueRouter({
     mode: 'history',
@@ -30,6 +31,14 @@ let router = new VueRouter({
             path: '/login',
             name: 'login',
             component: Login,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: '/new-login',
+            name: 'new-login',
+            component: NewLogin,
             meta: {
                 requiresAuth: false
             }
