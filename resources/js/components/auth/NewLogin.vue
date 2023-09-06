@@ -17,10 +17,7 @@
                 </a>
             </div>
             <span>or use your account</span>
-            <input type="email" class="login-input" placeholder="Email">
-            <input type="password" class="login-input" placeholder="Password">
-            <a href="#" class="link-forget-password">Forgot your password?</a>
-            <button class="btn-login">Sing up</button>
+            <login-form></login-form>
         </div>
         <div class="form-container-login sing-up-container">
             <h1>Create Account</h1>
@@ -31,11 +28,7 @@
                 </a>
             </div>
             <span>or use your mail for registration</span>
-            <input type="text" class="login-input" placeholder="Name">
-            <input type="email" class="login-input" placeholder="Email">
-            <input type="password" class="login-input" placeholder="Password">
-            <input type="password" class="login-input" placeholder="Confirmation password">
-            <button class="btn-login">Sing up</button>
+            <register-form></register-form>
         </div>
         <div class="info-container-login sing-in-placeholder">
             <h1 class="text-white">Welcome Back!</h1>
@@ -52,17 +45,43 @@
 
 <script>
 import {useMediaQuery} from "@vueuse/core";
+import LoginForm from "./LoginForm.vue";
+import RegisterForm from "./RegisterForm.vue";
 
 export default {
     name: "NewLogin",
+    components: {RegisterForm, LoginForm},
     data() {
         return {
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            loginError: false,
+            errors: {},
             isLeftPanelActive: true,
             isLeftTabActive: true,
         }
     },
     methods: {
-
+        register() {
+            this.axios.post('api/auth/register', {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                confirmPassword: this.confirmPassword
+            }).then(response => {
+                this.$router.push({name: 'login'})
+                this.$toaster.success(response.data.message)
+            }).catch(error => {
+                if (error.response.data.errors.error) {
+                    this.$toaster.error(error.response.data.errors.error)
+                } else {
+                    this.error = true;
+                    this.errors = error.response.data.errors
+                }
+            });
+        }
     },
     computed: {
         panelActiveClass() {
@@ -91,28 +110,24 @@ export default {
     text-transform: uppercase;
     transition: transform 80ms ease-in;
 }
-.btn-login:active {
-    transform: scale(0.95);
-}
-.btn-login:focus {
-    outline: none;
-}
 .btn-login.ghost {
     background-color: transparent;
     border-color: #fff;
 }
-.link-forget-password {
-    display: block;
-    color: #6c757d;
-    font-weight: 500;
+.social i {
+    background-color: #343a40;
+    color: #fff;
+    padding: 8px;
+    font-size: 18px;
+    width: 36px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
 }
-.login-input {
-    background-color: #eee;
-    border: none;
-    border-radius: 0px;
-    padding: 12px 15px;
-    margin: 8px 0;
-    width: 80%;
+.social i:hover {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.5;
 }
 .container-login {
     background-color: #fff;
@@ -123,7 +138,7 @@ export default {
     overflow: hidden;
     width: 768px;
     max-width: 100%;
-    min-height: 480px;
+    min-height: 540px;
     margin:auto;
 }
 .form-container-login {

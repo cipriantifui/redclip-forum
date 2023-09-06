@@ -30,14 +30,6 @@ let router = new VueRouter({
         {
             path: '/login',
             name: 'login',
-            component: Login,
-            meta: {
-                requiresAuth: false
-            }
-        },
-        {
-            path: '/new-login',
-            name: 'new-login',
             component: NewLogin,
             meta: {
                 requiresAuth: false

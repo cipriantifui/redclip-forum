@@ -5,7 +5,7 @@
             <div class="container">
                 <back-button></back-button>
                 <router-link :to="{ name: 'home' }" class="nav-link" style="font-size: 20px"><span style="color: white">Red</span><span style="color: red">clip</span></router-link>
-                <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+                <ul class="navbar-nav flex-row ml-md-auto">
                     <li class="nav-item mr-3">
                         <search-box></search-box>
                     </li>
@@ -18,9 +18,9 @@
                     <li class="nav-item" v-if="!$store.getters.isLoggedIn">
                         <router-link :to="{ name: 'login' }" class="nav-link">Sign</router-link>
                     </li>
-                    <li class="nav-item" v-if="!$store.getters.isLoggedIn">
-                        <router-link :to="{ name: 'register' }" class="nav-link">Create Account</router-link>
-                    </li>
+<!--                    <li class="nav-item" v-if="!$store.getters.isLoggedIn">-->
+<!--                        <router-link :to="{ name: 'register' }" class="nav-link">Create Account</router-link>-->
+<!--                    </li>-->
                 </ul>
             </div>
         </header>
