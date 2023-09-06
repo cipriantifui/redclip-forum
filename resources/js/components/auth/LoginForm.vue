@@ -14,7 +14,7 @@
         <span class="text text-danger d-block" v-if="loginError && errors.password">
                 {{ errors.password[0] }}
             </span>
-        <a href="#" class="link-forget-password">Forgot your password?</a>
+        <router-link :to="{ name: 'password-forgot' }" class="link-forget-password">Forgot your password?</router-link>
         <button class="btn-login" @click="login">Sing up</button>
         <div class="alert alert-danger d-block" v-if="loginError && errors.message">
             <span>{{ errors.message[0] }}</span>

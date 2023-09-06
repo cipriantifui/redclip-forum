@@ -1,13 +1,13 @@
 import VueRouter from "vue-router";
 import Home from "./components/Home.vue";
 import Register from "./components/auth/Register.vue";
-import Login from "./components/auth/Login.vue";
 import PostCreate from "./components/post/PostCreate.vue";
 import PostDetails from "./components/post/PostDetails.vue";
 import Topics from "./components/topic/Topics.vue";
 import Topic from "./components/topic/Topic.vue";
 import UserPosts from "./components/post/UserPosts.vue";
 import NewLogin from "./components/auth/NewLogin.vue";
+import PasswordForgot from "./components/auth/PasswordForgot.vue";
 
 let router = new VueRouter({
     mode: 'history',
@@ -31,6 +31,15 @@ let router = new VueRouter({
             path: '/login',
             name: 'login',
             component: NewLogin,
+            meta: {
+                requiresAuth: false
+            }
+        },
+
+        {
+            path: '/password-forgot',
+            name: 'password-forgot',
+            component: PasswordForgot,
             meta: {
                 requiresAuth: false
             }

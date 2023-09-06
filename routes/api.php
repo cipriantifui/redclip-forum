@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/register', [AuthController::class, 'postRegister']);
 Route::post('/auth/login', [AuthController::class, 'postLogin']);
+Route::post('/auth/forget-password', [AuthController::class, 'forgotPasswordSendEmail']);
 
 Route::group(['middleware' => ['auth.jwt'], 'prefix' => 'auth'], function () {
 
