@@ -1,0 +1,55 @@
+version: "3.7"
+services:
+  php:
+    container_name: php
+    build:
+      context: './docker_config/php/'
+      args:
+        PHP_VERSION: 7.4
+    user: "1000"
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html/
+      - ./docker_config/php/.php-ini-overrides.ini:/usr/local/etc/php/conf.d/.php-ini-overrides.ini
+  node:
+    container_name: node
+    image: node:14
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html/
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+  mysql:
+    container_name: mysql
+    image: "mysql:8.0"
+    ports:
+      - "${FORWARD_DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      #MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping" ]
+
+
+  mailhog:
+    container_name: mailhog
+    image: "mailhog/mailhog:latest"
+    ports:
+      - "${FORWARD_MAILHOG_PORT:-1025}:1025"
+      - "${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025"
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql:mysql
+    ports:
+      - 8080:80
+    environment:
+      MYSQL_USERNAME: "${DB_USERNAME}"
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+      PMA_HOST:
