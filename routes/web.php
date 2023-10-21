@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::post('password-reset', [AuthController::class, 'resetPassword'])->name('password.reset');
 Route::any('{all}', function () {
     return view('layouts.app');
 })->where('all', '.*');

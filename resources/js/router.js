@@ -8,6 +8,8 @@ import Topic from "./components/topic/Topic.vue";
 import UserPosts from "./components/post/UserPosts.vue";
 import NewLogin from "./components/auth/NewLogin.vue";
 import PasswordForgot from "./components/auth/PasswordForgot.vue";
+import VerifyEmail from "./components/auth/VerifyEmail.vue";
+import PasswordReset from "./components/auth/PasswordReset.vue";
 
 let router = new VueRouter({
     mode: 'history',
@@ -82,6 +84,22 @@ let router = new VueRouter({
             path: '/user-posts/:user_id',
             name: 'user-posts',
             component: UserPosts,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: '/verify-email/:user_id',
+            name: 'verify-email',
+            component: VerifyEmail,
+            meta: {
+                requiresAuth: false
+            }
+        },
+        {
+            path: '/password-reset',
+            name: 'password-reset',
+            component: PasswordReset,
             meta: {
                 requiresAuth: false
             }

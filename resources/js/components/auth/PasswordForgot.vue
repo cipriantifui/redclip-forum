@@ -28,10 +28,11 @@ export default {
                 email: this.email,
             }).then(response => {
                 // this.$router.push({name: 'home'})
-                this.$toaster.error('The password reset link has been successfully sent to your email.')
+                this.$toaster.success('The password reset link has been successfully sent to your email.')
             }).catch(error => {
-                if (error.response.data.errors.error) {
-                    this.$toaster.error(error.response.data.errors.error)
+                if (error.response.status === 422) {
+                    let message = error.response.data.email || error.response.data.errors.email[0]
+                    this.$toaster.error(message)
                 } else {
                     this.hasErrors = true;
                     this.errors = error.response.data.errors

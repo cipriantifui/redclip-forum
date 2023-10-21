@@ -37,14 +37,20 @@ export default {
     },
     methods: {
         login() {
+            console.log(123)
             this.loginError = false;
             this.axios.post('api/auth/login', {
                 email: this.email,
                 password: this.password
             }).then(response => {
-                axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
-                store.commit('LoginUser', response.data);
-                this.$router.push({name: 'home'})
+                if(response.data.success) {
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
+                    store.commit('LoginUser', response.data);
+                    this.$router.push({name: 'home'})
+                } else {
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.access_token;
+                    this.$router.push({name: 'verify-email', params: {user_id: response.data.user.id}})
+                }
             }).catch(error => {
                 if (error.response.data.errors.error) {
                     this.$toaster.error(error.response.data.errors.error)

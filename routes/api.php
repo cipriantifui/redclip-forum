@@ -8,6 +8,7 @@ use App\Http\Controllers\PostVoteController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['auth.jwt'], 'prefix' => 'auth'], function () {
     Route::post('/post-vote/create', [PostVoteController::class, 'store']);
     Route::post('/post-comment/create', [PostCommentController::class, 'store']);
     Route::post('/comment-like/create', [PostCommentLikeController::class, 'store']);
+    Route::get('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 });
 
 Route::get('/topic', [TopicController::class, 'index']);
@@ -55,3 +57,5 @@ Route::post('/comment-like/create', [PostCommentLikeController::class, 'store'])
 
 Route::get('/search/get-users-posts', [SearchController::class, 'getUsersAndPosts']);
 Route::get('/users-post-details/{id}', [UserController::class, 'getUserPostDetails']);
+
+Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');

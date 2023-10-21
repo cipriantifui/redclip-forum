@@ -37,11 +37,13 @@ class AuthService extends BaseService implements AuthServiceInterface
      */
     public function userRegister($attributes)
     {
-        $this->repository->store([
+        $user = $this->repository->store([
             'name' => $attributes['name'],
             'email' => $attributes['email'],
             'password' => bcrypt($attributes['password'])
         ]);
+
+        $user->sendEmailVerificationNotification();
 
         return $this->item([
             'success' => true,
@@ -62,6 +64,18 @@ class AuthService extends BaseService implements AuthServiceInterface
             if (!$token = $this->JWTAuth->attempt($credentials)) {
                 throw new AuthException('Parola sau email-ul a fost gresite!');
             }
+
+            $user = Auth::user();
+            if($user->hasVerifiedEmail() === false) {
+                return $this->item([
+                    'success' => false,
+                    'message' => 'Verifica emailul inainte de a te autentifica!',
+                    'access_token' => $token,
+                    'user' => $user,
+                    'token_type' => 'bearer',
+                    ], 200);
+            }
+
         } catch (JWTException $e) {
             throw new AuthException('Parola sau email-ul a fost gresite!');
         }

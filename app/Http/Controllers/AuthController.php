@@ -74,4 +74,9 @@ class AuthController extends Controller
             return response()->json(['email' => __($status)], 422);
         }
     }
+
+    public function resetPassword(Request $request)
+    {
+        dd(1);
+    }
 }
