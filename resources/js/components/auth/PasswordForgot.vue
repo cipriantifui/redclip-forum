@@ -27,7 +27,7 @@ export default {
             this.axios.post('api/auth/forget-password', {
                 email: this.email,
             }).then(response => {
-                // this.$router.push({name: 'home'})
+                this.$router.push({name: 'home'})
                 this.$toaster.success('The password reset link has been successfully sent to your email.')
             }).catch(error => {
                 if (error.response.status === 422) {

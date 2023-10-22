@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\PasswordResetRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Models\User;
 use App\Services\Auth\AuthServiceInterface;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
@@ -75,8 +80,35 @@ class AuthController extends Controller
         }
     }
 
-    public function resetPassword(Request $request)
+    /**
+     * @param PasswordResetRequest $request
+     * @return JsonResponse
+     */
+    public function resetPassword(PasswordResetRequest $request)
     {
-        dd(1);
+        $token = $request->input('token');
+        $email = $request->input('email');
+        $newPassword = $request->input('newPassword');
+        if(Auth::check()) {
+            $user = Auth::user();
+        } else {
+            $user = User::where('email', $email)->first();
+        }
+
+        if(Password::tokenExists($user, $token)) {
+            $user->password = bcrypt($newPassword);
+            $user->save();
+            Password::deleteToken($user);
+            if(Auth::check()) {
+                $this->authService->userLogout();
+            }
+        } else {
+            return response()->json(['message' => 'The token is expired, send the email again to change the password.'], 404);
+        }
+    }
+
+    public function showResetPassword()
+    {
+        return response()->json(['status' => 'success']);
     }
 }
