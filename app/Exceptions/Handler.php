@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use App\Mail\ExceptionOccurred;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -9,12 +11,17 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Throwable;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class Handler extends ExceptionHandler
@@ -34,6 +41,22 @@ class Handler extends ExceptionHandler
         ValidationException::class,
         VoteException::class
     ];
+
+    /**
+     * Report or log an exception.
+     *
+     * @param \Throwable $exception
+     * @return void
+     * @throws \Throwable
+     */
+    public function report(\Throwable $exception)
+    {
+        // added this section to send the report! TODO
+        if ($this->shouldReport($exception) && config('app.report_error_on_mail')) {
+            $this->sendEmail($exception); // sends an email
+        }
+        parent::report($exception);
+    }
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -195,5 +218,29 @@ class Handler extends ExceptionHandler
         return redirect()
             ->back()
             ->withErrors(['token_error' => 'Sorry, your session seems to have expired. Please try again.']);
+    }
+
+    /**
+     * Sends an email to the developer about the exception.
+     *
+     * @return void
+     */
+    public function sendEmail(Throwable $exception)
+    {
+        try  {
+            $content['message'] = $exception->getMessage();
+            $content['file'] = $exception->getFile();
+            $content['line'] = $exception->getLine();
+            $content['trace'] = $exception->getTrace();
+
+            $content['url'] = request()->url();
+            $content['body'] = request()->all();
+            $content['ip'] = request()->ip();
+
+            Mail::to(config('app.error_email_address'))->send(new ExceptionOccurred($content));
+
+        } catch (Throwable $exception) {
+            Log::error($exception);
+        }
     }
 }

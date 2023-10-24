@@ -40,6 +40,8 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
+    'report_error_on_mail' => (bool) env('REPORT_ERROR_ON_MAIL', false),
+    'error_email_address' => env('ERROR_MAIL_ADDRESS', 'cipriantifuidev@gmail.com'),
 
     /*
     |--------------------------------------------------------------------------

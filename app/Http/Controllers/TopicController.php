@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\topic\IndexPaginatedRequest;
+use App\Http\Requests\Topic\IndexPaginatedRequest;
 use App\Services\Topic\TopicServiceInterface;
 
 class TopicController extends Controller
