@@ -35,7 +35,8 @@ class PostController extends Controller
         return $this->postService->getPosts(
             $request->input('perPage', 20),
             $request->input('page', 1),
-            $request->input('topic_id')
+            $request->input('topic_id', null),
+            $request->input('orderByColumns', [])
         );
     }
 

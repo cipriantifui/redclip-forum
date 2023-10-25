@@ -20,11 +20,13 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
      * Get posts
      * @param $perPage
      * @param $page
-     * @param $topicId
+     * @param null $topicId
+     * @param array $orderByColumns
      * @return mixed
      */
-    public function getPosts($perPage, $page, $topicId = null)
+    public function getPosts($perPage, $page, $topicId = null, array $orderByColumns = [])
     {
+        $this->order($orderByColumns);
         return $this->model
             ->when($topicId, function ($q) use($topicId){
                 return $q->where('topic_id', $topicId);

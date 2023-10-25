@@ -10,12 +10,13 @@ interface PostServiceInterface extends BaseServiceInterface
 {
     /**
      * Get posts
-     * @param $perPage
-     * @param $page
-     * @param $topicId
+     * @param int $perPage
+     * @param int $page
+     * @param int|null $topicId
+     * @param array $orderByColumns
      * @return mixed
      */
-    public function getPosts($perPage, $page, $topicId);
+    public function getPosts(int $perPage, int $page, int $topicId = null, array $orderByColumns);
 
     /**
      * Store post in database

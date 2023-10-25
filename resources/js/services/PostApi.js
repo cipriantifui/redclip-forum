@@ -4,14 +4,18 @@ export default {
     getPost(postId) {
         return axios.get('/api/post/' + postId)
     },
-    getPosts(page, perPage, topicId) {
+    getPosts(page, perPage, topicId, orderByColumns) {
         topicId = topicId || null;
         let params = {
             page: page,
-            perPage: perPage
+            perPage: perPage,
+            orderByColumns: orderByColumns
         }
         if (topicId) {
             params.topic_id = topicId
+        }
+        if (orderByColumns) {
+            params.orderByColumns = orderByColumns
         }
         return axios.get('/api/post', {params: params})
     },

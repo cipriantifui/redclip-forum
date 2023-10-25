@@ -4,13 +4,17 @@ namespace App\Services\Post;
 
 
 use App\Http\Resources\PostResource;
+use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Services\BaseService;
+use App\Traits\CommonTrait;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class PostService extends BaseService implements PostServiceInterface
 {
+    use CommonTrait;
+
     /**
      * TopicService constructor.
      * @param PostRepositoryInterface $repository
@@ -22,14 +26,18 @@ class PostService extends BaseService implements PostServiceInterface
 
     /**
      * Get posts
-     * @param $perPage
-     * @param $page
-     * @param $topicId
+     * @param int $perPage
+     * @param int $page
+     * @param int|null $topicId
+     * @param array $orderByColumns
      * @return mixed
      */
-    public function getPosts($perPage, $page, $topicId)
+    public function getPosts(int $perPage, int $page, int $topicId = null, array $orderByColumns)
     {
-        return PostResource::collection($this->repository->getPosts($perPage, $page, $topicId));
+        $arrOrderByColumns = $this->buildOrderFilter($orderByColumns);
+        $posts = $this->repository->getPosts($perPage, $page, $topicId, $arrOrderByColumns);
+        $posts = $this->collectionFilter($posts, $arrOrderByColumns, new Post);
+        return PostResource::collection($posts);
     }
 
     /**

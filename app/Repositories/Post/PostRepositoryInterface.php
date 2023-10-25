@@ -11,10 +11,11 @@ interface PostRepositoryInterface extends BaseRepositoryInterface
      * Get posts
      * @param $perPage
      * @param $page
-     * @param $topicId
+     * @param null $topicId
+     * @param array $orderByColumns
      * @return mixed
      */
-    public function getPosts($perPage, $page, $topicId);
+    public function getPosts($perPage, $page, $topicId = null, array $orderByColumns);
 
     /**
      * Show post

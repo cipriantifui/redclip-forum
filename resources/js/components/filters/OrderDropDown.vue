@@ -16,7 +16,7 @@ export default {
         options: {
             type: Array,
             require: true
-        }
+        },
     },
     data() {
         return {
@@ -24,7 +24,9 @@ export default {
         }
     },
     created() {
-        this.selectedOption = this.options[0]
+        let selectedOptionIndex = this.options.findIndex(option => option.selected !== undefined && option.selected)
+        selectedOptionIndex = selectedOptionIndex > -1 ? selectedOptionIndex : 0;
+        this.selectedOption = this.options[selectedOptionIndex]
         this.$emit('selectedOption', {option: this.selectedOption, isChoose: false})
     },
     methods: {
