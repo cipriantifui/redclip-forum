@@ -3,6 +3,7 @@ export default {
         isLoggedIn: !!localStorage.getItem('token'),
         token: localStorage.getItem('token'),
         user: JSON.parse(localStorage.getItem('user')),
+        userStatus: {},
         notLoggedUserId: JSON.parse(localStorage.getItem('uoid')),
     },
     mutations: {
@@ -25,6 +26,9 @@ export default {
         },
         uidStored (state, uid) {
             state.notLoggedUserId = uid;
+        },
+        storeUserStatus (state, userStatus) {
+            state.userStatus = userStatus;
         }
     },
     getters: {
@@ -36,6 +40,9 @@ export default {
         },
         user(state) {
             return state.user;
+        },
+        userStatus(state) {
+            return state.userStatus;
         },
         notLoggedUserId(state) {
             return state.notLoggedUserId;

@@ -9,6 +9,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerificationController;
+use App\Http\Middleware\LastUserActivity;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,6 +58,7 @@ Route::post('/post-comment/create', [PostCommentController::class, 'store']);
 Route::post('/comment-like/create', [PostCommentLikeController::class, 'store']);
 
 Route::get('/search/get-users-posts', [SearchController::class, 'getUsersAndPosts']);
-Route::get('/users-post-details/{id}', [UserController::class, 'getUserPostDetails']);
-
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
+
+Route::get('/user/post-details/{id}', [UserController::class, 'getUserPostDetails']);
+Route::get('/user/live-status/{id}', [UserController::class, 'getLiveStatus']);

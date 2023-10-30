@@ -34,6 +34,17 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'remember_token',
     ];
 
+    /**
+     *
+     * @var array
+     */
+    protected $dates = [
+        'email_verified_at',
+        'last_seen_at',
+        'created_at',
+        'updated_at',
+    ];
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

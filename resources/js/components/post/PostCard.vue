@@ -69,7 +69,7 @@ export default {
         },
         handleChooseUser(user) {
             if(user) {
-                this.$router.push({name: 'user-posts', params: {user_id: user.id}})
+                this.$router.push({name: 'user-profile', params: {user_id: user.id}})
             }
         },
         handleChooseTopic(topic) {

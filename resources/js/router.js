@@ -5,7 +5,7 @@ import PostCreate from "./components/post/PostCreate.vue";
 import PostDetails from "./components/post/PostDetails.vue";
 import Topics from "./components/topic/Topics.vue";
 import Topic from "./components/topic/Topic.vue";
-import UserPosts from "./components/post/UserPosts.vue";
+import UserPosts from "./components/post/UserProfile.vue";
 import NewLogin from "./components/auth/NewLogin.vue";
 import PasswordForgot from "./components/auth/PasswordForgot.vue";
 import VerifyEmail from "./components/auth/VerifyEmail.vue";
@@ -81,8 +81,8 @@ let router = new VueRouter({
             }
         },
         {
-            path: '/user-posts/:user_id',
-            name: 'user-posts',
+            path: '/user-profile/:user_id',
+            name: 'user-profile',
             component: UserPosts,
             meta: {
                 requiresAuth: false
