@@ -81,7 +81,7 @@ let router = new VueRouter({
             }
         },
         {
-            path: '/user-profile/:user_id',
+            path: '/user-profile/:user_id/:section?',
             name: 'user-profile',
             component: UserPosts,
             meta: {

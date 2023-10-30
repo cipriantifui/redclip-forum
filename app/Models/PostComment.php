@@ -64,6 +64,10 @@ class PostComment extends Model
         return $this->hasMany(PostCommentLike::class, 'comment_id');
     }
 
+    public function post() {
+        return $this->belongsTo(Post::class);
+    }
+
     /**
      * @return int
      */

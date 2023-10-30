@@ -19,4 +19,9 @@ class PostCommentLike extends Model
         'user_id',
         'uid'
     ];
+
+    public function comment()
+    {
+        return $this->belongsTo(PostComment::class, 'comment_id');
+    }
 }

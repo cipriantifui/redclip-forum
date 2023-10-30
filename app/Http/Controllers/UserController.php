@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Users\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -26,11 +27,25 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getUserPostDetails($id)
+    public function getUserDetails($id)
     {
-        return $this->userService->getUserPostDetails($id);
+        return $this->userService->getUserDetails($id);
     }
 
+    /**
+     * Get user post details.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getUserPostsDetails($id, Request $request)
+    {
+        $this->validate($request, [
+            'section' => 'sometimes|in:posts,likes,comments'
+        ]);
+        $section = $request->input('section', 'posts');
+        return $this->userService->getUserPostsDetails($id, $section);
+    }
 
     /**
      * Live status.

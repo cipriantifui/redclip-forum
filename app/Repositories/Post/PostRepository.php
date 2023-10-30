@@ -66,4 +66,24 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             ->orderBy('created_at')
             ->get();
     }
+
+    /**
+     * Get user posts
+     * @param $perPage
+     * @param $page
+     * @param null $userId
+     * @param array $orderByColumns
+     * @return mixed
+     */
+    public function getUserPosts($perPage, $page, $userId = null, array $orderByColumns = [])
+    {
+        $this->order($orderByColumns);
+        return $this->model
+            ->where('user_id', $userId)
+            ->with('topic')
+            ->withCount(['comments', 'votes'])
+            ->where('is_published', 1)
+            ->orderBy('id', 'desc')
+            ->paginate($perPage);
+    }
 }

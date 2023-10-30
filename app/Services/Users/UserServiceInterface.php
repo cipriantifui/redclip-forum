@@ -20,5 +20,12 @@ interface UserServiceInterface extends BaseServiceInterface
      * @param $userId
      * @return JsonResponse
      */
-    public function getUserPostDetails($userId);
+    public function getUserDetails($userId);
+
+    /**
+     * @param $userId
+     * @param $section
+     * @return mixed
+     */
+    public function getUserPostsDetails($userId, $section);
 }

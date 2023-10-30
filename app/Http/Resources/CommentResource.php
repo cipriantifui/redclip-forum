@@ -21,6 +21,7 @@ class CommentResource extends JsonResource
             "is_published" => $this->is_published,
             "uid" => $this->uid,
             "user" => new UserResource($this->whenLoaded('user')),
+            "post" => new PostResource($this->whenLoaded('post')),
             "likes" => $this->likes,
             "likes_count" => $this->likes_count ?? 0,
             "replies" => CommentResource::collection($this->whenLoaded('replies')),

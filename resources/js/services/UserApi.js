@@ -1,7 +1,10 @@
 import axios from 'axios'
 export default {
-    getUserPostsDetails(userId) {
-        return axios.get('/api/user/post-details/' + userId)
+    getUserDetails(userId) {
+        return axios.get('/api/user/details/' + userId)
+    },
+    getUserPostsDetails(userId, section) {
+        return axios.get('/api/user/posts-details/' + userId, {params: {section: section}})
     },
     getLiveStatus(userId) {
         return axios.get('/api/user/live-status/' + userId)

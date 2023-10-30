@@ -35,7 +35,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      * @param $userId
      * @return mixed
      */
-    public function getUserPostDetails($userId)
+    public function getUserDetails($userId)
     {
         return $this->model
             ->where('id', $userId)

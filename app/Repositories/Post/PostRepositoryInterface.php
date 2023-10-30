@@ -30,4 +30,14 @@ interface PostRepositoryInterface extends BaseRepositoryInterface
      * @return mixed
      */
     public function searchPosts($searchText);
+
+    /**
+     * Get user posts
+     * @param $perPage
+     * @param $page
+     * @param null $userId
+     * @param array $orderByColumns
+     * @return mixed
+     */
+    public function getUserPosts($perPage, $page, $userId = null, array $orderByColumns = []);
 }

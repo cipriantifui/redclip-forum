@@ -60,5 +60,6 @@ Route::post('/comment-like/create', [PostCommentLikeController::class, 'store'])
 Route::get('/search/get-users-posts', [SearchController::class, 'getUsersAndPosts']);
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
 
-Route::get('/user/post-details/{id}', [UserController::class, 'getUserPostDetails']);
+Route::get('/user/details/{id}', [UserController::class, 'getUserDetails']);
+Route::get('/user/posts-details/{id}/{section?}', [UserController::class, 'getUserPostsDetails']);
 Route::get('/user/live-status/{id}', [UserController::class, 'getLiveStatus']);
