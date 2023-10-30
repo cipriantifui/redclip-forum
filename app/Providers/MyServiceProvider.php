@@ -10,8 +10,8 @@ use App\Repositories\PostComment\PostCommentRepository;
 use App\Repositories\PostComment\PostCommentRepositoryInterface;
 use App\Repositories\PostCommentLike\PostCommentLikeRepository;
 use App\Repositories\PostCommentLike\PostCommentLikeRepositoryInterface;
-use App\Repositories\PostVote\PostVoteRepository;
-use App\Repositories\PostVote\PostVoteRepositoryInterface;
+use App\Repositories\PostVote\VoteRepository;
+use App\Repositories\PostVote\VoteRepositoryInterface;
 use App\Repositories\Topic\TopicRepository;
 use App\Repositories\Topic\TopicRepositoryInterface;
 use App\Repositories\Users\UserRepository;
@@ -24,8 +24,8 @@ use App\Services\PostComment\PostCommentService;
 use App\Services\PostComment\PostCommentServiceInterface;
 use App\Services\PostCommentLike\PostCommentLikeService;
 use App\Services\PostCommentLike\PostCommentLikeServiceInterface;
-use App\Services\PostVote\PostVoteService;
-use App\Services\PostVote\PostVoteServiceInterface;
+use App\Services\PostVote\VoteService;
+use App\Services\PostVote\VoteServiceInterface;
 use App\Services\Search\SearchService;
 use App\Services\Search\SearchServiceInterface;
 use App\Services\Topic\TopicService;
@@ -92,18 +92,13 @@ class MyServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
-            PostCommentLikeRepositoryInterface::class,
-            PostCommentLikeRepository::class
+            VoteServiceInterface::class,
+            VoteService::class
         );
 
         $this->app->singleton(
-            PostVoteServiceInterface::class,
-            PostVoteService::class
-        );
-
-        $this->app->singleton(
-            PostVoteRepositoryInterface::class,
-            PostVoteRepository::class
+            VoteRepositoryInterface::class,
+            VoteRepository::class
         );
 
         $this->app->singleton(

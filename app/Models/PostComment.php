@@ -25,11 +25,11 @@ class PostComment extends Model
         'is_published'
     ];
 
-    protected $appends = ['likes_count'];
+    protected $appends = ['votes_count'];
 
     protected $with = [
         'user',
-        'likes',
+        'votes',
     ];
 
     /**
@@ -56,14 +56,6 @@ class PostComment extends Model
         return $this->hasMany(PostComment::class, 'parent_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function likes()
-    {
-        return $this->hasMany(PostCommentLike::class, 'comment_id');
-    }
-
     public function post() {
         return $this->belongsTo(Post::class);
     }
@@ -71,8 +63,16 @@ class PostComment extends Model
     /**
      * @return int
      */
-    public function getLikesCountAttribute()
+    public function getVotesCountAttribute()
     {
-        return $this->likes()->count();
+        return $this->votes()->count();
+    }
+
+    /**
+    * Get all of the comments votes
+    */
+    public function votes()
+    {
+        return $this->morphMany(Vote::class, 'votable');
     }
 }

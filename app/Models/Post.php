@@ -51,13 +51,13 @@ class Post extends Model
         return $this->hasMany(PostComment::class, 'post_id')->whereNull('parent_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function votes()
-    {
-        return $this->hasMany(PostVote::class, 'post_id');
-    }
+//    /**
+//     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+//     */
+//    public function votes()
+//    {
+//        return $this->hasMany(PostVote::class, 'post_id');
+//    }
 
     public function toSearchableArray()
     {
@@ -73,5 +73,13 @@ class Post extends Model
     public function shouldBeSearchable(): bool
     {
         return $this->is_published == 1;
+    }
+
+    /**
+     * Get all of the posts votes
+     */
+    public function votes()
+    {
+        return $this->morphMany(Vote::class, 'votable');
     }
 }

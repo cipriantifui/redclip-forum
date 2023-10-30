@@ -11,7 +11,7 @@ use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Repositories\PostComment\PostCommentRepositoryInterface;
 use App\Repositories\PostCommentLike\PostCommentLikeRepositoryInterface;
-use App\Repositories\PostVote\PostVoteRepositoryInterface;
+use App\Repositories\PostVote\VoteRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
@@ -34,7 +34,7 @@ class UserService extends BaseService implements UserServiceInterface
      */
     private $postCommentLikeRepository;
     /**
-     * @var PostVoteRepositoryInterface
+     * @var VoteRepositoryInterface
      */
     private $postVoteRepository;
 
@@ -44,13 +44,13 @@ class UserService extends BaseService implements UserServiceInterface
      * @param PostRepositoryInterface $postRepository
      * @param PostCommentRepositoryInterface $postCommentRepository
      * @param PostCommentLikeRepositoryInterface $postCommentLikeRepository
-     * @param PostVoteRepositoryInterface $postVoteRepository
+     * @param VoteRepositoryInterface $postVoteRepository
      */
-    public function __construct(UserRepositoryInterface $repository,
-                                PostRepositoryInterface $postRepository,
-                                PostCommentRepositoryInterface $postCommentRepository,
+    public function __construct(UserRepositoryInterface            $repository,
+                                PostRepositoryInterface            $postRepository,
+                                PostCommentRepositoryInterface     $postCommentRepository,
                                 PostCommentLikeRepositoryInterface $postCommentLikeRepository,
-                                PostVoteRepositoryInterface $postVoteRepository)
+                                VoteRepositoryInterface            $postVoteRepository)
     {
         parent::__construct($repository);
         $this->postRepository = $postRepository;

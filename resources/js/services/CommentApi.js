@@ -2,10 +2,11 @@ import axios from 'axios'
 import store from "../stores/store";
 export default {
     createCommentLike(commentId) {
-        let url = store.getters.isLoggedIn ? '/api/auth/comment-like/create' : '/api/comment-like/create';
+        let url = store.getters.isLoggedIn ? '/api/auth/vote/create' : '/api/vote/create';
         return axios.post(url, {
-            comment_id: commentId,
-            uid: store.getters.isLoggedIn ? 0 : store.getters.notLoggedUserId,
+            votable_id: commentId,
+            votable_type: 'App\\Models\\PostComment',
+            uid: store.getters.isLoggedIn ? null : store.getters.notLoggedUserId,
         });
     },
     createComment(postId, commentId, content) {

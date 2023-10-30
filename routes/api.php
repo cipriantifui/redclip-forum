@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostCommentController;
 use App\Http\Controllers\PostCommentLikeController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\PostVoteController;
+use App\Http\Controllers\VoteController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
@@ -36,9 +36,8 @@ Route::group(['middleware' => ['auth.jwt'], 'prefix' => 'auth'], function () {
     Route::post('/post/create-video-post', [PostController::class, 'storeVideoPost']);
     Route::post('/post/create-image-post', [PostController::class, 'storeImagePost']);
 
-    Route::post('/post-vote/create', [PostVoteController::class, 'store']);
+    Route::post('/vote/create', [VoteController::class, 'store']);
     Route::post('/post-comment/create', [PostCommentController::class, 'store']);
-    Route::post('/comment-like/create', [PostCommentLikeController::class, 'store']);
     Route::get('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
 });
 
@@ -52,7 +51,7 @@ Route::post('/post/create-video-post', [PostController::class, 'storeVideoPost']
 Route::post('/post/create-image-post', [PostController::class, 'storeImagePost']);
 
 Route::get('/post', [PostController::class, 'index']);
-Route::post('/post-vote/create', [PostVoteController::class, 'store']);
+Route::post('/post-vote/create', [VoteController::class, 'store']);
 Route::get('/post/{id}', [PostController::class, 'show']);
 Route::post('/post-comment/create', [PostCommentController::class, 'store']);
 Route::post('/comment-like/create', [PostCommentLikeController::class, 'store']);
