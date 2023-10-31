@@ -3,11 +3,11 @@
         <div class="row mb-2">
             <div class="col-auto pr-0 text-center">
                 <avatar ref="avatar" :fullname="user.name" :size="50" style="position:relative; top:4px"></avatar>
-                <p style="font-size: 11px;font-weight: 700;">{{detail.date_ago}}</p>
+                <p style="font-size: 11px;font-weight: 700;min-width: 80px">{{detail.date_ago}}</p>
             </div>
             <div class="col-9">
-                <h5 class='detail-card-title' @click="handleChoosePost">{{detailTitle}}</h5>
-                <p class='detail-card-content'>{{detailContent}}</p>
+                <h5 v-if="section==='posts'" class='detail-card-title' @click="handleChoosePost">{{detailTitle}}</h5>
+                <p class='detail-card-content' :class="section==='comments' ? 'pt-3' : ''">{{detailContent}}</p>
             </div>
             <div class="col-auto">
                 <p><i class="fa fa-comments mr-2"></i> {{ comments }}</p>
@@ -36,7 +36,7 @@ export default {
     },
     computed: {
         detailTitle() {
-            let content = this.detail.content;
+            let content = this.detail.title;
             if(content.length > 50) {
                 content = content.substring(0,50) + ' ...';
             }

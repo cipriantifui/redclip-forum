@@ -28,7 +28,7 @@ class VoteRepository extends BaseRepository implements VoteRepositoryInterface
     {
         $this->order($orderByColumns);
         return $this->model
-//            ->with('post', 'comment')
+            ->with('votable')
             ->where('user_id', $userId)
             ->orderBy('id', 'desc')
             ->paginate($perPage);
