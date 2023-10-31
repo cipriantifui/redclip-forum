@@ -43,19 +43,16 @@ class UserService extends BaseService implements UserServiceInterface
      * @param UserRepositoryInterface $repository
      * @param PostRepositoryInterface $postRepository
      * @param PostCommentRepositoryInterface $postCommentRepository
-     * @param PostCommentLikeRepositoryInterface $postCommentLikeRepository
      * @param VoteRepositoryInterface $postVoteRepository
      */
     public function __construct(UserRepositoryInterface            $repository,
                                 PostRepositoryInterface            $postRepository,
                                 PostCommentRepositoryInterface     $postCommentRepository,
-                                PostCommentLikeRepositoryInterface $postCommentLikeRepository,
                                 VoteRepositoryInterface            $postVoteRepository)
     {
         parent::__construct($repository);
         $this->postRepository = $postRepository;
         $this->postCommentRepository = $postCommentRepository;
-        $this->postCommentLikeRepository = $postCommentLikeRepository;
         $this->postVoteRepository = $postVoteRepository;
     }
 
@@ -95,14 +92,8 @@ class UserService extends BaseService implements UserServiceInterface
             return CommentResource::collection($comments);
         }
         if($section === 'likes') {
-            $commentLikes = $this->postCommentLikeRepository->getUserLikes(10, 1, $userId);
-            $postLikes = $this->postVoteRepository->getUserLikes(10, 1, $userId);
-//            dd($postLikes, $commentLikes);
-            $posts = collect();
-            $posts = $posts->merge($commentLikes);
-            $posts = $posts->merge($postLikes);
-            dd($posts);
-            return $this->collection($likes);
+            $votes = $this->postVoteRepository->getUserLikes(10, 1, $userId);
+            return $this->collection($votes);
         }
 
         return $this->collection([]);

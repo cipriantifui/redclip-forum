@@ -29,8 +29,7 @@ class UserResource extends JsonResource
             $resource['posts_count'] = $this->posts_count ?? 0;
             $resource['comments_count'] = $this->comments_count ?? 0;
             $resource['replies_count'] = $this->replies_count ?? 0;
-            $resource['votes_count'] = $this->post_votes_count ?? 0;
-            $resource['comment_votes'] = $this->comment_votes_count ?? 0;
+            $resource['votes_count'] = $this->votes_count ?? 0;
         }
 
         return $resource;

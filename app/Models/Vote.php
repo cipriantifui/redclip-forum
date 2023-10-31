@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Vote extends Model
 {
@@ -27,5 +28,21 @@ class Vote extends Model
     public function votable()
     {
         return $this->morphTo('votable');
+    }
+
+    /**
+     * @return MorphOne
+     */
+    public function post()
+    {
+        return $this->morphOne(Post::class, 'votable');
+    }
+
+    /**
+     * @return MorphOne
+     */
+    public function comment()
+    {
+        return $this->morphOne(PostComment::class, 'votable');
     }
 }

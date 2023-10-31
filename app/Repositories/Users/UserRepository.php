@@ -39,7 +39,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $this->model
             ->where('id', $userId)
-            ->withCount(['posts', 'comments', 'replies', 'postVotes', 'commentVotes'])
+            ->withCount(['posts', 'comments', 'replies', 'votes'])
             ->first();
     }
 }

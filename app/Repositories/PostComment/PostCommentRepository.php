@@ -29,6 +29,7 @@ class PostCommentRepository extends BaseRepository implements PostCommentReposit
         $this->order($orderByColumns);
         return $this->model
             ->with('votes', 'replies', 'post', 'post.user')
+            ->withCount(['replies', 'votes'])
             ->where('user_id', $userId)
             ->where('is_published', 1)
             ->orderBy('id', 'desc')

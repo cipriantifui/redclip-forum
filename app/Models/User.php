@@ -86,13 +86,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany(PostComment::class, 'user_id')->whereNotNull('parent_id');
     }
 
-    public function postVotes()
+    public function votes()
     {
-        return $this->hasMany(PostVote::class, 'user_id');
-    }
-
-    public function commentVotes()
-    {
-        return $this->hasMany(PostCommentLike::class, 'user_id');
+        return $this->hasMany(Vote::class, 'user_id');
     }
 }

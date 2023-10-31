@@ -5,7 +5,7 @@ import PostCreate from "./components/post/PostCreate.vue";
 import PostDetails from "./components/post/PostDetails.vue";
 import Topics from "./components/topic/Topics.vue";
 import Topic from "./components/topic/Topic.vue";
-import UserPosts from "./components/post/UserProfile.vue";
+import UserPosts from "./components/user/UserProfile.vue";
 import NewLogin from "./components/auth/NewLogin.vue";
 import PasswordForgot from "./components/auth/PasswordForgot.vue";
 import VerifyEmail from "./components/auth/VerifyEmail.vue";
