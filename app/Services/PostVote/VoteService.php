@@ -59,7 +59,7 @@ class VoteService extends BaseService implements VoteServiceInterface
             ];
         } else {
             $dataFilter = [
-                'columns' => ['votable_id', 'uid'],
+                'columns' => ['votable_id', 'votable_type', 'uid'],
                 'operations' => ['=', '=', '='],
                 'values' => [$votableId, $votableType, $uid]
             ];

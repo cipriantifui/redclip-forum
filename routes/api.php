@@ -51,10 +51,11 @@ Route::post('/post/create-video-post', [PostController::class, 'storeVideoPost']
 Route::post('/post/create-image-post', [PostController::class, 'storeImagePost']);
 
 Route::get('/post', [PostController::class, 'index']);
-Route::post('/post-vote/create', [VoteController::class, 'store']);
+//Route::post('/post-vote/create', [VoteController::class, 'store']);
 Route::get('/post/{id}', [PostController::class, 'show']);
 Route::post('/post-comment/create', [PostCommentController::class, 'store']);
-Route::post('/comment-like/create', [PostCommentLikeController::class, 'store']);
+//Route::post('/comment-like/create', [PostCommentLikeController::class, 'store']);
+Route::post('/vote/create', [VoteController::class, 'store']);
 
 Route::get('/search/get-users-posts', [SearchController::class, 'getUsersAndPosts']);
 Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
