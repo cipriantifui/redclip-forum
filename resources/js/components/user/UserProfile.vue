@@ -13,12 +13,30 @@
         </div>
         <div class="col-xl-10 col-lg-9 col-md-12">
             <div>
-                <user-detail-card v-if="section ==='posts' || section ==='comments'"
-                                  v-for="detail in details"
+                <user-post-detail-card v-for="detail in postDetails"
+                                  v-if="section === 'posts'"
                                   :key="detail.id"
                                   :detail="detail"
                                   :section="section"
-                                  :user="user"></user-detail-card>
+                                  :user="user"></user-post-detail-card>
+                <user-comment-detail-card v-for="detail in commentDetails"
+                                  v-if="section === 'comments'"
+                                  :key="detail.id"
+                                  :detail="detail"
+                                  :section="section"
+                                  :user="user"></user-comment-detail-card>
+                <user-like-detail-card v-for="detail in likeDetails"
+                                  v-if="section === 'likes'"
+                                  :key="detail.id"
+                                  :detail="detail"
+                                  :section="section"
+                                  :user="user"></user-like-detail-card>
+            </div>
+            <div class="empty-details-container" v-show="showEmptyDetailsText">
+                {{ emptyDetailsText }}
+            </div>
+            <div class="col text-center mt-3" v-show="showViewMoreButton">
+                <button type="button" class="btn btn-secondary" @click="handleViewMore">View-more</button>
             </div>
         </div>
     </div>
@@ -26,11 +44,13 @@
 
 <script>
 import UserApi from "../../services/UserApi";
-import UserDetailCard from "./UserDetailCard.vue";
+import UserPostDetailCard from "./UserPostDetailCard.vue";
+import UserCommentDetailCard from "./UserCommentDetailCard.vue";
+import UserLikeDetailCard from "./UserLikeDetailCard.vue";
 
 export default {
     name: "UserProfile",
-    components: {UserDetailCard},
+    components: {UserLikeDetailCard, UserCommentDetailCard, UserPostDetailCard},
     data() {
         return {
             userId: this.$route.params.user_id,
@@ -39,7 +59,9 @@ export default {
             perPage: 5,
             paginate: {},
             meta: {},
-            details: {},
+            postDetails: [],
+            commentDetails: [],
+            likeDetails: [],
             user: {},
             userStatus: {},
             isLoaded: false
@@ -57,6 +79,10 @@ export default {
         this.getUserPostsDetails(this.section)
     },
     methods: {
+        handleViewMore() {
+            console.log(this.section)
+            this.getUserPostsDetails()
+        },
         getUserDetails() {
             this.$store.commit('storeIsShowLoader', true)
             UserApi.getUserDetails(this.userId)
@@ -77,7 +103,21 @@ export default {
             UserApi.getUserPostsDetails(this.userId, section)
                 .then(response => {
                     if(response.status === 200) {
-                        this.details = response.data.data
+                        if(section === 'posts') {
+                            this.postDetails = response.data.data;
+                        }
+                        if(section === 'comments') {
+                            this.commentDetails = response.data.data;
+                        }
+                        if(section === 'likes') {
+                            let responseMap = {};
+                            if(response.data.data.length > 0) {
+                                responseMap = response.data.data.map((data) => {
+                                    return data.votable;
+                                })
+                            }
+                            this.likeDetails = responseMap;
+                        }
                     }
                 })
         },
@@ -92,6 +132,23 @@ export default {
     computed: {
         commentsCounter() {
             return (this.user.comments_count ?? 0) + (this.user.replies_count ?? 0);
+        },
+        emptyDetailsText() {
+            return `It looks like there are no ${this.section} here.`
+        },
+        showEmptyDetailsText() {
+            let postsCounter = this.user.posts_count;
+            let votesCounter = this.user.votes_count;
+            return this.section === 'posts' && postsCounter === 0 ||
+                this.section === 'comments' && this.commentsCounter === 0 ||
+                this.section === 'likes' && votesCounter === 0
+        },
+        showViewMoreButton() {
+            let postsCounter = this.user.posts_count;
+            let votesCounter = this.user.votes_count;
+            return this.section === 'posts' && postsCounter > 3 ||
+                this.section === 'comments' && this.commentsCounter > 3 ||
+                this.section === 'likes' && votesCounter > 3
         }
     },
     destroyed() {
@@ -111,5 +168,13 @@ export default {
 }
 .btn-link {
     align-items: baseline!important;
+}
+.empty-details-container {
+    color: #808080;
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Ubuntu,Cantarell,Oxygen,Roboto,Helvetica,Arial,sans-serif;
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: center;
+    margin-top: 45px;
 }
 </style>

@@ -7,6 +7,7 @@ namespace App\Services\Users;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\VoteResource;
 use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Repositories\PostComment\PostCommentRepositoryInterface;
@@ -79,21 +80,22 @@ class UserService extends BaseService implements UserServiceInterface
     /**
      * @param $userId
      * @param $section
+     * @param $paginationParams
      * @return JsonResponse
      */
-    public function getUserPostsDetails($userId, $section)
+    public function getUserPostsDetails($userId, $section, $paginationParams)
     {
         if($section === 'posts') {
-            $posts = $this->postRepository->getUserPosts(10, 1, $userId);
+            $posts = $this->postRepository->getUserPosts($paginationParams['perPage'], $paginationParams['page'], $userId);
             return PostResource::collection($posts);
         }
         if($section === 'comments') {
-            $comments = $this->postCommentRepository->getUserComments(10, 1, $userId);
+            $comments = $this->postCommentRepository->getUserComments($paginationParams['perPage'], $paginationParams['page'], $userId);
             return CommentResource::collection($comments);
         }
         if($section === 'likes') {
-            $votes = $this->postVoteRepository->getUserLikes(10, 1, $userId);
-            return $this->collection($votes);
+            $votes = $this->postVoteRepository->getUserLikes($paginationParams['perPage'], $paginationParams['page'], $userId);
+            return VoteResource::collection($votes);
         }
 
         return $this->collection([]);

@@ -80,7 +80,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         $this->order($orderByColumns);
         return $this->model
             ->where('user_id', $userId)
-            ->with('topic')
+            ->with('topic', 'user')
             ->withCount(['comments', 'votes'])
             ->where('is_published', 1)
             ->orderBy('id', 'desc')

@@ -20,11 +20,16 @@ class Post extends Model
         'topic_id',
         'user_id',
         'uid',
+        'type',
         'title',
         'content',
         'url_image',
         'url_video',
         'is_published'
+    ];
+
+    protected $with = [
+        'user',
     ];
 
     /**

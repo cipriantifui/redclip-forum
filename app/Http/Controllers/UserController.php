@@ -44,7 +44,11 @@ class UserController extends Controller
             'section' => 'sometimes|in:posts,likes,comments'
         ]);
         $section = $request->input('section', 'posts');
-        return $this->userService->getUserPostsDetails($id, $section);
+        $paginationParams = [
+            'perPage' => $request->input('perPage', 10),
+            'page'    => $request->input('page', 1),
+        ];
+        return $this->userService->getUserPostsDetails($id, $section, $paginationParams);
     }
 
     /**
