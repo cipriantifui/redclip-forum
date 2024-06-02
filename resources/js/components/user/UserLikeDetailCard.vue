@@ -37,11 +37,6 @@ export default {
         detail: { require: true},
         section: { require: true, type: String},
     },
-    created() {
-        if(this.detail.type === undefined) {
-            this.detail.type = 1;
-        }
-    },
     methods: {
         handleChoosePost() {
             let postId = this.detail.post_id ?? this.detail.id;
@@ -57,7 +52,7 @@ export default {
             return content;
         },
         detailContent() {
-            let content = this.detail.content ?? '';
+            let content = this.detail.content;
             if(content.length > 150) {
                 content = content.substring(0,150) + ' ...';
             }

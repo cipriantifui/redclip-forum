@@ -56,8 +56,8 @@ export default {
             userId: this.$route.params.user_id,
             section: 'posts',
             page: 1,
-            perPage: 5,
-            paginate: {},
+            perPage: 10,
+            links: {},
             meta: {},
             postDetails: [],
             commentDetails: [],
@@ -76,12 +76,12 @@ export default {
         }
         this.getUserDetails()
         this.getLiveStatus()
-        this.getUserPostsDetails(this.section)
+        this.getUserPostsDetails(this.section, 1)
     },
     methods: {
         handleViewMore() {
-            console.log(this.section)
-            this.getUserPostsDetails()
+            let page = this.meta.current_page + 1;
+            this.getUserPostsDetails(this.section, page)
         },
         getUserDetails() {
             this.$store.commit('storeIsShowLoader', true)
@@ -96,27 +96,33 @@ export default {
             })
         },
         chooseSection(section) {
-            this.getUserPostsDetails(section)
+            this.getUserPostsDetails(section, 1)
         },
-        getUserPostsDetails(section) {
+        getUserPostsDetails(section, page) {
             this.section = section
-            UserApi.getUserPostsDetails(this.userId, section)
+            UserApi.getUserPostsDetails(this.userId, section, this.perPage, page)
                 .then(response => {
                     if(response.status === 200) {
+                        this.meta  = response.data.meta;
+                        this.links = response.data.links;
                         if(section === 'posts') {
-                            this.postDetails = response.data.data;
+                            let postDetails = response.data.data;
+                            this.postDetails = this.meta.current_page === 1 ? postDetails : this.postDetails.concat(postDetails);
                         }
                         if(section === 'comments') {
-                            this.commentDetails = response.data.data;
+                            let commentDetails = response.data.data;
+                            this.commentDetails = this.meta.current_page === 1 ? commentDetails : this.commentDetails.concat(commentDetails);
                         }
                         if(section === 'likes') {
                             let responseMap = {};
                             if(response.data.data.length > 0) {
                                 responseMap = response.data.data.map((data) => {
-                                    return data.votable;
+                                    let votableData = data.votable;
+                                    votableData.type = data.votable.type ?? 1;
+                                    return votableData;
                                 })
                             }
-                            this.likeDetails = responseMap;
+                            this.likeDetails = this.meta.current_page === 1 ? responseMap : this.likeDetails.concat(responseMap);
                         }
                     }
                 })
@@ -144,11 +150,7 @@ export default {
                 this.section === 'likes' && votesCounter === 0
         },
         showViewMoreButton() {
-            let postsCounter = this.user.posts_count;
-            let votesCounter = this.user.votes_count;
-            return this.section === 'posts' && postsCounter > 3 ||
-                this.section === 'comments' && this.commentsCounter > 3 ||
-                this.section === 'likes' && votesCounter > 3
+            return this.meta !== undefined && this.meta.current_page < this.meta.last_page;
         }
     },
     destroyed() {
