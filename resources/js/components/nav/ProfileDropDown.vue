@@ -6,9 +6,13 @@
             <span style="position:relative; top:-4px">{{userFirstName}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
-            <router-link class="dropdown-item" :to="{ name: 'user-profile', params: {user_id: this.$store.getters.user.id } }"><i class="fa fa-user mr-2 mb-3" aria-hidden="true"></i> Profile</router-link>
-            <b-link class="dropdown-item"> <i class="fa fa-cog mr-2" aria-hidden="true"></i> Settings</b-link>
-            <hr class="mt-3">
+            <router-link class="dropdown-item" :to="{ name: 'user-profile', params: {user_id: this.$store.getters.user.id } }">
+                <i class="fa fa-user mr-2 mb-3" aria-hidden="true"></i> Profile
+            </router-link>
+            <router-link class="dropdown-item" :to="{ name: 'user-settings', params: {user_id: this.$store.getters.user.id } }">
+                <i class="fa fa-cog mr-2 mb-3" aria-hidden="true"></i> Settings
+            </router-link>
+            <hr class="my-0">
             <b-link class="dropdown-item" @click="logout()"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</b-link>
         </div>
     </div>

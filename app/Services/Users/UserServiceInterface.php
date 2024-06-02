@@ -29,4 +29,10 @@ interface UserServiceInterface extends BaseServiceInterface
      * @return mixed
      */
     public function getUserPostsDetails($userId, $section, $paginationParams);
+
+    /**
+     * @param $params
+     * @return mixed
+     */
+    public function saveEmail($params);
 }

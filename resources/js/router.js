@@ -10,6 +10,7 @@ import NewLogin from "./components/auth/NewLogin.vue";
 import PasswordForgot from "./components/auth/PasswordForgot.vue";
 import VerifyEmail from "./components/auth/VerifyEmail.vue";
 import PasswordReset from "./components/auth/PasswordReset.vue";
+import UserSettings from "./components/user/UserSettings.vue";
 
 let router = new VueRouter({
     mode: 'history',
@@ -86,6 +87,14 @@ let router = new VueRouter({
             component: UserPosts,
             meta: {
                 requiresAuth: false
+            }
+        },
+        {
+            path: '/user-settings/:user_id',
+            name: 'user-settings',
+            component: UserSettings,
+            meta: {
+                requiresAuth: true
             }
         },
         {

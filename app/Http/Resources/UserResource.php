@@ -31,6 +31,9 @@ class UserResource extends JsonResource
             $resource['replies_count'] = $this->replies_count ?? 0;
             $resource['votes_count'] = $this->votes_count ?? 0;
         }
+        if($this->hasPersonalData) {
+            $resource['email'] = $this->email;
+        }
 
         return $resource;
     }

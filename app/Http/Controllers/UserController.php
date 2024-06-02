@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\EmailChangeRequest;
 use App\Services\Users\UserServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -59,5 +60,15 @@ class UserController extends Controller
     public function getLiveStatus($userId)
     {
         return $this->userService->getLiveStatus($userId);
+    }
+
+    /**
+     * Live status.
+     * @param $userId
+     * @return JsonResponse
+     */
+    public function changeEmail(EmailChangeRequest $request)
+    {
+        return $this->userService->saveEmail($request->all());
     }
 }

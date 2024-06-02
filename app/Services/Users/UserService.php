@@ -74,6 +74,7 @@ class UserService extends BaseService implements UserServiceInterface
     {
         $user = $this->repository->getUserDetails($userId);
         $user->hasPostDetails = true;
+        $user->hasPersonalData = true;
         return $this->item(new UserResource($user));
     }
 
@@ -127,6 +128,16 @@ class UserService extends BaseService implements UserServiceInterface
             'isOnline' => $isOnline,
             'lastSeen' => $lastSeen,
             'lastSeenAt' => $lastSeenAt,
-            ]);
+        ]);
+    }
+
+    /**
+     * @param $params
+     * @return mixed
+     */
+    public function saveEmail($params)
+    {
+        $data = ['email' => $params['email']];
+        return $this->repository->update($data, $params['userId']);
     }
 }

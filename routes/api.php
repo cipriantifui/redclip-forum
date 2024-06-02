@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth.jwt'], 'prefix' => 'auth'], function () {
     Route::post('/vote/create', [VoteController::class, 'store']);
     Route::post('/post-comment/create', [PostCommentController::class, 'store']);
     Route::get('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
+    Route::post('/email/change', [UserController::class, 'changeEmail']);
 });
 
 Route::get('/topic', [TopicController::class, 'index']);
